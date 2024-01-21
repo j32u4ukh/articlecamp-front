@@ -5,7 +5,6 @@ class ArticleModel {
   getArticles() {
     return new Promise((resolve, reject) => {
       fs.readFile(FILE_PATH, "utf8", (err, data) => {
-        err = "Error test message";
         if (err) {
           reject(err);
         }
