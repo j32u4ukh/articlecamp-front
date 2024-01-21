@@ -1,0 +1,19 @@
+{
+  "name": "articlecamp-back",
+  "version": "1.0.0",
+  "description": "初始化 Express 所需專案與資源，快速開啟一個新的 Express 專案",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-handlebars": "^7.1.2",
+    "nodemon": "^3.0.2"
+  }
+}
