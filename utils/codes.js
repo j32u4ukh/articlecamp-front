@@ -11,7 +11,7 @@ const ReturnCode = {
 const ErrorCode = {
   // None: 0,
   ParamError: 1,
-  CreateError: 2,
+  WriteError: 2,
   ReadError: 3,
   UpdateError: 4,
   DeleteError: 5,

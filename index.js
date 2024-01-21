@@ -10,6 +10,7 @@ const router = require("./routes");
 // app.set("view engine", ".hbs");
 // app.set("views", "./views");
 app.use(express.static("public"));
+app.use(express.json());
 
 // 將 request 導入路由器
 app.use(router);
