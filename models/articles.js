@@ -26,6 +26,9 @@ class ArticleModel {
   getAll() {
     return this.articles;
   }
+  get(id) {
+    return this.articles.find((article) => article.id === id);
+  }
   add(article) {
     return new Promise((resolve, reject) => {
       try {

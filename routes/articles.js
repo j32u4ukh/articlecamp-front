@@ -37,4 +37,17 @@ router.post("/create", (req, res) => {
     });
 });
 
+router.get("/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const article = Article.get(id);
+  if (article) {
+    res.json(article);
+  } else {
+    return res.status(ReturnCode.NotFound).json({
+      code: ErrorCode.ParamError,
+      msg: `沒有 id 為 ${id} 的文章`,
+    });
+  }
+});
+
 module.exports = router;
