@@ -9,7 +9,7 @@ const ReturnCode = {
 };
 
 const ErrorCode = {
-  // None: 0,
+  None: 0,
   ParamError: 1,
   WriteError: 2,
   ReadError: 3,

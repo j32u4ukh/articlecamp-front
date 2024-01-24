@@ -57,7 +57,21 @@ router.put("/:id", (req, res) => {
       res.json(result);
     })
     .catch((err) => {
-      return res.status(ReturnCode.BadRequest).json(err);
+      return res.status(ReturnCode.ServerInternalError).json(err);
+    });
+});
+
+router.delete("/:id", (req, res) => {
+  const id = Number(req.params.id);
+  Article.delete(id)
+    .then(() => {
+      res.json({
+        code: ErrorCode.Ok,
+        msg: "OK",
+      });
+    })
+    .catch((err) => {
+      return res.status(ReturnCode.ServerInternalError).json(err);
     });
 });
 

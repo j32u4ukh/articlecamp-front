@@ -109,6 +109,29 @@ class ArticleModel {
       }
     });
   }
+  delete(id) {
+    return new Promise((resolve, reject) => {
+      const { index, _ } = this.get(id);
+      if (index === -1) {
+        reject({
+          code: ErrorCode.UpdateError,
+          msg: `沒有 id 為 ${id} 的文章`,
+        });
+      }
+
+      // 根據索引值移除文章
+      this.articles.splice(index, 1);
+
+      // 將文章列表寫入檔案中
+      this.write()
+        .then(() => {
+          resolve();
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
   read() {
     return new Promise((resolve, reject) => {
       fs.readFile(FILE_PATH, "utf8", (err, data) => {
@@ -140,6 +163,7 @@ class ArticleModel {
         }
 
         console.log("File written successfully");
+        this.n_article = this.articles.length;
         resolve();
       });
     });
