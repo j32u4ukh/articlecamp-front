@@ -39,15 +39,26 @@ router.post("/create", (req, res) => {
 
 router.get("/:id", (req, res) => {
   const id = Number(req.params.id);
-  const article = Article.get(id);
-  if (article) {
-    res.json(article);
-  } else {
+  const result = Article.get(id);
+  if (result.index === -1) {
     return res.status(ReturnCode.NotFound).json({
       code: ErrorCode.ParamError,
       msg: `沒有 id 為 ${id} 的文章`,
     });
   }
+  return res.json(result.data);
+});
+
+router.put("/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const article = req.body;
+  Article.update(id, article)
+    .then((result) => {
+      res.json(result);
+    })
+    .catch((err) => {
+      return res.status(ReturnCode.BadRequest).json(err);
+    });
 });
 
 module.exports = router;
