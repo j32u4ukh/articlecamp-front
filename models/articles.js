@@ -36,31 +36,27 @@ class ArticleModel {
             msg: "缺少必要參數或內容為空白",
           });
         }
-        article.id = this.next_id++;
+        article.id = this.next_id;
         const timestamp = this.getTimestamp();
         article.createAt = timestamp;
         article.updateAt = timestamp;
         this.articles.push(article);
 
-        // 將新的文章寫入檔案中
-        fs.writeFile(
-          FILE_PATH,
-          JSON.stringify(this.articles),
-          "utf8",
-          (err) => {
-            if (err) {
-              reject({
-                code: ErrorCode.WriteError,
-                msg: "Failed to add an article",
-              });
-            }
-
-            console.log("File written successfully");
+        // 將文章列表寫入檔案中
+        this.write()
+          .then(() => {
+            // 成功寫入，再更新索引值
+            this.next_id++;
+            this.n_article = this.articles.length;
             resolve(article);
-          }
-        );
+          })
+          .catch((err) => {
+            if (this.articles.length !== this.n_article) {
+              this.articles.pop();
+            }
+            reject(err);
+          });
       } catch (error) {
-        this.next_id--;
         if (this.articles.length !== this.n_article) {
           this.articles.pop();
         }
@@ -103,12 +99,13 @@ class ArticleModel {
             code: ErrorCode.ParamError,
             msg: "缺少必要參數或內容為空白",
           });
-          return;
         }
         article.id = data.id;
         article.createAt = data.createAt;
         article.updateAt = this.getTimestamp();
         this.articles[index] = article;
+
+        // 將文章列表寫入檔案中
         this.write()
           .then(() => {
             resolve(article);
@@ -119,6 +116,7 @@ class ArticleModel {
       }
     });
   }
+  // 將文章列表寫入檔案中
   write() {
     return new Promise((resolve, reject) => {
       fs.writeFile(FILE_PATH, JSON.stringify(this.articles), "utf8", (err) => {
