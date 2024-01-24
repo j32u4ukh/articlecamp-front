@@ -9,20 +9,13 @@ class ArticleModel {
     this.n_article = 0;
     this.requiredFields = ["author", "title", "content"];
 
-    fs.readFile(FILE_PATH, "utf8", (err, data) => {
-      if (err) {
-        console.log(`讀取數據失敗, err: ${err}`);
-        return;
-      }
-      const results = JSON.parse(data);
-      results.forEach((result) => {
-        this.next_id = this.next_id > result.id ? this.next_id : result.id;
-        this.articles.push(result);
+    this.read()
+      .then((articles) => {
+        this.articles.push(...articles);
+      })
+      .catch((err) => {
+        console.error(err);
       });
-      this.next_id++;
-      this.n_article = results.length;
-      // console.log(`next_id: ${this.next_id}`);
-    });
   }
   // 新增文章
   // TODO: write()
@@ -114,6 +107,25 @@ class ArticleModel {
             reject(err);
           });
       }
+    });
+  }
+  read() {
+    return new Promise((resolve, reject) => {
+      fs.readFile(FILE_PATH, "utf8", (err, data) => {
+        if (err) {
+          reject(`讀取數據失敗, err: ${err}`);
+        }
+        const results = JSON.parse(data);
+        const articles = [];
+        results.forEach((result) => {
+          this.next_id = this.next_id > result.id ? this.next_id : result.id;
+          articles.push(result);
+        });
+        this.next_id++;
+        this.n_article = results.length;
+        // console.log(`next_id: ${this.next_id}`);
+        resolve(articles);
+      });
     });
   }
   // 將文章列表寫入檔案中
