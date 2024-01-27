@@ -1,113 +1,357 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Movie List X</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-</head>
-
-<body>
-    <!-- Navagation bar -->
-    <!-- https://getbootstrap.com/docs/5.3/components/navbar/#supported-content -->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Movie List</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="favorite.html">Favorite</a>
-                    </li>
-                </ul>
-            </div>
+    <title>Articlecamp</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%23c32f27'/%3E%3Ctext x='50' y='60' font-family='Arial' font-size='50' fill='%23f9c80e' text-anchor='middle' dominant-baseline='middle'%3EA%3C/text%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Noto+Sans+TC:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+            <!-- 圓圈 -->
+            <circle cx="50" cy="50" r="40" fill="#c32f27" />
+            <!-- 文字 "A" -->
+            <text
+              x="50"
+              y="57"
+              font-family="Arial"
+              font-size="50"
+              fill="#f9c80e"
+              text-anchor="middle"
+              dominant-baseline="middle"
+            >
+              A
+            </text>
+          </svg>
         </div>
-    </nav>
-
-    <!-- mt: margin-top -->
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col">
-                <!-- Search bar -->
-                <!-- https://getbootstrap.com/docs/5.3/forms/layout/#inline-forms -->
-                <form class="row row-cols-lg-auto g-3 align-items-center mb-2" id="search-form">
-                    <div class="col-12">
-                        <label class="visually-hidden" for="serach-input">Serch Keyword</label>
-                        <input type="text" class="form-control" id="serach-input" placeholder="Keyword...">
-                    </div>
-                    <div class="col-12">
-                        <button type="submit" class="btn btn-primary" id="search-submit">Search</button>
-                    </div>
-                </form>
-            </div>
-            <div class="col icons">
-                <i class="fa fa-th icon" aria-hidden="true"></i>
-                <i class="fa fa-bars icon" aria-hidden="true"></i>
-            </div>
+        <div class="search-container">
+          <div class="search-bar">
+            <input class="search-input" type="text" placeholder="Search...">
+          </div>
+          <div class="search-btn">
+            <button>Search</button>
+          </div>
         </div>
-        <!-- Render Movie List -->
-        <div class="row" id="data-panel">
-            
+        <div class="menu">
+          <i class="fa-solid fa-bars fa-2xl menu-icon"></i>
         </div>
-    </div>
-
-    <!-- paginator -->
-    <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-center" id="paginator">
-        </ul>
-    </nav>
-
-    <!-- Movie Modal -->
-    <div class="modal fade" id="movie-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="movie-modal-title">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    </button>
-                </div>
-                <div class="modal-body" id="movie-modal-body">
-                    <div class="row">
-                        <div class="col-sm-8" id="movie-modal-image">
-                            <img src="https://github.com/ALPHACamp/movie-list-api/blob/master/public/posters/c9XxwwhPHdaImA2f1WEfEsbhaFB.jpg?raw=true"
-                                alt="movie-poster" class="img-fluid">
-                        </div>
-                        <div class="col-sm-4">
-                            <p><em id="movie-modal-date">release date: 2020/01/05</em></p>
-                            <p id="movie-modal-description">This is a movie.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </nav>
+    </header>
+    <div class="non-fixed-header"></div>
+    <main>
+      <section>
+        <div class="article">
+          <div class="article-left">
+            <div class="author">
+              <div class="author-img">
+                <img src="author-img.png" />
+              </div>
+              <div class="author-username">newlean14</div>
+            </div>
+            <div class="title">Bridge Bidding Strategy</div>
+            <div class="preview">
+              You should always open the bidding with 12+ high-card points. You
+              can open the bidding with slightly fewer than 12 points when you
+              have a shapely hand. Use the Rule of 20 - which states that you
+              can open the bidding when your high-card point-count added to the
+              number of cards in your two longest suits gets to 20.
+            </div>
+          </div>
+          <div class="article-right">
+            <div class="read-favorite">
+                <div class="read">READ</div>
+                <div class="add-to-favorite">
+                    <i class="fa-regular fa-heart add-to-favorite-btn"></i>
                 </div>
             </div>
+            <div class="status">
+                <i class="fa-solid fa-comment comment"> 88</i>
+                <i class="fa-solid fa-thumbs-up like"> 49</i>
+                <i class="fa-solid fa-thumbs-down dislike"> 3</i>
+                <i class="fa-solid fa-heart favorite"> 7</i>
+            </div>
+          </div>
         </div>
-    </div>
-
-    <!-- Script -->
-    <!-- axios -->
-    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
-
-    <!-- Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
-
-    <!-- My script -->
-    <script src="./index.js"></script>
-</body>
-
+        <div class="article">
+            <div class="article-left">
+              <div class="author">
+                <div class="author-img">
+                  <img src="author-img.png" />
+                </div>
+                <div class="author-username">newlean14</div>
+              </div>
+              <div class="title">Bridge Bidding Strategy</div>
+              <div class="preview">
+                You should always open the bidding with 12+ high-card points. You
+                can open the bidding with slightly fewer than 12 points when you
+                have a shapely hand. Use the Rule of 20 - which states that you
+                can open the bidding when your high-card point-count added to the
+                number of cards in your two longest suits gets to 20.
+              </div>
+            </div>
+            <div class="article-right">
+              <div class="read-favorite">
+                  <div class="read">READ</div>
+                  <div class="add-to-favorite">
+                      <i class="fa-regular fa-heart add-to-favorite-btn"></i>
+                  </div>
+              </div>
+              <div class="status">
+                  <i class="fa-solid fa-comment comment"> 88</i>
+                  <i class="fa-solid fa-thumbs-up like"> 49</i>
+                  <i class="fa-solid fa-thumbs-down dislike"> 3</i>
+                  <i class="fa-solid fa-heart favorite"> 7</i>
+              </div>
+            </div>
+          </div>
+          <div class="article">
+            <div class="article-left">
+              <div class="author">
+                <div class="author-img">
+                  <img src="author-img.png" />
+                </div>
+                <div class="author-username">newlean14</div>
+              </div>
+              <div class="title">Bridge Bidding Strategy</div>
+              <div class="preview">
+                You should always open the bidding with 12+ high-card points. You
+                can open the bidding with slightly fewer than 12 points when you
+                have a shapely hand. Use the Rule of 20 - which states that you
+                can open the bidding when your high-card point-count added to the
+                number of cards in your two longest suits gets to 20.
+              </div>
+            </div>
+            <div class="article-right">
+              <div class="read-favorite">
+                  <div class="read">READ</div>
+                  <div class="add-to-favorite">
+                      <i class="fa-regular fa-heart add-to-favorite-btn"></i>
+                  </div>
+              </div>
+              <div class="status">
+                  <i class="fa-solid fa-comment comment"> 88</i>
+                  <i class="fa-solid fa-thumbs-up like"> 49</i>
+                  <i class="fa-solid fa-thumbs-down dislike"> 3</i>
+                  <i class="fa-solid fa-heart favorite"> 7</i>
+              </div>
+            </div>
+          </div>
+          <div class="article">
+            <div class="article-left">
+              <div class="author">
+                <div class="author-img">
+                  <img src="author-img.png" />
+                </div>
+                <div class="author-username">newlean14</div>
+              </div>
+              <div class="title">Bridge Bidding Strategy</div>
+              <div class="preview">
+                You should always open the bidding with 12+ high-card points. You
+                can open the bidding with slightly fewer than 12 points when you
+                have a shapely hand. Use the Rule of 20 - which states that you
+                can open the bidding when your high-card point-count added to the
+                number of cards in your two longest suits gets to 20.
+              </div>
+            </div>
+            <div class="article-right">
+              <div class="read-favorite">
+                  <div class="read">READ</div>
+                  <div class="add-to-favorite">
+                      <i class="fa-regular fa-heart add-to-favorite-btn"></i>
+                  </div>
+              </div>
+              <div class="status">
+                  <i class="fa-solid fa-comment comment"> 88</i>
+                  <i class="fa-solid fa-thumbs-up like"> 49</i>
+                  <i class="fa-solid fa-thumbs-down dislike"> 3</i>
+                  <i class="fa-solid fa-heart favorite"> 7</i>
+              </div>
+            </div>
+          </div>
+          <div class="article">
+            <div class="article-left">
+              <div class="author">
+                <div class="author-img">
+                  <img src="author-img.png" />
+                </div>
+                <div class="author-username">newlean14</div>
+              </div>
+              <div class="title">Bridge Bidding Strategy</div>
+              <div class="preview">
+                You should always open the bidding with 12+ high-card points. You
+                can open the bidding with slightly fewer than 12 points when you
+                have a shapely hand. Use the Rule of 20 - which states that you
+                can open the bidding when your high-card point-count added to the
+                number of cards in your two longest suits gets to 20.
+              </div>
+            </div>
+            <div class="article-right">
+              <div class="read-favorite">
+                  <div class="read">READ</div>
+                  <div class="add-to-favorite">
+                      <i class="fa-regular fa-heart add-to-favorite-btn"></i>
+                  </div>
+              </div>
+              <div class="status">
+                  <i class="fa-solid fa-comment comment"> 88</i>
+                  <i class="fa-solid fa-thumbs-up like"> 49</i>
+                  <i class="fa-solid fa-thumbs-down dislike"> 3</i>
+                  <i class="fa-solid fa-heart favorite"> 7</i>
+              </div>
+            </div>
+          </div>
+          <div class="article">
+            <div class="article-left">
+              <div class="author">
+                <div class="author-img">
+                  <img src="author-img.png" />
+                </div>
+                <div class="author-username">newlean14</div>
+              </div>
+              <div class="title">Bridge Bidding Strategy</div>
+              <div class="preview">
+                You should always open the bidding with 12+ high-card points. You
+                can open the bidding with slightly fewer than 12 points when you
+                have a shapely hand. Use the Rule of 20 - which states that you
+                can open the bidding when your high-card point-count added to the
+                number of cards in your two longest suits gets to 20.
+              </div>
+            </div>
+            <div class="article-right">
+              <div class="read-favorite">
+                  <div class="read">READ</div>
+                  <div class="add-to-favorite">
+                      <i class="fa-regular fa-heart add-to-favorite-btn"></i>
+                  </div>
+              </div>
+              <div class="status">
+                  <i class="fa-solid fa-comment comment"> 88</i>
+                  <i class="fa-solid fa-thumbs-up like"> 49</i>
+                  <i class="fa-solid fa-thumbs-down dislike"> 3</i>
+                  <i class="fa-solid fa-heart favorite"> 7</i>
+              </div>
+            </div>
+          </div>
+          <div class="article">
+            <div class="article-left">
+              <div class="author">
+                <div class="author-img">
+                  <img src="author-img.png" />
+                </div>
+                <div class="author-username">newlean14</div>
+              </div>
+              <div class="title">Bridge Bidding Strategy</div>
+              <div class="preview">
+                You should always open the bidding with 12+ high-card points. You
+                can open the bidding with slightly fewer than 12 points when you
+                have a shapely hand. Use the Rule of 20 - which states that you
+                can open the bidding when your high-card point-count added to the
+                number of cards in your two longest suits gets to 20.
+              </div>
+            </div>
+            <div class="article-right">
+              <div class="read-favorite">
+                  <div class="read">READ</div>
+                  <div class="add-to-favorite">
+                      <i class="fa-regular fa-heart add-to-favorite-btn"></i>
+                  </div>
+              </div>
+              <div class="status">
+                  <i class="fa-solid fa-comment comment"> 88</i>
+                  <i class="fa-solid fa-thumbs-up like"> 49</i>
+                  <i class="fa-solid fa-thumbs-down dislike"> 3</i>
+                  <i class="fa-solid fa-heart favorite"> 7</i>
+              </div>
+            </div>
+          </div>
+          <div class="article">
+            <div class="article-left">
+              <div class="author">
+                <div class="author-img">
+                  <img src="author-img.png" />
+                </div>
+                <div class="author-username">newlean14</div>
+              </div>
+              <div class="title">Bridge Bidding Strategy</div>
+              <div class="preview">
+                You should always open the bidding with 12+ high-card points. You
+                can open the bidding with slightly fewer than 12 points when you
+                have a shapely hand. Use the Rule of 20 - which states that you
+                can open the bidding when your high-card point-count added to the
+                number of cards in your two longest suits gets to 20.
+              </div>
+            </div>
+            <div class="article-right">
+              <div class="read-favorite">
+                  <div class="read">READ</div>
+                  <div class="add-to-favorite">
+                      <i class="fa-regular fa-heart add-to-favorite-btn"></i>
+                  </div>
+              </div>
+              <div class="status">
+                  <i class="fa-solid fa-comment comment"> 88</i>
+                  <i class="fa-solid fa-thumbs-up like"> 49</i>
+                  <i class="fa-solid fa-thumbs-down dislike"> 3</i>
+                  <i class="fa-solid fa-heart favorite"> 7</i>
+              </div>
+            </div>
+          </div>
+          <div class="article">
+            <div class="article-left">
+              <div class="author">
+                <div class="author-img">
+                  <img src="author-img.png" />
+                </div>
+                <div class="author-username">newlean14</div>
+              </div>
+              <div class="title">Bridge Bidding Strategy</div>
+              <div class="preview">
+                You should always open the bidding with 12+ high-card points. You
+                can open the bidding with slightly fewer than 12 points when you
+                have a shapely hand. Use the Rule of 20 - which states that you
+                can open the bidding when your high-card point-count added to the
+                number of cards in your two longest suits gets to 20.
+              </div>
+            </div>
+            <div class="article-right">
+              <div class="read-favorite">
+                  <div class="read">READ</div>
+                  <div class="add-to-favorite">
+                      <i class="fa-regular fa-heart add-to-favorite-btn"></i>
+                  </div>
+              </div>
+              <div class="status">
+                  <i class="fa-solid fa-comment comment"> 88</i>
+                  <i class="fa-solid fa-thumbs-up like"> 49</i>
+                  <i class="fa-solid fa-thumbs-down dislike"> 3</i>
+                  <i class="fa-solid fa-heart favorite"> 7</i>
+              </div>
+            </div>
+          </div>
+      </section>
+    </main>
+    <footer>
+      <div class="paginator">[Paginator]</div>
+    </footer>
+    <div class="non-fixed-footer"></div>
+    <script
+      src="https://kit.fontawesome.com/6fb9682f78.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="index.js"></script>
+  </body>
 </html>
