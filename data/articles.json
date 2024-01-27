@@ -1,17 +1,17 @@
 [
     {
         "id": 1,
-        "author": "Author1",
-        "title": "Article1",
-        "content": "This is content",
+        "author": "Henry",
+        "title": "CSS",
+        "content": "aspect-ratio 設置元素的寬高比，設置範例： aspect-ratio: 1/1",
         "createAt": 1705819929,
         "updateAt": 1705819929
     },
     {
         "id": 2,
-        "author": "Author1",
-        "title": "Article2",
-        "content": "This is content",
+        "author": "Henry",
+        "title": "CSS",
+        "content": ":root 是一個 CSS 偽類，通常用於設置全局 CSS 變量（Custom Properties）。:root 表示文檔根元素，即 <html> 元素。",
         "createAt": 1705820000,
         "updateAt": 1705820000
     },

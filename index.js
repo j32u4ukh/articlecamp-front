@@ -167,5 +167,3 @@ function init() {
       console.log(error);
     });
 }
-
-init();
