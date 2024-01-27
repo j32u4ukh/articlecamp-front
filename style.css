@@ -38,6 +38,7 @@ nav {
 
 .icon {
   height: 100%;
+  /* 設置元素的寬高比 */
   aspect-ratio: 1/1;
 }
 
