@@ -110,7 +110,7 @@ section {
 
 .article {
   height: var(--article-height);
-  padding: 3px 0 6px 0;
+  padding: 3px 0;
   margin-bottom: var(--articles-gap);
   border-radius: 16px;
   background-color: #eec170;
@@ -179,6 +179,8 @@ section {
 .read {
   width: 80%;
   margin: 0 20px;
+  background-color: #c32f27;
+  border: 2px solid #2d3142;
   border-radius: 10px;
   font-size: 32px;
   text-align: center;
