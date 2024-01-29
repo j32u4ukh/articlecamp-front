@@ -43,7 +43,6 @@ function renderArticles(articles) {
 
 // 渲染單篇文章
 function renderArticle(parent, article) {
-  // let src = `${POSTER_URL}/${data.image}`;
   let child;
   if (displayMode === DisplayMode.Block) {
     child = document.createElement("div");
@@ -57,21 +56,21 @@ function renderArticle(parent, article) {
       "justify-content-between",
       "article"
     );
+    let preview = article.content.substring(0, 20);
+    if (article.content.length > 20) {
+      preview += "...";
+    }
     child.innerHTML = `
     <div class="article-left">
       <div class="author">
         <div class="author-img">
           <img src="author-img.png" />
         </div>
-        <div class="author-username">newlean14</div>
+        <div class="author-username">${article.author}</div>
       </div>
-      <div class="title" data-id=${article.id}>Bridge Bidding Strategy - ${article.id}</div>
+      <div class="title" data-id=${article.id}>${article.title}</div>
       <div class="preview">
-        You should always open the bidding with 12+ high-card points. You
-        can open the bidding with slightly fewer than 12 points when you
-        have a shapely hand. Use the Rule of 20 - which states that you
-        can open the bidding when your high-card point-count added to the
-        number of cards in your two longest suits gets to 20.
+       ${preview}
       </div>
     </div>
     <div class="article-right">
