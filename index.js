@@ -1,67 +1,92 @@
-const BASE_URL = "https://webdev.alphacamp.io";
-const API_URL = `${BASE_URL}/api/movies`;
-const POSTER_URL = `${BASE_URL}/posters`;
-const MOVIES_PER_PAGE = 12;
-const movies = [];
-const icons = document.querySelector(".icons");
-const dataPanel = document.querySelector("#data-panel");
-const searchForm = document.querySelector("#search-form");
-const searchInput = document.querySelector("#serach-input");
-const paginator = document.querySelector("#paginator");
 const DisplayMode = {
   Block: "Block",
   List: "List",
 };
+
+const BASE_URL = "http://localhost:3000";
+const API_URL = `${BASE_URL}/articles`;
+const articleContainer = document.querySelector("#article-container");
+const articles = [];
+let displayMode = DisplayMode.List;
+
+// 參考用
+const POSTER_URL = `${BASE_URL}/posters`;
+const MOVIES_PER_PAGE = 12;
+const movies = [];
+const icons = document.querySelector(".icons");
+const searchForm = document.querySelector("#search-form");
+const searchInput = document.querySelector("#serach-input");
+const paginator = document.querySelector("#paginator");
 let currentMovies = [];
 let currentPage = 1;
-let displayMode = DisplayMode.Block;
 
 function getMoviesByPage(movies, page) {
   const start = MOVIES_PER_PAGE * (page - 1);
   return movies.slice(start, start + MOVIES_PER_PAGE);
 }
 
-function renderMovies(movies) {
-  dataPanel.innerHTML = "";
+// 渲染所有文章
+function renderArticles(articles) {
+  articleContainer.innerHTML = "";
   let parent;
   if (displayMode === DisplayMode.Block) {
     parent = dataPanel;
   } else {
     parent = document.createElement("ul");
     parent.classList.add("list-group", "col-sm-12", "mb-2");
-    dataPanel.appendChild(parent);
+    articleContainer.appendChild(parent);
   }
-  movies.forEach((movie) => {
-    renderMovie(parent, movie);
+  articles.forEach((article) => {
+    renderArticle(parent, article);
   });
 }
 
-function renderMovie(parent, data) {
-  let src = `${POSTER_URL}/${data.image}`;
+// 渲染單篇文章
+function renderArticle(parent, article) {
   let child;
   if (displayMode === DisplayMode.Block) {
     child = document.createElement("div");
     child.classList.add("col-sm-3");
-    child.innerHTML = `<div class="mb-2">
-      <div class="card">
-        <img src="${src}" class="card-img-top" alt="Movie Poster">
-        <div class="card-body">
-          <h5 class="card-title">${data.title}</h5>
-        </div>
-        <div class="card-footer">
-          <button class="btn btn-primary btn-show-movie" data-bs-toggle="modal" data-bs-target="#movie-modal" data-id="${data.id}">More</button>
-          <button class="btn btn-info btn-add-favorite" data-id="${data.id}">+</button>
-        </div>
-      </div>
-    </div>`;
+    child.innerHTML = ``;
   } else {
     child = document.createElement("li");
-    child.classList.add("list-group-item", "d-flex", "justify-content-between");
-    child.innerHTML = `<h5 class="card-title">${data.title}</h5>
-                    <div>
-                        <button class="btn btn-primary btn-show-movie" data-bs-toggle="modal" data-bs-target="#movie-modal" data-id="${data.id}">More</button>
-                        <button class="btn btn-info btn-add-favorite" data-id="${data.id}">+</button>
-                    </div>`;
+    child.classList.add(
+      "list-group-item",
+      "d-flex",
+      "justify-content-between",
+      "article"
+    );
+    let preview = article.content.substring(0, 20);
+    if (article.content.length > 20) {
+      preview += "...";
+    }
+    child.innerHTML = `
+    <div class="article-left">
+      <div class="author">
+        <div class="author-img">
+          <img src="author-img.png" />
+        </div>
+        <div class="author-username">${article.author}</div>
+      </div>
+      <div class="title" data-id=${article.id}>${article.title}</div>
+      <div class="preview">
+       ${preview}
+      </div>
+    </div>
+    <div class="article-right">
+      <div class="read-favorite">
+          <div class="read">READ</div>
+          <div class="add-to-favorite">
+              <i class="fa-regular fa-heart add-to-favorite-btn"></i>
+          </div>
+      </div>
+      <div class="status">
+          <i class="fa-solid fa-comment comment"> 88</i>
+          <i class="fa-solid fa-thumbs-up like"> 49</i>
+          <i class="fa-solid fa-thumbs-down dislike"> 3</i>
+          <i class="fa-solid fa-heart favorite"> 7</i>
+      </div>
+    </div>`;
   }
   parent.appendChild(child);
 }
@@ -101,69 +126,72 @@ function setPaginator(amount) {
 }
 
 function init() {
-  // 監聽 data panel
-  dataPanel.addEventListener("click", function onPanelClicked(event) {
-    if (event.target.matches(".btn-show-movie")) {
-      showMovieModal((id = Number(event.target.dataset.id)));
-    } else if (event.target.matches(".btn-add-favorite")) {
-      addToFavorite(Number(event.target.dataset.id));
-    }
-  });
+  // 監聽 articleContainer
+  // articleContainer.addEventListener("click", function onPanelClicked(event) {
+  //   if (event.target.matches(".article")) {
+  //     showMovieModal((id = Number(event.target.dataset.id)));
+  //   } else if (event.target.matches(".btn-add-favorite")) {
+  //     addToFavorite(Number(event.target.dataset.id));
+  //   }
+  // });
 
-  searchForm.addEventListener("submit", function onSearch(event) {
-    // 避免表單提交後的預設行為(重整頁面)
-    event.preventDefault();
-    let input = searchInput.value.trim().toLowerCase();
-    currentMovies = movies.filter((movie) => {
-      return movie.title.toLowerCase().includes(input);
-    });
+  // searchForm.addEventListener("submit", function onSearch(event) {
+  //   // 避免表單提交後的預設行為(重整頁面)
+  //   event.preventDefault();
+  //   let input = searchInput.value.trim().toLowerCase();
+  //   currentMovies = movies.filter((movie) => {
+  //     return movie.title.toLowerCase().includes(input);
+  //   });
 
-    currentMovies = currentMovies.length === 0 ? movies : currentMovies;
-    setPaginator(currentMovies.length);
-    currentPage = 1;
-    renderMovies(getMoviesByPage(currentMovies, currentPage));
-  });
+  //   currentMovies = currentMovies.length === 0 ? movies : currentMovies;
+  //   setPaginator(currentMovies.length);
+  //   currentPage = 1;
+  //   renderArticles(getMoviesByPage(currentMovies, currentPage));
+  // });
 
-  paginator.addEventListener("click", function onPageSelected(event) {
-    event.preventDefault();
-    let target = event.target;
+  // paginator.addEventListener("click", function onPageSelected(event) {
+  //   event.preventDefault();
+  //   let target = event.target;
 
-    if (target.matches(".page-item")) {
-      let a = target.children[0];
-      currentPage = Number(a.innerHTML);
-      renderMovies(getMoviesByPage(currentMovies, currentPage));
-    } else if (target.matches(".page-link")) {
-      currentPage = Number(target.innerHTML);
-      renderMovies(getMoviesByPage(currentMovies, currentPage));
-    }
-  });
+  //   if (target.matches(".page-item")) {
+  //     let a = target.children[0];
+  //     currentPage = Number(a.innerHTML);
+  //     renderArticles(getMoviesByPage(currentMovies, currentPage));
+  //   } else if (target.matches(".page-link")) {
+  //     currentPage = Number(target.innerHTML);
+  //     renderArticles(getMoviesByPage(currentMovies, currentPage));
+  //   }
+  // });
 
-  icons.addEventListener("click", function onIconClicked(event) {
-    let target = event.target;
-    let needRender = false;
-    if (target.matches(".fa-bars") && displayMode !== DisplayMode.List) {
-      needRender = true;
-      displayMode = DisplayMode.List;
-    } else if (target.matches(".fa-th") && displayMode !== DisplayMode.Block) {
-      needRender = true;
-      displayMode = DisplayMode.Block;
-    }
-    if (needRender) {
-      renderMovies(getMoviesByPage(currentMovies, currentPage));
-    }
-  });
+  // icons.addEventListener("click", function onIconClicked(event) {
+  //   let target = event.target;
+  //   let needRender = false;
+  //   if (target.matches(".fa-bars") && displayMode !== DisplayMode.List) {
+  //     needRender = true;
+  //     displayMode = DisplayMode.List;
+  //   } else if (target.matches(".fa-th") && displayMode !== DisplayMode.Block) {
+  //     needRender = true;
+  //     displayMode = DisplayMode.Block;
+  //   }
+  //   if (needRender) {
+  //     renderArticles(getMoviesByPage(currentMovies, currentPage));
+  //   }
+  // });
 
   axios
     .get(API_URL)
     .then((response) => {
-      let results = response.data.results;
-      movies.push(...results);
-      currentMovies = movies;
-      setPaginator(movies.length);
-      currentPage = 1;
-      renderMovies(getMoviesByPage(movies, currentPage));
+      let datas = response.data;
+      articles.push(...datas);
+      // currentMovies = movies;
+      // setPaginator(movies.length);
+      // currentPage = 1;
+      // renderArticles(getMoviesByPage(movies, currentPage));
+      renderArticles(articles);
     })
     .catch((error) => {
       console.log(error);
     });
 }
+
+init();
