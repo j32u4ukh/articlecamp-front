@@ -3,13 +3,13 @@ const DisplayMode = {
   List: "List",
 };
 
+const BASE_URL = "http://localhost:3000";
+const API_URL = `${BASE_URL}/articles`;
 const articleContainer = document.querySelector("#article-container");
 const articles = [];
 let displayMode = DisplayMode.List;
 
 // 參考用
-const BASE_URL = "https://webdev.alphacamp.io";
-const API_URL = `${BASE_URL}/api/movies`;
 const POSTER_URL = `${BASE_URL}/posters`;
 const MOVIES_PER_PAGE = 12;
 const movies = [];
@@ -51,38 +51,41 @@ function renderArticle(parent, article) {
     child.innerHTML = ``;
   } else {
     child = document.createElement("li");
-    child.classList.add("list-group-item", "d-flex", "justify-content-between");
+    child.classList.add(
+      "list-group-item",
+      "d-flex",
+      "justify-content-between",
+      "article"
+    );
     child.innerHTML = `
-    <div class="article">
-      <div class="article-left">
-        <div class="author">
-          <div class="author-img">
-            <img src="author-img.png" />
-          </div>
-          <div class="author-username">newlean14</div>
+    <div class="article-left">
+      <div class="author">
+        <div class="author-img">
+          <img src="author-img.png" />
         </div>
-        <div class="title" data-id=${article.id}>Bridge Bidding Strategy - ${article.id}</div>
-        <div class="preview">
-          You should always open the bidding with 12+ high-card points. You
-          can open the bidding with slightly fewer than 12 points when you
-          have a shapely hand. Use the Rule of 20 - which states that you
-          can open the bidding when your high-card point-count added to the
-          number of cards in your two longest suits gets to 20.
-        </div>
+        <div class="author-username">newlean14</div>
       </div>
-      <div class="article-right">
-        <div class="read-favorite">
-            <div class="read">READ</div>
-            <div class="add-to-favorite">
-                <i class="fa-regular fa-heart add-to-favorite-btn"></i>
-            </div>
-        </div>
-        <div class="status">
-            <i class="fa-solid fa-comment comment"> 88</i>
-            <i class="fa-solid fa-thumbs-up like"> 49</i>
-            <i class="fa-solid fa-thumbs-down dislike"> 3</i>
-            <i class="fa-solid fa-heart favorite"> 7</i>
-        </div>
+      <div class="title" data-id=${article.id}>Bridge Bidding Strategy - ${article.id}</div>
+      <div class="preview">
+        You should always open the bidding with 12+ high-card points. You
+        can open the bidding with slightly fewer than 12 points when you
+        have a shapely hand. Use the Rule of 20 - which states that you
+        can open the bidding when your high-card point-count added to the
+        number of cards in your two longest suits gets to 20.
+      </div>
+    </div>
+    <div class="article-right">
+      <div class="read-favorite">
+          <div class="read">READ</div>
+          <div class="add-to-favorite">
+              <i class="fa-regular fa-heart add-to-favorite-btn"></i>
+          </div>
+      </div>
+      <div class="status">
+          <i class="fa-solid fa-comment comment"> 88</i>
+          <i class="fa-solid fa-thumbs-up like"> 49</i>
+          <i class="fa-solid fa-thumbs-down dislike"> 3</i>
+          <i class="fa-solid fa-heart favorite"> 7</i>
       </div>
     </div>`;
   }
@@ -176,25 +179,20 @@ function init() {
   //   }
   // });
 
-  for (let i = 0; i < 10; i++) {
-    articles.push({ id: i });
-  }
-
-  renderArticles(articles);
-
-  // axios
-  //   .get(API_URL)
-  //   .then((response) => {
-  //     let results = response.data.results;
-  //     movies.push(...results);
-  //     currentMovies = movies;
-  //     setPaginator(movies.length);
-  //     currentPage = 1;
-  //     renderArticles(getMoviesByPage(movies, currentPage));
-  //   })
-  //   .catch((error) => {
-  //     console.log(error);
-  //   });
+  axios
+    .get(API_URL)
+    .then((response) => {
+      let datas = response.data;
+      articles.push(...datas);
+      // currentMovies = movies;
+      // setPaginator(movies.length);
+      // currentPage = 1;
+      // renderArticles(getMoviesByPage(movies, currentPage));
+      renderArticles(articles);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
 init();
