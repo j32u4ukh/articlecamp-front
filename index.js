@@ -1,16 +1,16 @@
 const express = require("express");
-const { engine } = require("express-handlebars");
+const cors = require("cors");
 const app = express();
 const port = 3000;
 
-// 引用路由器
-const router = require("./routes");
+// 使用 cors 中間件
+app.use(cors());
 
-// app.engine(".hbs", engine({ extname: ".hbs" }));
-// app.set("view engine", ".hbs");
-// app.set("views", "./views");
 app.use(express.static("public"));
 app.use(express.json());
+
+// 引用路由器
+const router = require("./routes");
 
 // 將 request 導入路由器
 app.use(router);
