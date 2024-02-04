@@ -68,14 +68,14 @@ function renderArticle(parent, article) {
         </div>
         <div class="author-username">${article.author}</div>
       </div>
-      <div class="title" data-id=${article.id}>${article.title}</div>
+      <div class="title">${article.title}</div>
       <div class="preview">
        ${preview}
       </div>
     </div>
     <div class="article-right">
       <div class="read-favorite">
-          <div class="read">READ</div>
+          <div class="read" data-id=${article.id}>READ</div>
           <div class="add-to-favorite">
               <i class="fa-regular fa-heart add-to-favorite-btn"></i>
           </div>
@@ -127,13 +127,14 @@ function setPaginator(amount) {
 
 function init() {
   // 監聽 articleContainer
-  // articleContainer.addEventListener("click", function onPanelClicked(event) {
-  //   if (event.target.matches(".article")) {
-  //     showMovieModal((id = Number(event.target.dataset.id)));
-  //   } else if (event.target.matches(".btn-add-favorite")) {
-  //     addToFavorite(Number(event.target.dataset.id));
-  //   }
-  // });
+  articleContainer.addEventListener("click", function onArticleClicked(event) {
+    if (event.target.matches(".read")) {
+      const id = Number(event.target.dataset.id);
+      localStorage.setItem("article-id", String(id));
+      window.location.href = "./article.html";
+      console.log(`article id: ${localStorage.getItem("article-id")}`);
+    }
+  });
 
   // searchForm.addEventListener("submit", function onSearch(event) {
   //   // 避免表單提交後的預設行為(重整頁面)
