@@ -64,7 +64,7 @@ function renderArticle(parent, article) {
     <div class="article-left">
       <div class="author">
         <div class="author-img">
-          <img src="author-img.png" />
+          <img src="../data/Alex.png" />
         </div>
         <div class="author-username">${article.author}</div>
       </div>
@@ -125,16 +125,54 @@ function setPaginator(amount) {
   paginator.innerHTML = pages;
 }
 
+function getCookies() {
+  const datas = document.cookie.split(";");
+  let cookies = {};
+  const options = [];
+  datas.forEach((data) => {
+    if (data.includes("=")) {
+      const [key, value] = data.split("=");
+      if (key === "data") {
+        cookies = JSON.parse(value);
+      } else {
+        options.push(data);
+      }
+    } else {
+      options.push(data);
+    }
+  });
+  return [cookies, options];
+}
+
+function getCookie(key) {
+  const [cookies, _] = getCookies();
+  return cookies[key];
+}
+
+function setCookie(key, value) {
+  const [cookies, options] = getCookies();
+  cookies[key] = value;
+  options.push(`data=${JSON.stringify(cookies)}`);
+  document.cookie = options.join(";");
+}
+
+function initCookies() {
+  document.cookie = `data=${JSON.stringify({})};SameSite=None;secure`;
+}
+
 function init() {
   // 監聽 articleContainer
   articleContainer.addEventListener("click", function onArticleClicked(event) {
     if (event.target.matches(".read")) {
       const id = Number(event.target.dataset.id);
-      localStorage.setItem("article-id", String(id));
+      console.log(`article id: ${id}`);
+      setCookie("articleId", id);
+      document.cookie = `data=${JSON.stringify({ articleId: id })}`;
       window.location.href = "./article.html";
-      console.log(`article id: ${localStorage.getItem("article-id")}`);
     }
   });
+
+  initCookies();
 
   // searchForm.addEventListener("submit", function onSearch(event) {
   //   // 避免表單提交後的預設行為(重整頁面)
