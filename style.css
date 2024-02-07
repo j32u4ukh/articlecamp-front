@@ -109,6 +109,16 @@ section {
   position: relative;
 }
 
+.article-content {
+  padding: 10px;
+  background-color: #eec170;
+  border-radius: 16px;
+}
+
+.article-title {
+  margin-top: 0;
+}
+
 .article {
   height: var(--article-height);
   padding: 3px 0;
@@ -187,7 +197,7 @@ section {
   text-align: center;
 }
 
-.read:hover{
+.read:hover {
   cursor: pointer;
 }
 

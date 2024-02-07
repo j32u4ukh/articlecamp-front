@@ -1,31 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../css/style.css">
-</head>
-<body>
-  <main>
-    <h1 style="text-align: center;">這是文章的標題</h1>
-    <p class="author">作者名稱</p>
 
-    <div>
-      <p>這是文章的內容。Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante
-        dapibus diam.</p>
-      
-      <p>Etiam porta sem malesuada magna mollis euismod. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis
-        natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-      
-      <p>Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede
-        justo, fringilla vel, aliquet nec, vulputate eget, arcu.</p>
-    </div>      
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Articlecamp</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%23c32f27'/%3E%3Ctext x='50' y='60' font-family='Arial' font-size='50' fill='%23f9c80e' text-anchor='middle' dominant-baseline='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Noto+Sans+TC:wght@400;700&display=swap"
+    rel="stylesheet" />
+</head>
+
+<body>
+  <!-- Header -->
+  <header>
+    <nav>
+      <div class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+          <!-- 圓圈 -->
+          <circle cx="50" cy="50" r="40" fill="#c32f27" />
+          <!-- 文字 "A" -->
+          <text x="50" y="57" font-family="Arial" font-size="50" fill="#f9c80e" text-anchor="middle"
+            dominant-baseline="middle">
+            A
+          </text>
+        </svg>
+      </div>
+      <div class="search-container">
+        <div class="search-bar">
+          <input class="search-input" type="text" placeholder="Search...">
+        </div>
+        <div class="search-btn">
+          <button>Search</button>
+        </div>
+      </div>
+      <div class="menu">
+        <i class="fa-solid fa-bars fa-2xl menu-icon"></i>
+      </div>
+    </nav>
+  </header>
+  <div class="non-fixed-header"></div>
+
+  <main>
+    <!-- Article list -->
+    <section id="article-container">
+      <div class="article-content">
+        <h1 class="article-title">文章標題: Bridge Bidding Strategy</h1>
+        <h3 class="article-author">文章作者: newlean14</h3>
+        <div class="article-context">
+          文章內容:
+          <article>In bridge, bidding is
+            considered the most important aspect of the game. It's a given that a good bidder equals a winning bridge
+            player. Here are a few bidding tips to start you off:
+            <ul>
+              <li>
+                <p>Before opening, add your high card points (HCP): Ace = 4, King = 3, Queen = 2,
+                  Jack = 1. With 12 or more HCP, open the bidding.</p>
+              </li>
+              <li>
+                <p>To open 1♥ or 1♠, you need at least five cards in the suit.</p>
+              </li>
+              <li>
+                <p>With two five-card suits, open in the higher-ranking suit first. The rank of the
+                  suits, from highest to lowest, is spades, hearts, diamonds, clubs.</p>
+              </li>
+              <li>
+                <p>With two four-card suits, one a major (hearts or spades), one a minor (diamonds or
+                  clubs), open in the minor. With two four-card minors, open 1♦.</p>
+              </li>
+              <li>
+                <p>Open 1NT with 15 to 17 HCP plus a balanced hand (no voids, singletons, or two
+                  doubletons).</p>
+              </li>
+              <li>
+                <p>If your partner opens, pass with fewer than 6 HCP. With 6 or more HCP, bid your
+                  longest suit at the one level, if possible. Responding at the two level in a new suit requires 11 or
+                  more HCP. A response of 1NT shows 6 to 10 HCP and denies a four-card major if your partner opens 1♣ or
+                  1♦.</p>
+              </li>
+              <li>
+                <p>Supporting your partner's first bid major suit requires three or more cards in the
+                  suit; supporting <i>any</i> second bid suit requires four or more cards in the suit.</p>
+              </li>
+              <li>
+                <p>A primary objective in bidding is to locate an eight-card or longer major suit fit
+                  between your hand and your partner's.</p>
+              </li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="paginator">[Paginator]</div>
+  </footer>
+  <div class="non-fixed-footer"></div>
 
   <!-- Script -->
   <!-- axios -->
   <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
-  <script src="../js/article.js"></script>
+
+  <script src="https://kit.fontawesome.com/6fb9682f78.js" crossorigin="anonymous"></script>
+  <script src="index.js"></script>
 </body>
+
 </html>
