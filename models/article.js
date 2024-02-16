@@ -18,7 +18,6 @@ class ArticleModel {
       });
   }
   // 新增文章
-  // TODO: write()
   add(article) {
     return new Promise((resolve, reject) => {
       try {
@@ -117,6 +116,7 @@ class ArticleModel {
           code: ErrorCode.UpdateError,
           msg: `沒有 id 為 ${id} 的文章`,
         });
+        return;
       }
 
       // 根據索引值移除文章

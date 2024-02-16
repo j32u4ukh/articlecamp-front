@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const Article = require("../models/articles");
+const Article = require("../services/article");
 const { ReturnCode, ErrorCode } = require("../utils/codes.js");
 
 router.get("/", (req, res) => {
-  res.send(Article.getAll());
+  res.json(Article.getAll());
 });
 
 router.post("/create", (req, res) => {
@@ -24,54 +24,52 @@ router.post("/create", (req, res) => {
     });
   }
   Article.add({
-    author: author,
-    title: title,
+    author,
+    title,
     content: req.body.content,
   })
-    .then((article) => {
-      res.send(article);
+    .then((result) => {
+      res.json(result);
     })
-    .catch((err) => {
-      console.log(`err: ${JSON.stringify(err)}`);
-      return res.status(ReturnCode.ServerInternalError).json(err);
+    .catch(({ ret, err }) => {
+      res.status(ret).json(err);
     });
 });
 
 router.get("/:id", (req, res) => {
-  const id = Number(req.params.id);
-  const result = Article.get(id);
-  if (result.index === -1) {
-    return res.status(ReturnCode.NotFound).json({
-      code: ErrorCode.ParamError,
-      msg: `沒有 id 為 ${id} 的文章`,
-    });
-  }
-  return res.json(result.data);
-});
-
-router.put("/:id", (req, res) => {
-  const id = Number(req.params.id);
-  const article = req.body;
-  Article.update(id, article)
+  Article.get({
+    id: Number(req.params.id),
+  })
     .then((result) => {
       res.json(result);
     })
-    .catch((err) => {
-      return res.status(ReturnCode.ServerInternalError).json(err);
+    .catch(({ ret, err }) => {
+      res.status(ret).json(err);
+    });
+});
+
+router.put("/:id", (req, res) => {
+  Article.update({
+    id: Number(req.params.id),
+    article: req.body,
+  })
+    .then((result) => {
+      res.json(result);
+    })
+    .catch(({ ret, err }) => {
+      res.status(ret).json(err);
     });
 });
 
 router.delete("/:id", (req, res) => {
-  const id = Number(req.params.id);
-  Article.delete(id)
-    .then(() => {
-      res.json({
-        code: ErrorCode.Ok,
-        msg: "OK",
-      });
+  Article.delete({
+    id: Number(req.params.id),
+  })
+    .then((result) => {
+      res.json(result);
     })
-    .catch((err) => {
-      return res.status(ReturnCode.ServerInternalError).json(err);
+    .catch(({ ret, err }) => {
+      res.status(ret).json(err);
     });
 });
 
