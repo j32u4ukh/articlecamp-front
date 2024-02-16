@@ -4,7 +4,7 @@ const Article = require("../services/article");
 const { ReturnCode, ErrorCode } = require("../utils/codes.js");
 
 router.get("/", (req, res) => {
-  return Article.getAll(res);
+  res.json(Article.getAll());
 });
 
 router.post("/create", (req, res) => {
@@ -23,26 +23,54 @@ router.post("/create", (req, res) => {
       msg: "title 為必要參數",
     });
   }
-  Article.add(res, {
+  Article.add({
     author,
     title,
     content: req.body.content,
-  });
+  })
+    .then((result) => {
+      res.json(result);
+    })
+    .catch(({ ret, err }) => {
+      res.status(ret).json(err);
+    });
 });
 
 router.get("/:id", (req, res) => {
-  return Article.get(res, { id: Number(req.params.id) });
+  Article.get({
+    id: Number(req.params.id),
+  })
+    .then((result) => {
+      res.json(result);
+    })
+    .catch(({ ret, err }) => {
+      res.status(ret).json(err);
+    });
 });
 
 router.put("/:id", (req, res) => {
-  Article.update(res, {
+  Article.update({
     id: Number(req.params.id),
     article: req.body,
-  });
+  })
+    .then((result) => {
+      res.json(result);
+    })
+    .catch(({ ret, err }) => {
+      res.status(ret).json(err);
+    });
 });
 
 router.delete("/:id", (req, res) => {
-  Article.delete(res, { id: Number(req.params.id) });
+  Article.delete({
+    id: Number(req.params.id),
+  })
+    .then((result) => {
+      res.json(result);
+    })
+    .catch(({ ret, err }) => {
+      res.status(ret).json(err);
+    });
 });
 
 module.exports = router;

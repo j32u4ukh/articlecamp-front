@@ -2,53 +2,63 @@ const ArticleModel = require("../models/article");
 const { ReturnCode, ErrorCode } = require("../utils/codes.js");
 
 class ArticleService {
-  getAll(res) {
-    return res.send(ArticleModel.getAll());
+  getAll() {
+    return ArticleModel.getAll();
   }
-  add(res, args) {
-    ArticleModel.add({
-      author: args.author,
-      title: args.title,
-      content: args.content,
-    })
-      .then((article) => {
-        return res.send(article);
+  add(args) {
+    return new Promise((resolve, reject) => {
+      ArticleModel.add({
+        author: args.author,
+        title: args.title,
+        content: args.content,
       })
-      .catch((err) => {
-        console.log(`err: ${JSON.stringify(err)}`);
-        return res.status(ReturnCode.ServerInternalError).json(err);
-      });
-  }
-  get(res, args) {
-    const result = ArticleModel.get(args.id);
-    if (result.index === -1) {
-      return res.status(ReturnCode.NotFound).json({
-        code: ErrorCode.ParamError,
-        msg: `沒有 id 為 ${id} 的文章`,
-      });
-    }
-    return res.json(result.data);
-  }
-  update(res, args) {
-    ArticleModel.update(args.id, args.article)
-      .then((result) => {
-        return res.json(result);
-      })
-      .catch((err) => {
-        return res.status(ReturnCode.ServerInternalError).json(err);
-      });
-  }
-  delete(res, args) {
-    ArticleModel.delete(args.id)
-      .then(() => {
-        res.json({
-          code: ErrorCode.Ok,
-          msg: "OK",
+        .then((article) => {
+          resolve(article);
+        })
+        .catch((err) => {
+          reject({ ret: ReturnCode.ServerInternalError, err });
         });
-      })
-      .catch((err) => {
-        return res.status(ReturnCode.ServerInternalError).json(err);
-      });
+    });
+  }
+  get(args) {
+    return new Promise((resolve, reject) => {
+      const result = ArticleModel.get(args.id);
+      if (result.index === -1) {
+        reject({
+          ret: ReturnCode.NotFound,
+          err: {
+            code: ErrorCode.ParamError,
+            msg: `沒有 id 為 ${args.id} 的文章`,
+          },
+        });
+      }
+      resolve(result.data);
+    });
+  }
+  update(args) {
+    return new Promise((resolve, reject) => {
+      ArticleModel.update(args.id, args.article)
+        .then((result) => {
+          resolve(result);
+        })
+        .catch((err) => {
+          reject({ ret: ReturnCode.ServerInternalError, err });
+        });
+    });
+  }
+  delete(args) {
+    return new Promise((resolve, reject) => {
+      ArticleModel.delete(args.id)
+        .then(() => {
+          resolve({
+            code: ErrorCode.Ok,
+            msg: "OK",
+          });
+        })
+        .catch((err) => {
+          reject({ ret: ReturnCode.ServerInternalError, err });
+        });
+    });
   }
 }
 
