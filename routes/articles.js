@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const Article = require("../models/articles");
+const Article = require("../services/article");
 const { ReturnCode, ErrorCode } = require("../utils/codes.js");
 
 router.get("/", (req, res) => {
-  res.send(Article.getAll());
+  return Article.getAll(res);
 });
 
 router.post("/create", (req, res) => {
@@ -23,56 +23,26 @@ router.post("/create", (req, res) => {
       msg: "title 為必要參數",
     });
   }
-  Article.add({
-    author: author,
-    title: title,
+  Article.add(res, {
+    author,
+    title,
     content: req.body.content,
-  })
-    .then((article) => {
-      res.send(article);
-    })
-    .catch((err) => {
-      console.log(`err: ${JSON.stringify(err)}`);
-      return res.status(ReturnCode.ServerInternalError).json(err);
-    });
+  });
 });
 
 router.get("/:id", (req, res) => {
-  const id = Number(req.params.id);
-  const result = Article.get(id);
-  if (result.index === -1) {
-    return res.status(ReturnCode.NotFound).json({
-      code: ErrorCode.ParamError,
-      msg: `沒有 id 為 ${id} 的文章`,
-    });
-  }
-  return res.json(result.data);
+  return Article.get(res, { id: Number(req.params.id) });
 });
 
 router.put("/:id", (req, res) => {
-  const id = Number(req.params.id);
-  const article = req.body;
-  Article.update(id, article)
-    .then((result) => {
-      res.json(result);
-    })
-    .catch((err) => {
-      return res.status(ReturnCode.ServerInternalError).json(err);
-    });
+  Article.update(res, {
+    id: Number(req.params.id),
+    article: req.body,
+  });
 });
 
 router.delete("/:id", (req, res) => {
-  const id = Number(req.params.id);
-  Article.delete(id)
-    .then(() => {
-      res.json({
-        code: ErrorCode.Ok,
-        msg: "OK",
-      });
-    })
-    .catch((err) => {
-      return res.status(ReturnCode.ServerInternalError).json(err);
-    });
+  Article.delete(res, { id: Number(req.params.id) });
 });
 
 module.exports = router;
