@@ -2,9 +2,6 @@ const ArticleModel = require("../models/article");
 const { ReturnCode, ErrorCode } = require("../utils/codes.js");
 
 class ArticleService {
-  getAll() {
-    return ArticleModel.getAll();
-  }
   add(args) {
     return new Promise((resolve, reject) => {
       ArticleModel.add({
@@ -18,6 +15,36 @@ class ArticleService {
         .catch((err) => {
           reject({ ret: ReturnCode.ServerInternalError, err });
         });
+    });
+  }
+  getArticles(filterFunc) {
+    return new Promise((resolve, reject) => {
+      let articles = ArticleModel.getAll();
+      if (filterFunc) {
+        articles = articles.filter((article) => {
+          return filterFunc(article);
+        });
+      }
+      resolve(articles);
+    });
+  }
+  getByKeyword(keyword) {
+    return new Promise((resolve, reject) => {
+      keyword = keyword.toUpperCase();
+      this.getArticles((article) => {
+        if (article.author.toUpperCase().includes(keyword)) {
+          return true;
+        }
+        if (article.title.toUpperCase().includes(keyword)) {
+          return true;
+        }
+        if (article.content.toUpperCase().includes(keyword)) {
+          return true;
+        }
+        return false;
+      }).then((articles) => {
+        resolve(articles);
+      });
     });
   }
   get(args) {
