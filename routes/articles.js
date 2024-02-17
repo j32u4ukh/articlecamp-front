@@ -4,21 +4,23 @@ const Article = require("../services/article");
 const { ReturnCode, ErrorCode } = require("../utils/codes.js");
 
 router.get("/", (req, res) => {
-  res.json(Article.getAll());
+  Article.getArticles().then((articles) => {
+    res.json(articles);
+  });
 });
 
 router.post("/create", (req, res) => {
   console.log(`create: ${JSON.stringify(req.body)}`);
   const author = req.body.author;
   if (author === "") {
-    res.status(ReturnCode.BadRequest).json({
+    return res.status(ReturnCode.BadRequest).json({
       code: ErrorCode.ParamError,
       msg: "author 為必要參數",
     });
   }
   const title = req.body.title;
   if (title === "") {
-    res.status(ReturnCode.BadRequest).json({
+    return res.status(ReturnCode.BadRequest).json({
       code: ErrorCode.ParamError,
       msg: "title 為必要參數",
     });
@@ -34,6 +36,19 @@ router.post("/create", (req, res) => {
     .catch(({ ret, err }) => {
       res.status(ret).json(err);
     });
+});
+
+router.get("/search", (req, res) => {
+  const key = req.query.key;
+  if (!key) {
+    return res.status(ReturnCode.BadRequest).json({
+      code: ErrorCode.ParamError,
+      msg: "key 為必要參數",
+    });
+  }
+  Article.getByKeyword(key).then((articles) => {
+    res.json(articles);
+  });
 });
 
 router.get("/:id", (req, res) => {
