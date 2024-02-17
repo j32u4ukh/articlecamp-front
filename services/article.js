@@ -30,14 +30,15 @@ class ArticleService {
   }
   getByKeyword(keyword) {
     return new Promise((resolve, reject) => {
+      keyword = keyword.toUpperCase();
       this.getArticles((article) => {
-        if (article.author.includes(keyword)) {
+        if (article.author.toUpperCase().includes(keyword)) {
           return true;
         }
-        if (article.title.includes(keyword)) {
+        if (article.title.toUpperCase().includes(keyword)) {
           return true;
         }
-        if (article.content.includes(keyword)) {
+        if (article.content.toUpperCase().includes(keyword)) {
           return true;
         }
         return false;
