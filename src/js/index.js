@@ -6,6 +6,7 @@ const DisplayMode = {
 const BASE_URL = "http://localhost:3000";
 const API_URL = `${BASE_URL}/articles`;
 const articleContainer = document.querySelector("#article-container");
+const createArticle = document.querySelector("#createButton");
 const articles = [];
 let displayMode = DisplayMode.List;
 
@@ -125,6 +126,7 @@ function setPaginator(amount) {
   paginator.innerHTML = pages;
 }
 
+// 取得 cookie 的完整資料結構
 function getCookies() {
   const datas = document.cookie.split(";");
   let cookies = {};
@@ -144,11 +146,13 @@ function getCookies() {
   return [cookies, options];
 }
 
+// 根據 key 取得 cookie 的內容
 function getCookie(key) {
   const [cookies, _] = getCookies();
   return cookies[key];
 }
 
+// 根據 key, value 設置 cookie 的內容
 function setCookie(key, value) {
   const [cookies, options] = getCookies();
   cookies[key] = value;
@@ -156,11 +160,15 @@ function setCookie(key, value) {
   document.cookie = options.join(";");
 }
 
+// 初始化 cookie 的數據結構
 function initCookies() {
   document.cookie = `data=${JSON.stringify({})};SameSite=None;secure`;
 }
 
+// 初始化
 function init() {
+  initCookies();
+
   // 監聽 articleContainer
   articleContainer.addEventListener("click", function onArticleClicked(event) {
     if (event.target.matches(".read")) {
@@ -172,7 +180,10 @@ function init() {
     }
   });
 
-  initCookies();
+  // 新增文章按鈕
+  createArticle.addEventListener("click", function onCreateClicked(event) {
+    window.location.href = "./create.html";
+  });
 
   // searchForm.addEventListener("submit", function onSearch(event) {
   //   // 避免表單提交後的預設行為(重整頁面)
