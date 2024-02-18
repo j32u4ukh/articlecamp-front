@@ -109,6 +109,21 @@ section {
   position: relative;
 }
 
+.article-content {
+  padding: 10px;
+  background-color: #eec170;
+  border-radius: 16px;
+}
+
+.article-context article input {
+  width: 100%;
+  height: 200px;
+}
+
+.article-title {
+  margin-top: 0;
+}
+
 .article {
   height: var(--article-height);
   padding: 3px 0;
@@ -185,6 +200,10 @@ section {
   border-radius: 10px;
   font-size: 32px;
   text-align: center;
+}
+
+.read:hover{
+  cursor: pointer;
 }
 
 .add-to-favorite {
