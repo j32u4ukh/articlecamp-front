@@ -80,6 +80,10 @@ nav {
   font-size: 26px;
 }
 
+.search-btn button:hover {
+  cursor: pointer;
+}
+
 .menu {
   height: 100%;
   aspect-ratio: 1/1;
