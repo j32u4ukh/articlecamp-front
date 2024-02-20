@@ -1,6 +1,6 @@
 const DisplayMode = {
   Block: 'Block',
-  List: 'List'
+  List: 'List',
 }
 
 const BASE_URL = 'http://localhost:3000'
@@ -52,7 +52,12 @@ function renderArticle(parent, article) {
     child.innerHTML = ``
   } else {
     child = document.createElement('li')
-    child.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'article')
+    child.classList.add(
+      'list-group-item',
+      'd-flex',
+      'justify-content-between',
+      'article'
+    )
     let preview = article.content.substring(0, 20)
     if (article.content.length > 20) {
       preview += '...'
