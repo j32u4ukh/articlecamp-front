@@ -16,9 +16,10 @@ const MOVIES_PER_PAGE = 12
 const movies = []
 const icons = document.querySelector('.icons')
 const searchForm = document.querySelector('#search-form')
-const searchInput = document.querySelector('#serach-input')
+const searchInput = document.querySelector('#search-input')
+const searchButton = document.querySelector('#search-btn')
 const paginator = document.querySelector('#paginator')
-let currentMovies = []
+let currentArticles = []
 let currentPage = 1
 
 function getMoviesByPage(movies, page) {
@@ -167,7 +168,11 @@ function initCookies() {
 
 // 初始化
 function init() {
+  // 初始化 Cookie 數據結構
   initCookies()
+
+  // 重置搜尋框
+  searchInput.value = ''
 
   // 監聽 articleContainer
   articleContainer.addEventListener('click', function onArticleClicked(event) {
@@ -185,19 +190,25 @@ function init() {
     window.location.href = './create.html'
   })
 
-  // searchForm.addEventListener("submit", function onSearch(event) {
-  //   // 避免表單提交後的預設行為(重整頁面)
-  //   event.preventDefault();
-  //   let input = searchInput.value.trim().toLowerCase();
-  //   currentMovies = movies.filter((movie) => {
-  //     return movie.title.toLowerCase().includes(input);
-  //   });
-
-  //   currentMovies = currentMovies.length === 0 ? movies : currentMovies;
-  //   setPaginator(currentMovies.length);
-  //   currentPage = 1;
-  //   renderArticles(getMoviesByPage(currentMovies, currentPage));
-  // });
+  // 根據關鍵字查詢文章
+  searchButton.addEventListener('click', (event) => {
+    const input = searchInput.value.trim()
+    let url = API_URL
+    if (input !== '') {
+      url += `?keyword=${input}`
+    }
+    axios
+      .get(url)
+      .then((response) => {
+        let datas = response.data
+        articles.splice(0, articles.length)
+        articles.push(...datas)
+        renderArticles(articles)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  })
 
   // paginator.addEventListener("click", function onPageSelected(event) {
   //   event.preventDefault();
