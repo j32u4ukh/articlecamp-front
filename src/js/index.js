@@ -17,6 +17,7 @@ const movies = []
 const icons = document.querySelector('.icons')
 const searchForm = document.querySelector('#search-form')
 const searchInput = document.querySelector('#search-input')
+const searchButton = document.querySelector('.search-btn')
 const paginator = document.querySelector('#paginator')
 let currentArticles = []
 let currentPage = 1
@@ -180,16 +181,19 @@ function init() {
     window.location.href = './create.html'
   })
 
-  searchForm.addEventListener('submit', (event) => {
-    event.preventDefault()
-    const searchTerm = searchInput.value.trim().toLowerCase()
-    currentArticles = articles.filter(
-      (article) =>
-        article.title.toLowerCase().includes(searchTerm) ||
-        article.content.toLowerCase().includes(searchTerm) ||
-        article.author.toLowerCase().includes(searchTerm)
-    )
-    renderArticles(currentArticles)
+  searchButton.addEventListener('click', (event) => {
+    const target = event.target
+    if (target.classList.contains('search-btn')) {
+      console.log(target)
+      const input = searchInput.value.trim().toLowerCase()
+      currentArticles = articles.filter(
+        (article) =>
+          article.title.toLowerCase().includes(input) ||
+          article.content.toLowerCase().includes(input) ||
+          article.author.toLowerCase().includes(input)
+      )
+      renderArticles(currentArticles)
+    }
   })
 
   // searchForm.addEventListener("submit", function onSearch(event) {
