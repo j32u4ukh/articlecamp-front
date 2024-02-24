@@ -127,45 +127,6 @@ function setPaginator(amount) {
   paginator.innerHTML = pages
 }
 
-// 取得 cookie 的完整資料結構
-function getCookies() {
-  const datas = document.cookie.split(';')
-  let cookies = {}
-  const options = []
-  datas.forEach((data) => {
-    if (data.includes('=')) {
-      const [key, value] = data.split('=')
-      if (key === 'data') {
-        cookies = JSON.parse(value)
-      } else {
-        options.push(data)
-      }
-    } else {
-      options.push(data)
-    }
-  })
-  return [cookies, options]
-}
-
-// 根據 key 取得 cookie 的內容
-function getCookie(key) {
-  const [cookies, _] = getCookies()
-  return cookies[key]
-}
-
-// 根據 key, value 設置 cookie 的內容
-function setCookie(key, value) {
-  const [cookies, options] = getCookies()
-  cookies[key] = value
-  options.push(`data=${JSON.stringify(cookies)}`)
-  document.cookie = options.join(';')
-}
-
-// 初始化 cookie 的數據結構
-function initCookies() {
-  document.cookie = `data=${JSON.stringify({})};SameSite=None;secure`
-}
-
 // 初始化
 function init() {
   // 初始化 Cookie 數據結構
@@ -181,7 +142,7 @@ function init() {
       console.log(`article id: ${id}`)
       setCookie('articleId', id)
       document.cookie = `data=${JSON.stringify({ articleId: id })}`
-      window.location.href = './article.html'
+      window.location.href = `./article.html?id=${id}`
     }
   })
 
