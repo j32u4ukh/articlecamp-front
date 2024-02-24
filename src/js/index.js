@@ -181,6 +181,8 @@ function init() {
       console.log(`article id: ${id}`)
       setCookie('articleId', id)
       document.cookie = `data=${JSON.stringify({ articleId: id })}`
+      localStorage.setItem('articleId', id)
+      sessionStorage.setItem('articleId', id)
       window.location.href = `./article.html?id=${id}`
     }
   })

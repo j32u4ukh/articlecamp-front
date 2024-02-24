@@ -16,6 +16,12 @@ let parameterValue = urlParams.get('id')
 // 打印參數值
 console.log(`parameterValue: ${parameterValue}`)
 
+let local = localStorage.getItem('articleId')
+console.log(`local: ${local}`)
+
+let se = sessionStorage.getItem('articleId')
+console.log(`se: ${se}`)
+
 function renderArticle(data) {
   articleContent.innerHTML = `<h1 class="article-title">文章標題: ${data.title}</h1>
     <h3 class="article-author">文章作者: ${data.author}</h3>
