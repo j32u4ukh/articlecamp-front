@@ -181,7 +181,7 @@ function init() {
       console.log(`article id: ${id}`)
       setCookie('articleId', id)
       document.cookie = `data=${JSON.stringify({ articleId: id })}`
-      window.location.href = './article.html'
+      window.location.href = `./article.html?id=${id}`
     }
   })
 
