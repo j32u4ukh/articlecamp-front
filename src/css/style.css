@@ -198,9 +198,16 @@ section {
 
 .add-to-favorite {
   width: 20%;
-  text-align: center;
 }
 
+.edit {
+  width: 20%;
+  margin-right: 10px;
+}
+
+.edit:hover {
+  cursor: pointer;
+}
 /* .add-to-favorite-btn {
 
 } */
