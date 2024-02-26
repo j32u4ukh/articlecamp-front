@@ -4,6 +4,14 @@
   --main-padding: 20px;
   --articles-gap: 10px;
   --article-height: 90px;
+
+  --body-background-color: #ede0d4;
+  --header-background-color: #f2a65a;
+  --footer-background-color: #f2a65a;
+  --article-background-color: #eec170;
+  --read-btn-background-color: #c32f27;
+  --preview-color: #4f5d75;
+  --border-color: black;
 }
 
 * {
@@ -13,13 +21,13 @@
 
 body {
   margin: 0;
-  background-color: #ede0d4;
+  background-color: var(--body-background-color);
 }
 
 header {
   width: 100%;
   height: var(--header-footer-height);
-  background-color: #f2a65a;
+  background-color: var(--header-background-color);
   position: fixed;
   top: 0px;
   z-index: 1;
@@ -68,19 +76,6 @@ nav {
   cursor: pointer;
 }
 
-.menu {
-  height: 100%;
-  aspect-ratio: 1/1;
-  border-radius: 10px;
-  background-color: #c32f27;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* .menu-icon {
-} */
-
 .non-fixed-header {
   height: var(--header-footer-height);
 }
@@ -99,7 +94,7 @@ section {
 
 .article-content {
   padding: 10px;
-  background-color: #eec170;
+  background-color: var(--article-background-color);
   border-radius: 16px;
 }
 
@@ -117,7 +112,7 @@ section {
   padding: 3px 0;
   margin-bottom: var(--articles-gap);
   border-radius: 16px;
-  background-color: #eec170;
+  background-color: var(--article-background-color);
   display: flex;
 }
 
@@ -164,7 +159,7 @@ section {
   height: 40%;
   margin-left: 12px;
   font-size: 14px;
-  color: #4f5d75;
+  color: var(--preview-color);
   overflow: hidden;
 }
 
@@ -183,8 +178,8 @@ section {
 .read {
   width: 80%;
   margin: 0 20px;
-  background-color: #c32f27;
-  border: 2px solid #2d3142;
+  background-color: var(--read-btn-background-color);
+  border: 2px solid var(--border-color);
   border-radius: 10px;
   font-size: 32px;
   text-align: center;
@@ -199,55 +194,9 @@ section {
   text-align: center;
 }
 
-/* .add-to-favorite-btn {
-
-} */
-
 .status {
   height: 30%;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-}
-
-/* .comment {
-
-} */
-
-/* .like {
-
-} */
-
-/* .dislike {
-
-} */
-
-/* .favorite {
-	
-} */
-
-footer {
-  width: 100%;
-  height: var(--header-footer-height);
-  background-color: #f2a65a;
-  position: fixed;
-  bottom: 0px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.paginator {
-  width: 60%;
-  height: var(--nav-paginator-height);
-  background-color: #c32f27;
-
-  color: #f9c80e;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.non-fixed-footer {
-  height: var(--header-footer-height);
 }
