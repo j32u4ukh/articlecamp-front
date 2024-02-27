@@ -56,7 +56,8 @@ function renderArticle(parent, article) {
       'list-group-item',
       'd-flex',
       'justify-content-between',
-      'article'
+      'article',
+      'c-border'
     )
     let preview = article.content.substring(0, 20)
     if (article.content.length > 20) {

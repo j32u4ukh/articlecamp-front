@@ -5,13 +5,13 @@
   --articles-gap: 10px;
   --article-height: 90px;
 
-  --body-background-color: #ede0d4;
-  --header-background-color: #f2a65a;
-  --footer-background-color: #f2a65a;
-  --article-background-color: #eec170;
-  --read-btn-background-color: #c32f27;
-  --preview-color: #4f5d75;
-  --border-color: black;
+  --body-background-color: rgb(239, 236, 204);
+  --header-background-color: rgb(218, 134, 16);
+  --footer-background-color: rgb(225, 161, 64);
+  --article-background-color: rgb(244, 206, 135);
+  --read-btn-background-color: rgb(240, 99, 96);
+  --preview-color: rgb(79, 93, 117);
+  --border-color: rgb(0, 0, 0);
 }
 
 * {
