@@ -18,10 +18,7 @@ function renderArticle(data) {
         <div class="article-context">
           文章內容:
           <article>
-            <input
-              type="text"
-              value=${data.content}
-            />
+            <textarea cols="50" rows="4" value=${data.content}>${data.content}</textarea>
           </article>
         </div>
         <button class="cancel-btn">Cancel</button>
