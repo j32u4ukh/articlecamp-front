@@ -2,6 +2,7 @@ const articleId = Number(getCookie('articleId'))
 const BASE_URL = 'http://localhost:3000'
 const API_URL = `${BASE_URL}/articles/${articleId}`
 const articleContent = document.querySelector('.article-content')
+const homeIcon = document.querySelector('.icon')
 
 function renderArticle(data) {
   articleContent.innerHTML = `<h1 class="article-title">文章標題: ${data.title}</h1>
@@ -13,6 +14,10 @@ function renderArticle(data) {
       </article>
     </div>`
 }
+
+homeIcon.addEventListener('click', (e) => {
+  window.location.href = './index.html'
+})
 
 axios
   .get(API_URL)
