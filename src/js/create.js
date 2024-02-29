@@ -1,5 +1,5 @@
 const BASE_URL = 'http://localhost:3000'
-const API_URL = `${BASE_URL}/articles`
+const API_URL = `${BASE_URL}/articles/create`
 
 const submitButton = document.querySelector('.submit-btn')
 const articleTitle = document.querySelector('#article-title')
@@ -40,14 +40,3 @@ cancelButton.addEventListener('click', function cancelButtonClicked(event) {
   console.log(event)
   window.location.href = './index.html'
 })
-
-//測試觀察使用
-axios
-  .get(API_URL)
-  .then((response) => {
-    const data = response.data
-    console.log(data)
-  })
-  .catch((error) => {
-    console.log(error)
-  })
