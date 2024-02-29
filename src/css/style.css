@@ -83,14 +83,11 @@ nav {
 /* .menu-icon {
 } */
 
-.non-fixed-header {
-  height: var(--header-footer-height);
-}
-
 main {
   height: 100%;
   padding: var(--main-padding);
   position: relative;
+  margin-top: var(--header-footer-height);
 }
 
 section {
