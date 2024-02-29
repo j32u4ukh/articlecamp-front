@@ -1,64 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Articlecamp</title>
-    <link rel="stylesheet" href="../css/style.css" />
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%23c32f27'/%3E%3Ctext x='50' y='60' font-family='Arial' font-size='50' fill='%23f9c80e' text-anchor='middle' dominant-baseline='middle'%3EA%3C/text%3E%3C/svg%3E"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Noto+Sans+TC:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-  </head>
 
-  <body>
-    <!-- Header -->
-    <header>
-      <nav>
-        <div class="icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-            <!-- 圓圈 -->
-            <circle cx="50" cy="50" r="40" fill="#c32f27" />
-            <!-- 文字 "A" -->
-            <text
-              x="50"
-              y="57"
-              font-family="Arial"
-              font-size="50"
-              fill="#f9c80e"
-              text-anchor="middle"
-              dominant-baseline="middle"
-            >
-              A
-            </text>
-          </svg>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/bootstrap.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/c-style.css" />
+  
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%23c32f27'/%3E%3Ctext x='50' y='60' font-family='Arial' font-size='50' fill='%23f9c80e' text-anchor='middle' dominant-baseline='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Noto+Sans+TC:wght@400;700&display=swap"
+    rel="stylesheet" />
+
+  <title>Articlecamp</title>
+</head>
+
+<body>
+  <!-- Header -->
+  <header>
+    <nav>
+      <div class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+          <!-- 圓圈 -->
+          <circle cx="50" cy="50" r="40" fill="#c32f27" />
+          <!-- 文字 "A" -->
+          <text x="50" y="57" font-family="Arial" font-size="50" fill="#f9c80e" text-anchor="middle"
+            dominant-baseline="middle">
+            A
+          </text>
+        </svg>
+      </div>
+      <div class="search-container d-flex c-flex-axis0-center">
+        <div id="search-form" class="search-bar">
+          <input id="search-input" type="text" placeholder="Search..." name="search" value="">
+          <button id="search-btn" class="btn c-border">Search</button>
         </div>
-        <div class="search-container">
-          <div id="search-form" class="search-bar">
-            <input
-              id="search-input"
-              type="text"
-              placeholder="Search..."
-              name="search"
-              value=""
-            />
-            <button id="search-btn">Search</button>
-          </div>
-        </div>
-        <div>
-          <!-- type="submit" 的 <button> 用於提交表單，而未指定 type 的 <button> 通常用於其他目的，例如 JavaScript 事件處理程序。 -->
-          <button id="createButton">Create</button>
-        </div>
-      </nav>
-    </header>
-    <div class="non-fixed-header"></div>
+      </div>
+      <div class="d-flex c-flex-axis0-center">
+        <!-- type="submit" 的 <button> 用於提交表單，而未指定 type 的 <button> 通常用於其他目的，例如 JavaScript 事件處理程序。 -->
+        <button id="createButton" class="btn c-border m-1">Create</button>
+      </div>
+    </nav>
+  </header>
 
     <main>
       <!-- Article list -->
@@ -95,23 +82,16 @@
             </div>
           </div>
         </div> -->
-      </section>
-    </main>
-
-    <!-- Footer -->
-    <footer>
-      <div class="paginator">[Paginator]</div>
-    </footer>
-    <div class="non-fixed-footer"></div>
+    </section>
+  </main>
 
     <!-- Script -->
     <!-- axios -->
     <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
 
-    <script
-      src="https://kit.fontawesome.com/6fb9682f78.js"
-      crossorigin="anonymous"
-    ></script>
-    <script src="../js/index.js"></script>
-  </body>
+  <script src="https://kit.fontawesome.com/6fb9682f78.js" crossorigin="anonymous"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/index.js"></script>
+</body>
+
 </html>

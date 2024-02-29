@@ -2,6 +2,7 @@ const articleId = Number(getCookie('articleId'))
 const BASE_URL = 'http://localhost:3000'
 const API_URL = `${BASE_URL}/articles/${articleId}`
 const articleContent = document.querySelector('.article-content')
+const homeIcon = document.querySelector('.icon')
 
 function renderArticle(data) {
   articleContent.innerHTML = `<h1 class="article-title">文章標題: ${data.title}</h1>
@@ -14,45 +15,25 @@ function renderArticle(data) {
     </div>`
 }
 
-function getCookies() {
-  const datas = document.cookie.split(';')
-  let cookies = {}
-  const options = []
-  datas.forEach((data) => {
-    if (data.includes('=')) {
-      const [key, value] = data.split('=')
-      if (key === 'data') {
-        cookies = JSON.parse(value)
-      } else {
-        options.push(data)
-      }
-    } else {
-      options.push(data)
-    }
+;(function init() {
+  homeIcon.addEventListener('click', (e) => {
+    window.location.href = './index.html'
   })
-  return [cookies, options]
-}
 
-function getCookie(key) {
-  const [cookies, _] = getCookies()
-  return cookies[key]
-}
+  // TODO: 編輯按鈕添加下方監聽處理
+  // const id = Number(event.target.dataset.id)
+  // console.log(`article id: ${id}`)
+  // setCookie('articleId', id)
+  // document.cookie = `data=${JSON.stringify({ articleId: id })}`
+  // window.location.href = './edit.html'
 
-function setCookie(key, value) {
-  const [cookies, options] = getCookies()
-  cookies[key] = value
-  options.push(`data=${JSON.stringify(cookies)}`)
-  document.cookie = options.join(';')
-}
-
-axios
-  .get(API_URL)
-  .then((response) => {
-    const data = response.data
-    // console.log(data)
-    // console.log(typeof data)
-    renderArticle(data)
-  })
-  .catch((error) => {
-    console.log(error)
-  })
+  axios
+    .get(API_URL)
+    .then((response) => {
+      const data = response.data
+      renderArticle(data)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+})()
