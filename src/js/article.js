@@ -15,16 +15,25 @@ function renderArticle(data) {
     </div>`
 }
 
-homeIcon.addEventListener('click', (e) => {
-  window.location.href = './index.html'
-})
+;(function init() {
+  homeIcon.addEventListener('click', (e) => {
+    window.location.href = './index.html'
+  })
 
-axios
-  .get(API_URL)
-  .then((response) => {
-    const data = response.data
-    renderArticle(data)
-  })
-  .catch((error) => {
-    console.log(error)
-  })
+  // TODO: 編輯按鈕添加下方監聽處理
+  // const id = Number(event.target.dataset.id)
+  // console.log(`article id: ${id}`)
+  // setCookie('articleId', id)
+  // document.cookie = `data=${JSON.stringify({ articleId: id })}`
+  // window.location.href = './edit.html'
+
+  axios
+    .get(API_URL)
+    .then((response) => {
+      const data = response.data
+      renderArticle(data)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+})()
