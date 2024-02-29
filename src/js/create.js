@@ -6,6 +6,7 @@ const articleTitle = document.querySelector('#article-title')
 const articleAuthor = document.querySelector('#article-author')
 const articleContext = document.querySelector('#article-context')
 const cancelButton = document.querySelector('.cancel-btn')
+const homeIcon = document.querySelector('.icon')
 
 // 新增文章後，送出 API 請求
 function createArticleAPI(article_Author, article_Title, article_Context) {
@@ -15,8 +16,15 @@ function createArticleAPI(article_Author, article_Title, article_Context) {
       title: article_Title,
       content: article_Context,
     })
-    .then((response) => console.log(response))
-    .catch((error) => console.log(error))
+    .then((response) => {
+      // console.log(response)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+    .finally(() => {
+      window.location.href = './index.html'
+    })
 }
 
 // 新增文章按鈕，按下後，確認欄位填寫，新增文章
@@ -40,8 +48,6 @@ cancelButton.addEventListener('click', function cancelButtonClicked(event) {
   console.log(event)
   window.location.href = './index.html'
 })
-
-const homeIcon = document.querySelector('.icon')
 
 homeIcon.addEventListener('click', (e) => {
   window.location.href = './index.html'
