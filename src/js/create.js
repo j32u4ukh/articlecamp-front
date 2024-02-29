@@ -13,7 +13,7 @@ function createArticleAPI(article_Author, article_Title, article_Context) {
     .post(API_URL, {
       author: article_Author,
       title: article_Title,
-      content: article_Context
+      content: article_Context,
     })
     .then((response) => console.log(response))
     .catch((error) => console.log(error))
@@ -38,5 +38,11 @@ submitButton.addEventListener('click', function createArticleClicked(event) {
 // 取消新增文章，按下按鈕返回首頁
 cancelButton.addEventListener('click', function cancelButtonClicked(event) {
   console.log(event)
+  window.location.href = './index.html'
+})
+
+const homeIcon = document.querySelector('.icon')
+
+homeIcon.addEventListener('click', (e) => {
   window.location.href = './index.html'
 })

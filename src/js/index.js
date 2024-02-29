@@ -19,6 +19,7 @@ const searchForm = document.querySelector('#search-form')
 const searchInput = document.querySelector('#search-input')
 const searchButton = document.querySelector('#search-btn')
 const paginator = document.querySelector('#paginator')
+const homeIcon = document.querySelector('.icon')
 let currentArticles = []
 let currentPage = 1
 
@@ -82,6 +83,9 @@ function renderArticle(parent, article) {
           <div class="add-to-favorite">
               <i class="fa-regular fa-heart add-to-favorite-btn"></i>
           </div>
+          <div class="edit">
+              <i class="fa-solid fa-pen-to-square edit-btn" data-id=${article.id}></i>
+          </div>
       </div>
       <div class="status">
           <i class="fa-solid fa-comment comment"> 88</i>
@@ -129,7 +133,7 @@ function setPaginator(amount) {
 }
 
 // 初始化
-function init() {
+;(function init() {
   // 初始化 Cookie 數據結構
   initCookies()
 
@@ -142,7 +146,6 @@ function init() {
       const id = Number(event.target.dataset.id)
       console.log(`article id: ${id}`)
       setCookie('articleId', id)
-      document.cookie = `data=${JSON.stringify({ articleId: id })}`
       window.location.href = `./article.html?id=${id}`
     }
   })
@@ -172,41 +175,16 @@ function init() {
       })
   })
 
-  // paginator.addEventListener("click", function onPageSelected(event) {
-  //   event.preventDefault();
-  //   let target = event.target;
-
-  //   if (target.matches(".page-item")) {
-  //     let a = target.children[0];
-  //     currentPage = Number(a.innerHTML);
-  //     renderArticles(getMoviesByPage(currentMovies, currentPage));
-  //   } else if (target.matches(".page-link")) {
-  //     currentPage = Number(target.innerHTML);
-  //     renderArticles(getMoviesByPage(currentMovies, currentPage));
-  //   }
-  // });
-
-  // icons.addEventListener("click", function onIconClicked(event) {
-  //   let target = event.target;
-  //   let needRender = false;
-  //   if (target.matches(".fa-bars") && displayMode !== DisplayMode.List) {
-  //     needRender = true;
-  //     displayMode = DisplayMode.List;
-  //   } else if (target.matches(".fa-th") && displayMode !== DisplayMode.Block) {
-  //     needRender = true;
-  //     displayMode = DisplayMode.Block;
-  //   }
-  //   if (needRender) {
-  //     renderArticles(getMoviesByPage(currentMovies, currentPage));
-  //   }
-  // });
+  homeIcon.addEventListener('click', (e) => {
+    window.location.href = './index.html'
+  })
 
   axios
     .get(API_URL)
     .then((response) => {
       let datas = response.data
       articles.push(...datas)
-      // currentMovies = movies;
+      // currentMovies = movies;ㄋ
       // setPaginator(movies.length);
       // currentPage = 1;
       // renderArticles(getMoviesByPage(movies, currentPage));
@@ -215,6 +193,4 @@ function init() {
     .catch((error) => {
       console.log(error)
     })
-}
-
-init()
+})()

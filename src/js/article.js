@@ -2,6 +2,7 @@ const articleId = Number(getCookie('articleId'))
 const BASE_URL = 'http://localhost:3000'
 const API_URL = `${BASE_URL}/articles/${articleId}`
 const articleContent = document.querySelector('.article-content')
+const homeIcon = document.querySelector('.icon')
 
 function renderArticle(data) {
   articleContent.innerHTML = `<h1 class="article-title">文章標題: ${data.title}</h1>
@@ -14,12 +15,25 @@ function renderArticle(data) {
     </div>`
 }
 
-axios
-  .get(API_URL)
-  .then((response) => {
-    const data = response.data
-    renderArticle(data)
+;(function init() {
+  homeIcon.addEventListener('click', (e) => {
+    window.location.href = './index.html'
   })
-  .catch((error) => {
-    console.log(error)
-  })
+
+  // TODO: 編輯按鈕添加下方監聽處理
+  // const id = Number(event.target.dataset.id)
+  // console.log(`article id: ${id}`)
+  // setCookie('articleId', id)
+  // document.cookie = `data=${JSON.stringify({ articleId: id })}`
+  // window.location.href = './edit.html'
+
+  axios
+    .get(API_URL)
+    .then((response) => {
+      const data = response.data
+      renderArticle(data)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+})()
