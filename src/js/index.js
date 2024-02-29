@@ -19,6 +19,7 @@ const searchForm = document.querySelector('#search-form')
 const searchInput = document.querySelector('#search-input')
 const searchButton = document.querySelector('#search-btn')
 const paginator = document.querySelector('#paginator')
+const homeIcon = document.querySelector('.icon')
 let currentArticles = []
 let currentPage = 1
 
@@ -170,6 +171,10 @@ function init() {
       .catch((error) => {
         console.log(error)
       })
+  })
+
+  homeIcon.addEventListener('click', (e) => {
+    window.location.href = './index.html'
   })
 
   // paginator.addEventListener("click", function onPageSelected(event) {
