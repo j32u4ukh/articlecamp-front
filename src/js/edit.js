@@ -60,32 +60,31 @@ function renderArticle(data) {
     const current = Object.values(currentArticle)
     console.log(`originalArticle: ${JSON.stringify(originalArticle)}`)
     console.log(`currentArticle: ${JSON.stringify(currentArticle)}`)
-    const check = origial.some((value, index) => {
+    const isUpdated = origial.some((value, index) => {
       return value !== current[index]
     })
-    if (!check) {
+    if (isUpdated) {
       console.log('Content updated, ready to submit.')
+      console.log(
+        `API_URL: ${API_URL}, currentArticle: ${JSON.stringify(currentArticle)}`
+      )
+      axios
+        .put(API_URL, currentArticle)
+        .then(() => {
+          // console.log(response)
+          window.location.href = './index.html'
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     } else {
       console.log("Didn't update any content.")
     }
-
-    console.log(
-      `API_URL: ${API_URL}, currentArticle: ${JSON.stringify(currentArticle)}`
-    )
-    axios
-      .put(API_URL, currentArticle)
-      .then((response) => {
-        window.location.href = './index.html'
-        console.log(response)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
   })
 
   // cancel-btn，回到 index.html
   cancelArticle.addEventListener('click', function (event) {
-    console.log(event)
+    // console.log(event)
     window.location.href = './index.html'
   })
 
