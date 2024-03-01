@@ -15,14 +15,12 @@ function renderArticle(data) {
 }
 
 ;(function init() {
-  homeIcon.addEventListener('click', (e) => {
+  homeIcon.addEventListener('click', () => {
     window.location.href = './index.html'
   })
 
   // 編輯文章按鈕
-  editArticle.addEventListener('click', function (event) {
-    // const id = Number(event.target.dataset.id)
-    // setCookie('articleId', id)
+  editArticle.addEventListener('click', function () {
     window.location.href = './edit.html'
   })
 

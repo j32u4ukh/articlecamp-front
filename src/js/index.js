@@ -188,7 +188,7 @@ function setPaginator(amount) {
     .then((response) => {
       let datas = response.data
       articles.push(...datas)
-      // currentMovies = movies;ㄋ
+      // currentMovies = movies;
       // setPaginator(movies.length);
       // currentPage = 1;
       // renderArticles(getMoviesByPage(movies, currentPage));
