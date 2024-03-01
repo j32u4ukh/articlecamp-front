@@ -1,70 +1,38 @@
-function getCookies() {
-  const datas = document.cookie.split(";");
-  let cookies = {};
-  const options = [];
-  datas.forEach((data) => {
-    if (data.includes("=")) {
-      const [key, value] = data.split("=");
-      if (key === "data") {
-        cookies = JSON.parse(value);
-      } else {
-        options.push(data);
-      }
-    } else {
-      options.push(data);
-    }
-  });
-  return [cookies, options];
-}
-
-function getCookie(key) {
-  const [cookies, _] = getCookies();
-  return cookies[key];
-}
-
-function setCookie(key, value) {
-  const [cookies, options] = getCookies();
-  cookies[key] = value;
-  options.push(`data=${JSON.stringify(cookies)}`);
-  document.cookie = options.join(";");
-}
-
-const articleId = Number(getCookie("articleId"));
-console.log(`articleId: ${articleId}`);
-
-
-
-// GPT版本
-// function getCookie(key) {
-//   const cookies = document.cookie.split('; ')
-//       .reduce((acc, cookie) => {
-//           const [name, value] = cookie.split('=');
-//           acc[name] = value;
-//           return acc;
-//       }, {});
-//   return cookies[key];
-// }
-
-// function setCookie(key, value) {
-//   document.cookie = `${key}=${value}`;
-// }
-
-// const articleId = Number(getCookie("articleId"));
-// console.log(`articleId: ${articleId}`);
-
-
-
-
-
-
-// 編輯文章按鈕
+const articleId = Number(getCookie('articleId'))
+const BASE_URL = 'http://localhost:3000'
+const API_URL = `${BASE_URL}/articles/${articleId}`
+const articleContent = document.querySelector('.article-content')
+const homeIcon = document.querySelector('.icon')
 const editArticle = document.querySelector('#editButton')
-editArticle.addEventListener('click', function (event) {
-  console.log(event)
-  window.location.href = "../html/edit.html"
-})
+const title = document.querySelector('.article-title')
+const author = document.querySelector('.article-author')
+const context = document.querySelector('.article-context')
 
-//
-// createArticle.addEventListener('click', function onCreateClicked(event) {
-//   window.location.href = './create.html'
-// }) 
+function renderArticle(data) {
+  title.innerHTML = `文章標題: ${data.title}`
+  author.innerHTML = `文章作者: ${data.author}`
+  context.innerHTML = data.content
+}
+
+;(function init() {
+  homeIcon.addEventListener('click', (e) => {
+    window.location.href = './index.html'
+  })
+
+  // 編輯文章按鈕
+  editArticle.addEventListener('click', function (event) {
+    // const id = Number(event.target.dataset.id)
+    // setCookie('articleId', id)
+    window.location.href = './edit.html'
+  })
+
+  axios
+    .get(API_URL)
+    .then((response) => {
+      const data = response.data
+      renderArticle(data)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+})()
