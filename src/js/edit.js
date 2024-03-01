@@ -75,7 +75,7 @@ function renderArticle(data) {
     axios
       .put(API_URL, currentArticle)
       .then((response) => {
-        // window.location.href = './index.html'
+        window.location.href = './index.html'
         console.log(response)
       })
       .catch((error) => {
