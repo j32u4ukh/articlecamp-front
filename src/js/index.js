@@ -142,11 +142,15 @@ function setPaginator(amount) {
 
   // 監聽 articleContainer
   articleContainer.addEventListener('click', function onArticleClicked(event) {
+    const id = Number(event.target.dataset.id)
+    console.log(`article id: ${id}`)
+
     if (event.target.matches('.read')) {
-      const id = Number(event.target.dataset.id)
-      console.log(`article id: ${id}`)
       setCookie('articleId', id)
       window.location.href = `./article.html?id=${id}`
+    } else if (event.target.matches('.edit-btn')) {
+      setCookie('articleId', id)
+      window.location.href = './edit.html'
     }
   })
 
