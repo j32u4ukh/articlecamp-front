@@ -11,24 +11,41 @@ const BASE_URL = 'http://localhost:3000'
 const API_URL = `${BASE_URL}/articles/${articleId}`
 
 // DOM 抓取 class article-content
-const articleContent = document.querySelector('.article-content')
+const articleInput = document.querySelectorAll('.article-content input')
+const submitBtn = document.querySelector('.submit-btn')
+
+// cancel-btn，回到article.html
+const cancelArticle = document.querySelector('.cancel-btn')
+
+const panel = document.querySelector('.article-content')
+const title = document.querySelector('#title')
+const author = document.querySelector('#author')
+const context = document.querySelector('#context')
+
+const originalArticle = {}
+let currentArticle = {}
 
 /* 根據 getCookie articleId 動態渲染 HTML */
 function renderArticle(data) {
-  articleContent.innerHTML = `<h1 class="article-title">
-      文章標題: <input type="text" value=${data.title} />
-    </h1>
-    <h3 class="article-author">
-      文章作者: <input type="text" value=${data.author} />
-    </h3>
-    <div class="article-context">
-      文章內容:
-      <article>
-        <textarea cols="50" rows="4" value=${data.content}>${data.content}</textarea>
-      </article>
-    </div>
-    <button class="cancel-btn">Cancel</button>
-    <button class="submit-btn">Submit</button>`
+  panel.addEventListener('change', function onDataChanged(e) {
+    const target = e.target
+    const key = target.dataset.key
+    if (key) {
+      currentArticle[key] = target.value
+      console.log(`New currentArticle: ${JSON.stringify(currentArticle)}`)
+    }
+  })
+
+  console.log(`data: ${JSON.stringify(data)}`)
+  title.value = data.title
+  author.value = data.author
+  context.value = data.content
+  originalArticle.title = data.title
+  originalArticle.author = data.author
+  originalArticle.content = data.content
+  currentArticle = Object.assign({}, originalArticle)
+  console.log(`originalArticle: ${JSON.stringify(originalArticle)}`)
+  console.log(`currentArticle: ${JSON.stringify(currentArticle)}`)
 }
 
 ;(function init() {
@@ -38,10 +55,47 @@ function renderArticle(data) {
     window.location.href = './index.html'
   })
 
+  submitBtn.addEventListener('click', (e) => {
+    const origial = Object.values(originalArticle)
+    const current = Object.values(currentArticle)
+    console.log(`originalArticle: ${JSON.stringify(originalArticle)}`)
+    console.log(`currentArticle: ${JSON.stringify(currentArticle)}`)
+    const check = origial.some((value, index) => {
+      return value !== current[index]
+    })
+    if (!check) {
+      console.log('Content updated, ready to submit.')
+    } else {
+      console.log("Didn't update any content.")
+    }
+
+    console.log(
+      `API_URL: ${API_URL}, currentArticle: ${JSON.stringify(currentArticle)}`
+    )
+    axios
+      .put(API_URL, currentArticle)
+      .then((response) => {
+        // window.location.href = './index.html'
+        console.log(response)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  })
+
+  // cancel-btn，回到 index.html
+  cancelArticle.addEventListener('click', function (event) {
+    console.log(event)
+    window.location.href = './index.html'
+  })
+
+  console.log(`API_URL: ${API_URL}`)
+
   axios
     .get(API_URL)
     .then((response) => {
       const data = response.data
+      console.log('Get data: ' + data)
       renderArticle(data)
     })
     .catch((error) => {

@@ -39,22 +39,33 @@
             </text>
           </svg>
         </div>
+
+      <!-- 編輯按鈕 -->
+      <button id="editButton">
+        <i class="fa-solid fa-pen-to-square" style="font-size: 30px;"></i>
+      </button>
+
       </nav>
     </header>
+    <div class="non-fixed-header"></div>
 
-    <main>
-      <section id="article-container">
-        <div class="article-content">
-          <!--渲染start-->
-
-          <!--渲染End-->
+  <main>
+    <section id="article-container">
+      <div class="article-content">
+        <h1 class="article-title">文章標題:</h1>
+        <h3 class="article-author">文章作者:</h3>
+        <div class="article-context">
+          文章內容:
+          <article id="context">
+          </article>
         </div>
-      </section>
-    </main>
+      </div>
+    </section>
+  </main>
 
-    <!-- Script -->
-    <!-- axios -->
-    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+  <!-- Script -->
+  <!-- axios -->
+  <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
 
     <script
       src="https://kit.fontawesome.com/6fb9682f78.js"
