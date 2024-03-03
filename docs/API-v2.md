@@ -66,7 +66,7 @@
     }
 
 * GET /v2/images/:fileName
-    * 供 <img src="/v2/images/:fileName"> 使用，因此無需自行發送請求或是處理回應
+    * 供 `<img src="/v2/images/:fileName">` 使用，因此無需自行發送請求或是處理回應
 
 * POST /v2/images
     * 更新用戶圖片
