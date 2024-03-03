@@ -1,16 +1,17 @@
 const express = require('express')
 const router = express.Router()
-const { Article1 } = require('../../services/article')
+const { Article2 } = require('../../services/article.js')
 const { ReturnCode, ErrorCode } = require('../../utils/codes.js')
+const VERSION = 2
 
 router.get('/', (req, res) => {
   const keyword = req.query.keyword
   if (keyword) {
-    Article1.getByKeyword({ keyword }).then((articles) => {
+    Article2.getByKeyword({ keyword }).then((articles) => {
       res.json(articles)
     })
   } else {
-    Article1.getArticles().then((articles) => {
+    Article2.getArticles().then((articles) => {
       res.json(articles)
     })
   }
@@ -32,7 +33,7 @@ router.post('/create', (req, res) => {
       msg: 'title 為必要參數',
     })
   }
-  Article1.add({
+  Article2.add({
     author,
     title,
     content: req.body.content,
@@ -46,7 +47,7 @@ router.post('/create', (req, res) => {
 })
 
 router.get('/:id', (req, res) => {
-  Article1.get({
+  Article2.get({
     id: Number(req.params.id),
   })
     .then((result) => {
@@ -58,7 +59,7 @@ router.get('/:id', (req, res) => {
 })
 
 router.put('/:id', (req, res) => {
-  Article1.update({
+  Article2.update({
     id: Number(req.params.id),
     article: req.body,
   })
@@ -71,7 +72,7 @@ router.put('/:id', (req, res) => {
 })
 
 router.delete('/:id', (req, res) => {
-  Article1.delete({
+  Article2.delete({
     id: Number(req.params.id),
   })
     .then((result) => {

@@ -2,13 +2,9 @@
 const express = require("express");
 const router = express.Router();
 
-// API-v1
-const v1 = require("./v1");
-router.use("/v1", v1);
-
-// API-v2
-const v2 = require("./v2");
-router.use("/v2", v2);
+// 準備引入路由模組
+const articles = require("./articles");
+router.use("/articles", articles);
 
 // 匯出路由器
 module.exports = router;
