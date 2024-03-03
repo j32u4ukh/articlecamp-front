@@ -6,8 +6,5 @@ const router = express.Router();
 const articles = require("./articles");
 router.use("/articles", articles);
 
-const v1 = require("./v1");
-router.use("/v1", v1);
-
 // 匯出路由器
 module.exports = router;
