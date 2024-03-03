@@ -2,13 +2,31 @@
 
 ## 表格結構
 
-### Article
-* id: 1,
-* author: "Author Name",
-* title: "This is title",
-* content: "This is content",
-* createAt: 1705819929,
-* updateAt: 1705819929 (為 UTC+0 的時間戳，前端需要自行轉換成需要的格式)
+### articls 文章
+* number id: 文章 ID
+* string author: 作者名稱
+* string title: 標題
+* string content: 內文
+* number createAt: 生成時間戳(UTC+0)
+* number updateAt: 更新時間戳(UTC+0)
+
+### users 用戶
+* number id: 用戶 ID
+* string name: 用戶名稱
+* string email: 用戶信箱
+* string password: 用戶密碼
+* array categories: 用戶文章前三主要分類(每次新增或更新文章時，同步更新此欄位)
+
+### messages 留言
+* number id: 留言 ID
+* number user_id: 作者用戶 ID
+* string message: 留言內文
+* number createAt: 生成時間戳(UTC+0)
+
+### follows 追隨關係
+* number id: 追隨關係 ID
+* number user_id: 用戶 ID
+* number follow_id: 被追隨的用戶 ID
 
 ## API 方法與 url
 
