@@ -6,7 +6,7 @@ const ReturnCode = {
   Forbidden: 403,
   NotFound: 404,
   ServerInternalError: 500,
-};
+}
 
 const ErrorCode = {
   None: 0,
@@ -15,6 +15,6 @@ const ErrorCode = {
   ReadError: 3,
   UpdateError: 4,
   DeleteError: 5,
-};
+}
 
-module.exports = { ReturnCode, ErrorCode };
+module.exports = { ReturnCode, ErrorCode }
