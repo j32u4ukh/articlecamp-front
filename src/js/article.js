@@ -1,5 +1,4 @@
 const articleId = Number(getCookie('articleId'))
-const BASE_URL = 'http://localhost:3000'
 const API_URL = `${BASE_URL}/articles/${articleId}`
 const articleContent = document.querySelector('.article-content')
 const homeIcon = document.querySelector('.icon')

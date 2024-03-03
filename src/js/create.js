@@ -1,4 +1,3 @@
-const BASE_URL = 'http://localhost:3000'
 const API_URL = `${BASE_URL}/articles/create`
 
 const submitButton = document.querySelector('.submit-btn')

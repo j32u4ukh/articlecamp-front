@@ -1,3 +1,7 @@
+const VERSION = 2
+const PORT = 3000
+const BASE_URL = `http://localhost:${PORT}/v${VERSION}`
+
 // 取得 cookie 的完整資料結構
 function getCookies() {
   const datas = document.cookie.split(';')

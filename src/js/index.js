@@ -3,7 +3,6 @@ const DisplayMode = {
   List: 'List',
 }
 
-const BASE_URL = 'http://localhost:3000'
 const API_URL = `${BASE_URL}/articles`
 const articleContainer = document.querySelector('#article-container')
 const createArticle = document.querySelector('#createButton')
