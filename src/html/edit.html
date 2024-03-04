@@ -5,7 +5,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../css/reset.css" />
+    <!-- <link rel="stylesheet" href="../css/reset.css" /> -->
     <link rel="stylesheet" href="../css/style.css" />
     <link
       rel="icon"
@@ -41,18 +41,18 @@
 
   <main>
     <div class="article-content">
-      <h1 class="article-title">
-      文章標題: <input type="text" id="title" data-key="title"/>
-    </h1>
-    <h3 class="article-author">
-      文章作者: <input type="text" id="author" data-key="author"/>
-    </h3>
-    <div class="article-context">
-      文章內容:
-      <article>
-        <textarea cols="50" rows="4" id="context" data-key="content"></textarea>
-      </article>
-    </div>
+      <label class="article-title">
+        文章標題: <input type="text" id="title" data-key="title"/>
+      </label><br/>
+      <label class="article-author">
+        文章作者: <input type="text" id="author" data-key="author"/>
+      </label>
+      <div class="article-context">
+        文章內容:
+        <article>
+          <textarea cols="50" rows="4" id="context" data-key="content"></textarea>
+        </article>
+      </div>
       <button class="cancel-btn">Cancel</button>
       <button class="submit-btn">Submit</button>
     </div>
