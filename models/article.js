@@ -1,5 +1,4 @@
 const fs = require('fs')
-const FILE_PATH = './public/data/articles.json'
 const { ErrorCode } = require('../utils/codes.js')
 
 class ArticleModel {
@@ -63,7 +62,7 @@ class ArticleModel {
       }
     })
   }
-  //取得所有文章
+  // 取得所有文章
   getAll() {
     return this.articles
   }
@@ -78,7 +77,16 @@ class ArticleModel {
     }
     return { index: -1, data: null }
   }
-  // 根據文章 id 取得指定文章
+  getList(func) {
+    if (func) {
+      return this.articles.filter((article) => {
+        return func(article)
+      })
+    } else {
+      return this.articles
+    }
+  }
+  // 根據文章 id 更新指定文章
   update(id, article) {
     return new Promise((resolve, reject) => {
       const { index, data } = this.get(id)

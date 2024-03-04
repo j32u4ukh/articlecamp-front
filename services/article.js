@@ -6,14 +6,10 @@ class ArticleService {
     this.version = version
     this.model = version === 1 ? Article1 : Article2
   }
-  add({ author, title, content }) {
+  add(article) {
     return new Promise((resolve, reject) => {
       this.model
-        .add({
-          author,
-          title,
-          content,
-        })
+        .add(article)
         .then((article) => {
           resolve(article)
         })
@@ -22,21 +18,16 @@ class ArticleService {
         })
     })
   }
-  getArticles(filterFunc) {
+  getList(filterFunc) {
     return new Promise((resolve, reject) => {
-      let articles = this.model.getAll()
-      if (filterFunc) {
-        articles = articles.filter((article) => {
-          return filterFunc(article)
-        })
-      }
+      const articles = this.model.getList(filterFunc)
       resolve(articles)
     })
   }
   getByKeyword({ keyword }) {
     return new Promise((resolve, reject) => {
       keyword = keyword.toUpperCase()
-      this.getArticles((article) => {
+      this.getList((article) => {
         if (article.author.toUpperCase().includes(keyword)) {
           return true
         }

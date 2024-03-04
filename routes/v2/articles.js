@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router()
 const { Article2 } = require('../../services/article.js')
 const { ReturnCode, ErrorCode } = require('../../utils/codes.js')
-const VERSION = 2
 
 router.get('/', (req, res) => {
   const keyword = req.query.keyword
@@ -11,7 +10,7 @@ router.get('/', (req, res) => {
       res.json(articles)
     })
   } else {
-    Article2.getArticles().then((articles) => {
+    Article2.getList().then((articles) => {
       res.json(articles)
     })
   }

@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
       res.json(articles)
     })
   } else {
-    Article1.getArticles().then((articles) => {
+    Article1.getList().then((articles) => {
       res.json(articles)
     })
   }
