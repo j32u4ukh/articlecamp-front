@@ -1,12 +1,12 @@
-const articleId = Number(getCookie('articleId'))
-const BASE_URL = 'http://localhost:3000'
-const API_URL = `${BASE_URL}/articles/${articleId}`
 const articleContent = document.querySelector('.article-content')
 const homeIcon = document.querySelector('.icon')
 const editArticle = document.querySelector('#editButton')
 const title = document.querySelector('.article-title')
 const author = document.querySelector('.article-author')
 const context = document.querySelector('.article-context')
+
+const articleId = Number(getCookie('articleId'))
+const API_URL = `${BASE_URL}/articles/${articleId}`
 
 function renderArticle(data) {
   title.innerHTML = `文章標題: ${data.title}`

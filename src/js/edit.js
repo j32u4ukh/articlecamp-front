@@ -1,15 +1,6 @@
 // 取得 Logo 物件
 const homeIcon = document.querySelector('.icon')
 
-// 使用 getCookie 取得 articleId 將 String 轉型成 Number
-const articleId = Number(getCookie('articleId'))
-
-// API 主機
-const BASE_URL = 'http://localhost:3000'
-
-// 根據指定的 Id 取得資料
-const API_URL = `${BASE_URL}/articles/${articleId}`
-
 // DOM 抓取 class article-content
 const submitBtn = document.querySelector('.submit-btn')
 
@@ -20,6 +11,12 @@ const panel = document.querySelector('.article-content')
 const title = document.querySelector('#title')
 const author = document.querySelector('#author')
 const context = document.querySelector('#context')
+
+// 使用 getCookie 取得 articleId 將 String 轉型成 Number
+const articleId = Number(getCookie('articleId'))
+
+// 根據指定的 Id 取得資料
+const API_URL = `${BASE_URL}/articles/${articleId}`
 
 const originalArticle = {}
 let currentArticle = {}

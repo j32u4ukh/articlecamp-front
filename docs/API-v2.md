@@ -65,10 +65,10 @@
         token: xxx,
     }
 
-* GET /v2/images/:fileName
+* GET /v2/users/images/:fileName
     * 供 `<img src="/v2/images/:fileName">` 使用，因此無需自行發送請求或是處理回應
 
-* POST /v2/images
+* POST /v2/users/images
     * 更新用戶圖片
     * Request 數據格式：[bytes array]
     * Request header: 使用登入時給的 token 作為辨識用戶的代碼
@@ -190,6 +190,21 @@
         ],
     }
     ```
+* GET /v2/articles/categories
+    * 返回文章分類列表
+    * Response 數據格式：
+    ```
+    [
+       {
+        code: 0,
+        category: aaa,
+       },
+       {
+        code: 1,
+        category: bbb,
+       }    
+    ]
+    ```
 * POST /v2/articles/create
     * 新增文章
     * Request 數據格式：
@@ -266,6 +281,30 @@
         author: "Author Name",
         title: "This is title",
         content: "This is new content",
+        updateAt: 1705840000,
+    }
+    ```
+* POST /v2/articles/:id/messages
+    * 新增文章留言
+    * Request 數據格式：
+    ```
+    {
+        user_id: 4,
+        article_id: 3,
+        message: "This is message",
+    }
+    ```
+    * Request header: 使用登入時給的 token 作為辨識用戶的代碼
+    ```
+    token = xxx
+    ```
+    * Response 數據格式：
+    ```
+    {
+        id: 3,
+        user_id: 4,
+        article_id: 3,
+        message: "This is message",
         updateAt: 1705840000,
     }
     ```
