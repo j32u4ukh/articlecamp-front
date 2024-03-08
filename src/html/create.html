@@ -1,0 +1,66 @@
+<!-- 新增文章頁面 -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Articlecamp</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%23c32f27'/%3E%3Ctext x='50' y='60' font-family='Arial' font-size='50' fill='%23f9c80e' text-anchor='middle' dominant-baseline='middle'%3EA%3C/text%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Noto+Sans+TC:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+<body>
+  <!-- Header -->
+  <header>
+    <nav>
+      <div class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+          <!-- 圓圈 -->
+          <circle cx="50" cy="50" r="40" fill="#c32f27" />
+          <!-- 文字 "A" -->
+          <text x="50" y="57" font-family="Arial" font-size="50" fill="#f9c80e" text-anchor="middle"
+            dominant-baseline="middle">
+            A
+          </text>
+        </svg>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="article-content">
+      <h1 class="article-title">文章標題: <input type="text" value="" id="article-title"></h1>
+      <h3 class="article-author">文章作者: <input type="text" value="" id="article-author"></h3>
+      <div class="article-context">
+        文章內容:
+        <article>
+          <textarea id="article-context" cols="50" rows="4" value=""></textarea>
+        </article>
+      </div>
+      <button class="cancel-btn">Cancel</button>
+      <button class="submit-btn">Submit</button>
+    </div>
+  </main>
+
+    <!-- Script -->
+    <!-- axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+
+  <script src="https://kit.fontawesome.com/6fb9682f78.js" crossorigin="anonymous"></script>
+  
+  <script src="../js/utils.js"></script>
+  <script src="../js/create.js"></script>
+</body>
+
+</html>
