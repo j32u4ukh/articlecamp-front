@@ -1,93 +1,92 @@
-const ArticleModel = require("../models/article");
-const { ReturnCode, ErrorCode } = require("../utils/codes.js");
+const { Article1, Article2 } = require('../models/article')
+const { ReturnCode, ErrorCode } = require('../utils/codes.js')
 
 class ArticleService {
-  add(args) {
+  constructor(version) {
+    this.version = version
+    this.model = version === 1 ? Article1 : Article2
+  }
+  add(article) {
     return new Promise((resolve, reject) => {
-      ArticleModel.add({
-        author: args.author,
-        title: args.title,
-        content: args.content,
-      })
+      this.model
+        .add(article)
         .then((article) => {
-          resolve(article);
+          resolve(article)
         })
         .catch((err) => {
-          reject({ ret: ReturnCode.ServerInternalError, err });
-        });
-    });
+          reject({ ret: ReturnCode.ServerInternalError, err })
+        })
+    })
   }
-  getArticles(filterFunc) {
+  getList(filterFunc) {
     return new Promise((resolve, reject) => {
-      let articles = ArticleModel.getAll();
-      if (filterFunc) {
-        articles = articles.filter((article) => {
-          return filterFunc(article);
-        });
-      }
-      resolve(articles);
-    });
+      const articles = this.model.getList(filterFunc)
+      resolve(articles)
+    })
   }
-  getByKeyword(keyword) {
+  getByKeyword({ keyword }) {
     return new Promise((resolve, reject) => {
-      keyword = keyword.toUpperCase();
-      this.getArticles((article) => {
+      keyword = keyword.toUpperCase()
+      this.getList((article) => {
         if (article.author.toUpperCase().includes(keyword)) {
-          return true;
+          return true
         }
         if (article.title.toUpperCase().includes(keyword)) {
-          return true;
+          return true
         }
         if (article.content.toUpperCase().includes(keyword)) {
-          return true;
+          return true
         }
-        return false;
+        return false
       }).then((articles) => {
-        resolve(articles);
-      });
-    });
+        resolve(articles)
+      })
+    })
   }
-  get(args) {
+  get({ id }) {
     return new Promise((resolve, reject) => {
-      const result = ArticleModel.get(args.id);
+      const result = this.model.get(id)
       if (result.index === -1) {
         reject({
           ret: ReturnCode.NotFound,
           err: {
             code: ErrorCode.ParamError,
-            msg: `沒有 id 為 ${args.id} 的文章`,
+            msg: `沒有 id 為 ${id} 的文章`,
           },
-        });
+        })
       }
-      resolve(result.data);
-    });
+      resolve(result.data)
+    })
   }
-  update(args) {
+  update({ id, article }) {
     return new Promise((resolve, reject) => {
-      ArticleModel.update(args.id, args.article)
+      this.model
+        .update(id, article)
         .then((result) => {
-          resolve(result);
+          resolve(result)
         })
         .catch((err) => {
-          reject({ ret: ReturnCode.ServerInternalError, err });
-        });
-    });
+          reject({ ret: ReturnCode.ServerInternalError, err })
+        })
+    })
   }
-  delete(args) {
+  delete({ id }) {
     return new Promise((resolve, reject) => {
-      ArticleModel.delete(args.id)
+      this.model
+        .delete(id)
         .then(() => {
           resolve({
             code: ErrorCode.Ok,
-            msg: "OK",
-          });
+            msg: 'OK',
+          })
         })
         .catch((err) => {
-          reject({ ret: ReturnCode.ServerInternalError, err });
-        });
-    });
+          reject({ ret: ReturnCode.ServerInternalError, err })
+        })
+    })
   }
 }
 
-const Article = new ArticleService();
-module.exports = Article;
+const Service1 = new ArticleService(1)
+const Service2 = new ArticleService(2)
+module.exports = { Article1: Service1, Article2: Service2 }
