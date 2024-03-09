@@ -30,7 +30,7 @@ class ArticleModel {
   add(article) {
     return new Promise((resolve, reject) => {
       article.id = this.next_id
-      const timestamp = this.getTimestamp()
+      const timestamp = Model.getTimestamp()
       article.createAt = timestamp
       article.updateAt = timestamp
       this.articles.push(article)
@@ -83,17 +83,9 @@ class ArticleModel {
           msg: `沒有 id 為 ${id} 的文章`,
         })
       } else {
-        // const isValid = this.validate(article)
-        // console.log(`isValid: ${isValid}`)
-        // if (!isValid) {
-        //   reject({
-        //     code: ErrorCode.ParamError,
-        //     msg: '缺少必要參數或內容為空白',
-        //   })
-        // }
         article.id = data.id
         article.createAt = data.createAt
-        article.updateAt = this.getTimestamp()
+        article.updateAt = Model.getTimestamp()
         this.articles[index] = article
 
         // 將文章列表寫入檔案中
@@ -131,23 +123,6 @@ class ArticleModel {
           reject(error)
         })
     })
-  }
-  // 供外部檢查是否必要欄位都有定義，呼叫 Model 新增或更新數據前，須確保欄位都正確
-  validate(data) {
-    const keys = Object.keys(data)
-    for (const field of this.requiredFields) {
-      if (!keys.includes(field)) {
-        return false
-      }
-      if (data[field] === '') {
-        return false
-      }
-    }
-    return true
-  }
-  // 取得時間戳(毫秒)
-  getTimestamp() {
-    return Math.floor(new Date().getTime() / 1000)
   }
 }
 

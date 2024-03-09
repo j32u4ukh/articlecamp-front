@@ -1,3 +1,4 @@
+const Model = require('../utils/model.js')
 const { Article1, Article2 } = require('../models/article')
 const { ReturnCode, ErrorCode } = require('../utils/codes.js')
 
@@ -8,14 +9,22 @@ class ArticleService {
   }
   add(article) {
     return new Promise((resolve, reject) => {
-      this.model
-        .add(article)
-        .then((article) => {
-          resolve(article)
+      const isValid = Model.validate(article, Article2.requiredFields)
+      if (!isValid) {
+        reject({
+          ret: BadRequest,
+          err: '缺少必要參數',
         })
-        .catch((err) => {
-          reject({ ret: ReturnCode.ServerInternalError, err })
-        })
+      } else {
+        this.model
+          .add(article)
+          .then((article) => {
+            resolve(article)
+          })
+          .catch((err) => {
+            reject({ ret: ReturnCode.ServerInternalError, err })
+          })
+      }
     })
   }
   getList(filterFunc) {
@@ -60,14 +69,22 @@ class ArticleService {
   }
   update({ id, article }) {
     return new Promise((resolve, reject) => {
-      this.model
-        .update(id, article)
-        .then((result) => {
-          resolve(result)
+      const isValid = Model.validate(article, Article2.requiredFields)
+      if (!isValid) {
+        reject({
+          ret: BadRequest,
+          err: '缺少必要參數',
         })
-        .catch((err) => {
-          reject({ ret: ReturnCode.ServerInternalError, err })
-        })
+      } else {
+        this.model
+          .update(id, article)
+          .then((result) => {
+            resolve(result)
+          })
+          .catch((err) => {
+            reject({ ret: ReturnCode.ServerInternalError, err })
+          })
+      }
     })
   }
   delete({ id }) {
