@@ -73,6 +73,48 @@ class ArticleModel {
       return this.articles
     }
   }
+  getList2(offset, size, summary, func) {
+    let articles
+    if (func) {
+      articles = this.articles.filter((article) => {
+        return func(article)
+      })
+    } else {
+      articles = this.articles
+    }
+    const total = articles.length
+    if (offset > total) {
+      offset = total
+    }
+    let len = offset + size
+    len = len > total ? total : len
+    const results = {
+      total: Number(total),
+      offset: Number(offset),
+      size: Number(size),
+      articles: articles.slice(offset, len),
+    }
+    if (summary) {
+      let article
+      len = results.articles.length
+      for (let i = 0; i < len; i++) {
+        article = results.articles[i]
+        let preview = article.content.substring(0, 20)
+        if (article.content.length > 20) {
+          preview += '...'
+        }
+        results.articles[i] = {
+          id: article.id,
+          author: article.author,
+          title: article.title,
+          category: article.category,
+          content: preview,
+          updateAt: article.updateAt,
+        }
+      }
+    }
+    return results
+  }
   // 根據文章 id 更新指定文章
   update(id, article) {
     return new Promise((resolve, reject) => {

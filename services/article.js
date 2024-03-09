@@ -33,17 +33,59 @@ class ArticleService {
   }
   getList(filterFunc) {
     return new Promise((resolve, reject) => {
-      const articles = this.model.getList(filterFunc)
+      resolve(Article1.getList(filterFunc))
+    })
+  }
+  getList2(offset, size, summary, filterFunc) {
+    return new Promise((resolve, reject) => {
+      if (offset === undefined || offset === '') {
+        offset = 0
+      } else {
+        try {
+          offset = Number(offset)
+        } catch {
+          offset = 0
+        }
+      }
+      if (size === undefined || size === '') {
+        size = 10
+      } else {
+        try {
+          size = Number(size)
+        } catch {
+          size = 10
+        }
+      }
+      const articles = Article2.getList2(offset, size, summary, filterFunc)
       resolve(articles)
     })
   }
-  getByKeyword({ keyword }) {
+  getByKeyword(keyword) {
+    return new Promise((resolve, reject) => {
+      keyword = keyword.toUpperCase()
+      this.getList((article) => {
+        if (article.author.toUpperCase().includes(keyword)) {
+          return true
+        }
+        if (article.title.toUpperCase().includes(keyword)) {
+          return true
+        }
+        if (article.content.toUpperCase().includes(keyword)) {
+          return true
+        }
+        return false
+      }).then((articles) => {
+        resolve(articles)
+      })
+    })
+  }
+  getByKeyword2(offset, size, summary, keyword) {
     return new Promise((resolve, reject) => {
       keyword = keyword.toUpperCase()
       // NOTE: 搜尋字如果要搜文章分類，必須是完整名稱，不區分大小寫
       // 根據搜尋字反查文章分類 id，再比對各篇文章的分類 id，而非將各篇文章的分類 id 轉換成字串來比對
       let cid = Category.getId(keyword)
-      this.getList((article) => {
+      this.getList2(offset, size, summary, (article) => {
         if (article.author.toUpperCase().includes(keyword)) {
           return true
         }
@@ -57,8 +99,8 @@ class ArticleService {
           return true
         }
         return false
-      }).then((articles) => {
-        resolve(articles)
+      }).then((results) => {
+        resolve(results)
       })
     })
   }

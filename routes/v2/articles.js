@@ -5,12 +5,15 @@ const { ReturnCode, ErrorCode } = require('../../utils/codes.js')
 
 router.get('/', (req, res) => {
   const keyword = req.query.keyword
+  const offset = req.query.offset
+  const size = req.query.size
+  const summary = true
   if (keyword) {
-    Article2.getByKeyword({ keyword }).then((articles) => {
+    Article2.getByKeyword2(offset, size, summary, keyword).then((articles) => {
       res.json(articles)
     })
   } else {
-    Article2.getList().then((articles) => {
+    Article2.getList2(offset, size, summary).then((articles) => {
       res.json(articles)
     })
   }
