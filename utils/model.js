@@ -24,7 +24,7 @@ module.exports = {
         if (err) {
           reject(reject(`寫出數據失敗, err: ${err}`))
         } else {
-          resolve()
+          resolve(data)
         }
       })
     })
