@@ -1,4 +1,5 @@
 const fs = require('fs')
+const Model = require('../utils/model')
 const { ErrorCode } = require('../utils/codes.js')
 
 class ArticleModel {
@@ -12,9 +13,14 @@ class ArticleModel {
     // TODO: 根據 version 不同，設置不同的必要欄位
     this.requiredFields = ['author', 'title', 'content']
 
-    this.read()
+    Model.read(this.FILE_PATH)
       .then((articles) => {
-        this.articles.push(...articles)
+        articles.forEach((article) => {
+          this.next_id = this.next_id > article.id ? this.next_id : article.id
+          this.articles.push(article)
+        })
+        this.next_id++
+        this.n_article = articles.length
       })
       .catch((err) => {
         console.error(err)
