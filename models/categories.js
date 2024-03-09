@@ -25,6 +25,17 @@ class CategoryModel {
       return this.categories
     }
   }
+  getId(name) {
+    let category
+    name = name.toUpperCase()
+    for (let i = 0; i < this.n_category; i++) {
+      category = this.categories[i]
+      if (category.name.toUpperCase() === name) {
+        return category.id
+      }
+    }
+    return null
+  }
   getName(id) {
     let category
     for (let i = 0; i < this.n_category; i++) {
