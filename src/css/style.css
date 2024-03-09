@@ -236,3 +236,31 @@ footer {
 .non-fixed-footer {
   height: var(--header-footer-height);
 }
+
+/* 新增的 CSS */
+#comments-container {
+  margin-top: 50px;
+}
+
+#commentForm {
+  width: 100%;
+  margin-top: 20px;
+}
+
+#commentForm textarea {
+  height: 100px;
+  /* 初始高度 */
+  transition: height 0.5s ease;
+  /* 高度變化動畫 */
+}
+
+#commentForm.expanded textarea {
+  height: 200px;
+  /* 點擊後的高度 */
+}
+
+#cancelButton {
+  float: right;
+  margin-top: 10px;
+  margin-right: 10px;
+}

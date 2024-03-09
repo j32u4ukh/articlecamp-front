@@ -1,54 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- <link rel="stylesheet" href="../css/reset.css" /> -->
-    <link rel="stylesheet" href="../css/style.css" />
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%23c32f27'/%3E%3Ctext x='50' y='60' font-family='Arial' font-size='50' fill='%23f9c80e' text-anchor='middle' dominant-baseline='middle'%3EA%3C/text%3E%3C/svg%3E"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Noto+Sans+TC:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-    <title>Articlecamp</title>
-  </head>
-  <body>
-    <!-- Header -->
-    <header>
-      <nav>
-        <div class="icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-            <!-- 圓圈 -->
-            <circle cx="50" cy="50" r="40" fill="#c32f27" />
-            <!-- 文字 "A" -->
-            <text
-              x="50"
-              y="57"
-              font-family="Arial"
-              font-size="50"
-              fill="#f9c80e"
-              text-anchor="middle"
-              dominant-baseline="middle"
-            >
-              A
-            </text>
-          </svg>
-        </div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- <link rel="stylesheet" href="../css/reset.css" /> -->
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%23c32f27'/%3E%3Ctext x='50' y='60' font-family='Arial' font-size='50' fill='%23f9c80e' text-anchor='middle' dominant-baseline='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Noto+Sans+TC:wght@400;700&display=swap"
+    rel="stylesheet" />
+  <title>Articlecamp</title>
+</head>
+
+<body>
+  <!-- Header -->
+  <header>
+    <nav>
+      <div class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+          <!-- 圓圈 -->
+          <circle cx="50" cy="50" r="40" fill="#c32f27" />
+          <!-- 文字 "A" -->
+          <text x="50" y="57" font-family="Arial" font-size="50" fill="#f9c80e" text-anchor="middle"
+            dominant-baseline="middle">
+            A
+          </text>
+        </svg>
+      </div>
 
       <!-- 編輯按鈕 -->
       <button id="editButton">
         <i class="fa-solid fa-pen-to-square" style="font-size: 30px;"></i>
       </button>
 
-      </nav>
-    </header>
-    <div class="non-fixed-header"></div>
+    </nav>
+  </header>
+  <div class="non-fixed-header"></div>
 
   <main>
     <section id="article-container">
@@ -62,17 +52,29 @@
         </div>
       </div>
     </section>
+    <section id="comments-container">
+      <h2>留言區</h2>
+      <div id="commentList">
+        <!-- 留言列表 -->
+      </div>
+      <div class="comment-controls">
+        <button id="cancelButton">取消</button>
+        <button id="submitCommentButton">留言</button>
+      </div>
+      <form id="commentForm">
+        <input type="text" id="name" placeholder="您的名字" required><br>
+        <textarea id="comment" placeholder="請留下您的評論" required></textarea>
+      </form>
+    </section>
   </main>
 
   <!-- Script -->
   <!-- axios -->
   <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
 
-    <script
-      src="https://kit.fontawesome.com/6fb9682f78.js"
-      crossorigin="anonymous"
-    ></script>
-    <script src="../js/utils.js"></script>
-    <script src="../js/article.js"></script>
-  </body>
+  <script src="https://kit.fontawesome.com/6fb9682f78.js" crossorigin="anonymous"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/article.js"></script>
+</body>
+
 </html>

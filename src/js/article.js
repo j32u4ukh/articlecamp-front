@@ -14,7 +14,7 @@ function renderArticle(data) {
   context.innerHTML = data.content
 }
 
-;(function init() {
+; (function init() {
   homeIcon.addEventListener('click', () => {
     window.location.href = './index.html'
   })
@@ -34,3 +34,43 @@ function renderArticle(data) {
       console.log(error)
     })
 })()
+
+
+// JavaScript 代碼
+document.getElementById('commentForm').addEventListener('submit', function (event) {
+  event.preventDefault(); // 防止表單提交
+
+  // 獲取輸入值
+  let name = document.getElementById('name').value;
+  let comment = document.getElementById('comment').value;
+
+  // 建立留言元素
+  let commentElement = document.createElement('div');
+  commentElement.innerHTML = '<strong>' + name + '</strong>: ' + comment;
+
+  // 將留言添加到留言列表
+  document.getElementById('commentList').appendChild(commentElement);
+
+  // 清空輸入框
+  document.getElementById('name').value = '';
+  document.getElementById('comment').value = '';
+
+  // 將留言區域高度重置為初始狀態
+  document.getElementById('commentForm').classList.remove('expanded');
+  document.getElementById('comment').style.height = '100px';
+});
+
+// 取消按鈕的事件處理
+document.getElementById('cancelButton').addEventListener('click', function () {
+  // 清空文字
+  document.getElementById('comment').value = '';
+
+  // 將留言區域高度重置為初始狀態
+  document.getElementById('commentForm').classList.remove('expanded');
+  document.getElementById('comment').style.height = '100px';
+});
+
+// 當點擊留言框時，增加高度
+document.getElementById('comment').addEventListener('click', function () {
+  document.getElementById('commentForm').classList.add('expanded');
+});
