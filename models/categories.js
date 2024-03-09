@@ -1,13 +1,13 @@
-const Model = require('../utils/model')
+const Model = require('./base')
 
-class CategoryModel {
+class CategoryModel extends Model {
   constructor() {
-    this.FILE_PATH = './public/data/v2/categories.json'
+    super({ file_path: './public/data/v2/categories.json' })
     this.categories = []
     this.n_category = 0
 
     // 讀取文章分類數據
-    Model.read(this.FILE_PATH)
+    this.read()
       .then((categories) => {
         this.categories.push(...categories)
         this.n_category = categories.length
