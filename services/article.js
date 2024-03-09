@@ -1,4 +1,3 @@
-const Model = require('../utils/model.js')
 const { Article1, Article2, Category } = require('../models')
 const { ReturnCode, ErrorCode } = require('../utils/codes.js')
 
@@ -13,7 +12,7 @@ class ArticleService {
       if (this.version === 2) {
         article.category = Category.validCategory(article.category)
       }
-      const isValid = Model.validate(article, this.model.requiredFields)
+      const isValid = this.model.validate(article, this.model.requiredFields)
       if (!isValid) {
         reject({
           ret: BadRequest,
@@ -125,7 +124,7 @@ class ArticleService {
       if (this.version === 2) {
         article.category = Category.validCategory(article.category)
       }
-      const isValid = Model.validate(article, this.model.requiredFields)
+      const isValid = this.model.validate(article, this.model.requiredFields)
       if (!isValid) {
         reject({
           ret: BadRequest,

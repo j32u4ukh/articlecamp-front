@@ -1,10 +1,11 @@
-const Model = require('../utils/model.js')
+const Model = require('./base')
 const { ErrorCode } = require('../utils/codes.js')
+const Utils = require('../utils')
 
-class ArticleModel {
+class ArticleModel extends Model {
   constructor({ version }) {
+    super({ file_path: `./public/data/v${version}/articles.json` })
     this.version = version
-    this.FILE_PATH = `./public/data/v${version}/articles.json`
     this.articles = []
     this.next_id = 0
     this.n_article = 0
@@ -12,7 +13,7 @@ class ArticleModel {
     // TODO: 根據 version 不同，設置不同的必要欄位
     this.requiredFields = ['author', 'title', 'content']
 
-    Model.read(this.FILE_PATH)
+    this.read()
       .then((articles) => {
         articles.forEach((article) => {
           this.next_id = this.next_id > article.id ? this.next_id : article.id
@@ -29,13 +30,13 @@ class ArticleModel {
   add(article) {
     return new Promise((resolve, reject) => {
       article.id = this.next_id
-      const timestamp = Model.getTimestamp()
+      const timestamp = Utils.getTimestamp()
       article.createAt = timestamp
       article.updateAt = timestamp
       this.articles.push(article)
 
       // 將文章列表寫入檔案中
-      Model.write(this.FILE_PATH, this.articles)
+      this.write(this.articles)
         .then((articles) => {
           // 成功寫入，再更新索引值
           this.next_id++
@@ -126,11 +127,11 @@ class ArticleModel {
       } else {
         article.id = data.id
         article.createAt = data.createAt
-        article.updateAt = Model.getTimestamp()
+        article.updateAt = Utils.getTimestamp()
         this.articles[index] = article
 
         // 將文章列表寫入檔案中
-        Model.write(this.FILE_PATH, this.articles)
+        this.write(this.articles)
           .then((articles) => {
             resolve(articles[index])
           })
@@ -156,7 +157,7 @@ class ArticleModel {
       this.articles.splice(index, 1)
 
       // 將文章列表寫入檔案中
-      Model.write(this.FILE_PATH, this.articles)
+      this.write(this.articles)
         .then(() => {
           resolve()
         })
