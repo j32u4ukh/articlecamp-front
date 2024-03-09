@@ -1,5 +1,4 @@
-const fs = require('fs')
-const Model = require('../utils/model')
+const Model = require('../utils/model.js')
 const { ErrorCode } = require('../utils/codes.js')
 
 class ArticleModel {
