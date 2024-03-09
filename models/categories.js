@@ -1,4 +1,4 @@
-const fs = require('fs')
+const Model = require('../utils/model')
 
 class CategoryModel {
   constructor() {
@@ -6,7 +6,7 @@ class CategoryModel {
     this.categories = []
 
     // 讀取文章分類數據
-    this.read()
+    Model.read(this.FILE_PATH)
       .then((categories) => {
         this.categories.push(...categories)
       })
@@ -22,21 +22,6 @@ class CategoryModel {
     } else {
       return this.categories
     }
-  }
-  read() {
-    return new Promise((resolve, reject) => {
-      fs.readFile(this.FILE_PATH, 'utf8', (err, data) => {
-        if (err) {
-          reject(`讀取數據失敗, err: ${err}`)
-        }
-        try {
-          const categories = JSON.parse(data)
-          resolve(categories)
-        } catch (error) {
-          reject(`解析 Json 格式數據時發生錯誤, error: ${error}`)
-        }
-      })
-    })
   }
 }
 

@@ -1,3 +1,5 @@
+const fs = require('fs')
+
 module.exports = {
   // 從檔案中讀取數據
   read(file_path) {
