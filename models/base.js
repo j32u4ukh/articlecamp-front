@@ -1,3 +1,5 @@
+const fs = require('fs')
+
 class Model {
   constructor({ file_path }) {
     this.FILE_PATH = file_path
