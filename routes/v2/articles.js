@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { Article2, Category } = require('../../services')
+const { Article2, Category, Message } = require('../../services')
 const { ReturnCode, ErrorCode } = require('../../utils/codes.js')
 
 router.get('/', (req, res) => {
@@ -59,6 +59,18 @@ router.get('/:id', (req, res) => {
   Article2.get({
     id: Number(req.params.id),
   })
+    .then((result) => {
+      res.json(result)
+    })
+    .catch(({ ret, err }) => {
+      res.status(ret).json(err)
+    })
+})
+
+router.get('/:id/messages', (req, res) => {
+  const offset = req.query.offset
+  const size = req.query.size
+  Message.getList(Number(req.params.id), offset, size)
     .then((result) => {
       res.json(result)
     })

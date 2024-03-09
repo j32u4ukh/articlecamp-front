@@ -1,9 +1,9 @@
-const CategoryModel = require('../models/categories')
+const { Category: Model } = require('../models/index')
 
 class CategoryService {
   getList(filterFunc) {
     return new Promise((resolve, reject) => {
-      const categories = CategoryModel.getList(filterFunc)
+      const categories = Model.getList(filterFunc)
       resolve(categories)
     })
   }

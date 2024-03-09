@@ -1,6 +1,10 @@
 const Model = require('./base')
 const { ErrorCode } = require('../utils/codes.js')
 
+function belongToArticle(articleId, message) {
+  return message.articleId === articleId
+}
+
 class MessageModel extends Model {
   constructor() {
     super({ file_path: './public/data/v2/messages.json' })
@@ -44,12 +48,22 @@ class MessageModel extends Model {
         })
     })
   }
-  // 取得所有留言
-  getAll() {
-    return this.messages
+  get(id) {
+    return super.get({ id, datas: this.messages, n_data: this.n_message })
   }
-  getList(offset, size, func) {
-    return super.getList(this.messages, offset, size, func)
+  // 取得留言列表
+  getList(articleId, offset, size, func) {
+    let filterFunc
+    if (func) {
+      filterFunc = (message) => {
+        return belongToArticle(articleId, message) && func(message)
+      }
+    } else {
+      filterFunc = (message) => {
+        return belongToArticle(articleId, message)
+      }
+    }
+    return super.getList(this.messages, offset, size, filterFunc)
   }
   // 根據留言 id 刪除留言
   delete(id) {
