@@ -170,24 +170,35 @@
     * Response 數據格式：
     ```
     {
-        total: 794,
-        articles: [
+        "total": 5,
+        "offset": 0,
+        "size": 3,
+        "articles": [
             {
-                id: 1,
-                author: "Author Name",
-                title: "This is title",
-                createAt: 1705819929,
-                updateAt: 1705819929,
+                "id": 1,
+                "author": "Henry",
+                "title": "CSS 筆記",
+                "category": 1,
+                "content": "aspect-ratio 設置元素的寬高...",
+                "updateAt": 1709990534
             },
             {
-                id: 2,
-                author: "Author Name",
-                title: "This is title2",
-                createAt: 1705819929,
-                updateAt: 1705819930,
+                "id": 2,
+                "author": "Henry",
+                "title": "CSS 筆記",
+                "category": 1,
+                "content": "aspect-ratio 設置元素的寬高...",
+                "updateAt": 1709990534
             },
-            ...
-        ],
+            {
+                "id": 3,
+                "author": "Henry",
+                "title": "CSS 筆記",
+                "category": 1,
+                "content": "aspect-ratio 設置元素的寬高...",
+                "updateAt": 1709990534
+            }
+        ]
     }
     ```
 * GET /v2/articles/categories
