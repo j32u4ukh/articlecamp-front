@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { Article2 } = require('../../services/article.js')
-const Category = require('../../services/categories.js')
+const { Article2, Category } = require('../../services')
 const { ReturnCode, ErrorCode } = require('../../utils/codes.js')
 
 router.get('/', (req, res) => {

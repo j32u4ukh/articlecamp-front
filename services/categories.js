@@ -1,5 +1,4 @@
 const CategoryModel = require('../models/categories')
-const { ReturnCode, ErrorCode } = require('../utils/codes.js')
 
 class CategoryService {
   getList(filterFunc) {
