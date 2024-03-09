@@ -1,4 +1,5 @@
 const fs = require('fs')
+const Model = require('../utils/model')
 const { ErrorCode } = require('../utils/codes.js')
 
 class ArticleModel {
@@ -12,9 +13,14 @@ class ArticleModel {
     // TODO: 根據 version 不同，設置不同的必要欄位
     this.requiredFields = ['author', 'title', 'content']
 
-    this.read()
+    Model.read(this.FILE_PATH)
       .then((articles) => {
-        this.articles.push(...articles)
+        articles.forEach((article) => {
+          this.next_id = this.next_id > article.id ? this.next_id : article.id
+          this.articles.push(article)
+        })
+        this.next_id++
+        this.n_article = articles.length
       })
       .catch((err) => {
         console.error(err)
@@ -23,43 +29,24 @@ class ArticleModel {
   // 新增文章
   add(article) {
     return new Promise((resolve, reject) => {
-      try {
-        const isValid = this.validate(article)
-        if (!isValid) {
-          reject({
-            code: ErrorCode.ParamError,
-            msg: '缺少必要參數或內容為空白',
-          })
-        }
-        article.id = this.next_id
-        const timestamp = this.getTimestamp()
-        article.createAt = timestamp
-        article.updateAt = timestamp
-        this.articles.push(article)
+      article.id = this.next_id
+      const timestamp = Model.getTimestamp()
+      article.createAt = timestamp
+      article.updateAt = timestamp
+      this.articles.push(article)
 
-        // 將文章列表寫入檔案中
-        this.write()
-          .then(() => {
-            // 成功寫入，再更新索引值
-            this.next_id++
-            this.n_article = this.articles.length
-            resolve(article)
-          })
-          .catch((err) => {
-            if (this.articles.length !== this.n_article) {
-              this.articles.pop()
-            }
-            reject(err)
-          })
-      } catch (error) {
-        if (this.articles.length !== this.n_article) {
-          this.articles.pop()
-        }
-        reject({
-          code: ErrorCode.ParamError,
-          msg: 'Failed to add an article',
+      // 將文章列表寫入檔案中
+      Model.write(this.FILE_PATH, this.articles)
+        .then((articles) => {
+          // 成功寫入，再更新索引值
+          this.next_id++
+          this.n_article = articles.length
+          resolve(article)
         })
-      }
+        .catch((error) => {
+          this.articles.pop()
+          reject(error)
+        })
     })
   }
   // 取得所有文章
@@ -96,26 +83,18 @@ class ArticleModel {
           msg: `沒有 id 為 ${id} 的文章`,
         })
       } else {
-        const isValid = this.validate(article)
-        console.log(`isValid: ${isValid}`)
-        if (!isValid) {
-          reject({
-            code: ErrorCode.ParamError,
-            msg: '缺少必要參數或內容為空白',
-          })
-        }
         article.id = data.id
         article.createAt = data.createAt
-        article.updateAt = this.getTimestamp()
+        article.updateAt = Model.getTimestamp()
         this.articles[index] = article
 
         // 將文章列表寫入檔案中
-        this.write()
-          .then(() => {
-            resolve(article)
+        Model.write(this.FILE_PATH, this.articles)
+          .then((articles) => {
+            resolve(articles[index])
           })
-          .catch((err) => {
-            reject(err)
+          .catch((error) => {
+            reject(error)
           })
       }
     })
@@ -136,71 +115,14 @@ class ArticleModel {
       this.articles.splice(index, 1)
 
       // 將文章列表寫入檔案中
-      this.write()
+      Model.write(this.FILE_PATH, this.articles)
         .then(() => {
           resolve()
         })
-        .catch((err) => {
-          reject(err)
+        .catch((error) => {
+          reject(error)
         })
     })
-  }
-  read() {
-    return new Promise((resolve, reject) => {
-      fs.readFile(this.FILE_PATH, 'utf8', (err, data) => {
-        if (err) {
-          reject(`讀取數據失敗, err: ${err}`)
-        }
-        const results = JSON.parse(data)
-        const articles = []
-        results.forEach((result) => {
-          this.next_id = this.next_id > result.id ? this.next_id : result.id
-          articles.push(result)
-        })
-        this.next_id++
-        this.n_article = results.length
-        // console.log(`next_id: ${this.next_id}`);
-        resolve(articles)
-      })
-    })
-  }
-  // 將文章列表寫入檔案中
-  write() {
-    return new Promise((resolve, reject) => {
-      fs.writeFile(
-        this.FILE_PATH,
-        JSON.stringify(this.articles),
-        'utf8',
-        (err) => {
-          if (err) {
-            reject({
-              code: ErrorCode.WriteError,
-              msg: 'Failed to add an article',
-            })
-          }
-          console.log('File written successfully')
-          this.n_article = this.articles.length
-          resolve()
-        }
-      )
-    })
-  }
-  // 檢查是否必要欄位都有定義
-  validate(data) {
-    const keys = Object.keys(data)
-    for (const field of this.requiredFields) {
-      if (!keys.includes(field)) {
-        return false
-      }
-      if (data[field] === '') {
-        return false
-      }
-    }
-    return true
-  }
-  // 取得時間戳(毫秒)
-  getTimestamp() {
-    return Math.floor(new Date().getTime() / 1000)
   }
 }
 

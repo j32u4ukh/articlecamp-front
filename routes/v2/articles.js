@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { Article2 } = require('../../services/article.js')
+const { Article2, Category } = require('../../services')
 const { ReturnCode, ErrorCode } = require('../../utils/codes.js')
 
 router.get('/', (req, res) => {
@@ -43,6 +43,12 @@ router.post('/create', (req, res) => {
     .catch(({ ret, err }) => {
       res.status(ret).json(err)
     })
+})
+
+router.get('/categories', (req, res) => {
+  Category.getList().then((categories) => {
+    res.json(categories)
+  })
 })
 
 router.get('/:id', (req, res) => {
