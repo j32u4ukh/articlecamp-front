@@ -295,6 +295,37 @@
         updateAt: 1705840000,
     }
     ```
+* GET /v2/articles/:id/messages
+    * 返回文章留言列表
+    * query 參數: 
+        * offset(可選): 數據筆數偏移量，預設為 0。
+        * size(可選): 返回數據筆數，預設為 10。
+    * Request header: 使用登入時給的 token 作為辨識用戶的代碼
+    ```
+    token = xxx
+    ```
+    * Response 數據格式：
+    ```
+    {
+        "total": 2,
+        "offset": 0,
+        "size": 10,
+        "datas": [
+            {
+                "id": 1,
+                "articleId": 1,
+                "content": "This is message content",
+                "createAt": 1705819929
+            },
+            {
+                "id": 2,
+                "articleId": 1,
+                "content": "This is message content",
+                "createAt": 1705819929
+            }
+        ]
+    }
+    ```
 * POST /v2/articles/:id/messages
     * 新增文章留言
     * Request 數據格式：
