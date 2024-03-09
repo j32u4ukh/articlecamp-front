@@ -17,15 +17,15 @@ router.get('/', (req, res) => {
 })
 
 router.post('/create', (req, res) => {
-  console.log(`create: ${JSON.stringify(req.body)}`)
-  const author = req.body.author
+  const BODY = req.body
+  const author = BODY.author
   if (author === '') {
     return res.status(ReturnCode.BadRequest).json({
       code: ErrorCode.ParamError,
       msg: 'author 為必要參數',
     })
   }
-  const title = req.body.title
+  const title = BODY.title
   if (title === '') {
     return res.status(ReturnCode.BadRequest).json({
       code: ErrorCode.ParamError,
@@ -35,7 +35,8 @@ router.post('/create', (req, res) => {
   Article2.add({
     author,
     title,
-    content: req.body.content,
+    category: BODY.category,
+    content: BODY.content,
   })
     .then((result) => {
       res.json(result)
