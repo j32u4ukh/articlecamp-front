@@ -79,7 +79,11 @@ class ArticleService {
   }
   update({ id, article }) {
     return new Promise((resolve, reject) => {
-      const isValid = Model.validate(article, Article2.requiredFields)
+      // 版本 2 才考慮文章分類欄位
+      if (this.version === 2) {
+        article.category = Category.validCategory(article.category)
+      }
+      const isValid = Model.validate(article, this.model.requiredFields)
       if (!isValid) {
         reject({
           ret: BadRequest,
