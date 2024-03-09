@@ -5,6 +5,7 @@ class CategoryModel {
     this.FILE_PATH = './public/data/v2/categories.json'
     this.categories = []
 
+    // 讀取文章分類數據
     this.read()
       .then((categories) => {
         this.categories.push(...categories)
@@ -12,18 +13,6 @@ class CategoryModel {
       .catch((err) => {
         console.error(err)
       })
-  }
-  // 取得所有文章
-  getAll() {
-    return this.categories
-  }
-  // 根據文章 id 取得指定文章
-  get(id) {
-    let category = this.categories.find((c) => c.id === id)
-    if (category.length === 0) {
-      return null
-    }
-    return category[0]
   }
   getList(func) {
     if (func) {
