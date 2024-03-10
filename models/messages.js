@@ -1,4 +1,5 @@
 const Model = require('./base')
+const Utils = require('../utils')
 const { ErrorCode } = require('../utils/codes.js')
 
 function belongToArticle(articleId, message) {
@@ -30,10 +31,9 @@ class MessageModel extends Model {
   add(message) {
     return new Promise((resolve, reject) => {
       message.id = this.next_id
-      const timestamp = this.getTimestamp()
+      const timestamp = Utils.getTimestamp()
       message.createAt = timestamp
       this.messages.push(message)
-
       // 將文章列表寫入檔案中
       this.write(this.messages)
         .then((messages) => {
@@ -93,6 +93,10 @@ class MessageModel extends Model {
           reject(error)
         })
     })
+  }
+  // 檢查傳入數據(data)是否必要欄位(requiredFields)都有定義
+  validate(data) {
+    return super.validate(data, this.requiredFields)
   }
 }
 

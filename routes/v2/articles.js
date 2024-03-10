@@ -79,6 +79,24 @@ router.get('/:id/messages', (req, res) => {
     })
 })
 
+router.post('/:id/messages', (req, res) => {
+  const articleId = Number(req.params.id)
+  const message = req.body
+  if (message.content === '') {
+    return res.status(ReturnCode.BadRequest).json({
+      code: ErrorCode.ParamError,
+      msg: 'content 為必要參數',
+    })
+  }
+  Message.add(articleId, message)
+    .then((result) => {
+      res.json(result)
+    })
+    .catch(({ ret, err }) => {
+      res.status(ret).json(err)
+    })
+})
+
 router.put('/:id', (req, res) => {
   Article2.update({
     id: Number(req.params.id),
