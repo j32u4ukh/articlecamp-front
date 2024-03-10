@@ -15,8 +15,10 @@ class ArticleService {
       const isValid = this.model.validate(article, this.model.requiredFields)
       if (!isValid) {
         reject({
-          ret: BadRequest,
-          err: '缺少必要參數',
+          code: ErrorCode.MissingParameters,
+          msg: `缺少必要參數, requiredFields: ${JSON.stringify(
+            this.model.requiredFields
+          )}`,
         })
       } else {
         this.model
@@ -25,7 +27,11 @@ class ArticleService {
             resolve(article)
           })
           .catch((err) => {
-            reject({ ret: ReturnCode.ServerInternalError, err })
+            console.error(err)
+            reject({
+              code: ErrorCode.WriteError,
+              msg: '寫入數據時發生錯誤',
+            })
           })
       }
     })
@@ -108,12 +114,10 @@ class ArticleService {
       const result = this.model.get(id)
       if (result.index === -1) {
         reject({
-          ret: ReturnCode.NotFound,
-          err: {
-            code: ErrorCode.ParamError,
-            msg: `沒有 id 為 ${id} 的文章`,
-          },
+          code: ErrorCode.NotFound,
+          msg: `沒有 id 為 ${id} 的文章`,
         })
+        return
       }
       resolve(result.data)
     })
@@ -127,23 +131,45 @@ class ArticleService {
       const isValid = this.model.validate(article, this.model.requiredFields)
       if (!isValid) {
         reject({
-          ret: BadRequest,
-          err: '缺少必要參數',
+          code: ErrorCode.MissingParameters,
+          msg: '缺少必要參數',
         })
-      } else {
-        this.model
-          .update(id, article)
-          .then((result) => {
-            resolve(result)
-          })
-          .catch((err) => {
-            reject({ ret: ReturnCode.ServerInternalError, err })
-          })
+        return
       }
+      const { index, data } = this.model.get(id)
+      if (index === -1) {
+        reject({
+          code: ErrorCode.NotFound,
+          msg: `沒有 id 為 ${id} 的文章`,
+        })
+        return
+      }
+      article.id = id
+      article.createAt = data.createAt
+      this.model
+        .update(index, article)
+        .then((result) => {
+          resolve(result)
+        })
+        .catch((err) => {
+          console.error(err)
+          reject({
+            code: ErrorCode.UpdateError,
+            msg: '更新數據時發生錯誤',
+          })
+        })
     })
   }
   delete({ id }) {
     return new Promise((resolve, reject) => {
+      const { index, _ } = this.model.get(id)
+      if (index === -1) {
+        reject({
+          code: ErrorCode.NotFound,
+          msg: `沒有 id 為 ${id} 的文章`,
+        })
+        return
+      }
       this.model
         .delete(id)
         .then(() => {
@@ -153,7 +179,11 @@ class ArticleService {
           })
         })
         .catch((err) => {
-          reject({ ret: ReturnCode.ServerInternalError, err })
+          console.error(err)
+          reject({
+            code: ErrorCode.DeleteError,
+            msg: '刪除數據時發生錯誤',
+          })
         })
     })
   }

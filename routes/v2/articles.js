@@ -22,14 +22,14 @@ router.get('/', (req, res) => {
 router.post('/create', (req, res) => {
   const BODY = req.body
   const author = BODY.author
-  if (author === '') {
+  if (author === undefined || author === '') {
     return res.status(ReturnCode.BadRequest).json({
       code: ErrorCode.ParamError,
       msg: 'author 為必要參數',
     })
   }
   const title = BODY.title
-  if (title === '') {
+  if (title === undefined || title === '') {
     return res.status(ReturnCode.BadRequest).json({
       code: ErrorCode.ParamError,
       msg: 'title 為必要參數',
@@ -44,8 +44,8 @@ router.post('/create', (req, res) => {
     .then((result) => {
       res.json(result)
     })
-    .catch(({ ret, err }) => {
-      res.status(ret).json(err)
+    .catch((error) => {
+      res.status(ErrorCode.getReturnCode(error.code)).json(error)
     })
 })
 
@@ -56,35 +56,33 @@ router.get('/categories', (req, res) => {
 })
 
 router.get('/:id', (req, res) => {
+  const id = Number(req.params.id)
   Article2.get({
-    id: Number(req.params.id),
+    id,
   })
     .then((result) => {
       res.json(result)
     })
-    .catch(({ ret, err }) => {
-      res.status(ret).json(err)
+    .catch((error) => {
+      res.status(ErrorCode.getReturnCode(error.code)).json(error)
     })
 })
 
 router.get('/:id/messages', (req, res) => {
+  const articleId = Number(req.params.id)
   const offset = req.query.offset
   const size = req.query.size
-  Message.getList(Number(req.params.id), offset, size)
-    .then((result) => {
-      res.json(result)
-    })
-    .catch(({ ret, err }) => {
-      res.status(ret).json(err)
-    })
+  Message.getList(articleId, offset, size).then((result) => {
+    res.json(result)
+  })
 })
 
 router.post('/:id/messages', (req, res) => {
   const articleId = Number(req.params.id)
   const message = req.body
-  if (message.content === '') {
+  if (message.content === undefined || message.content === '') {
     return res.status(ReturnCode.BadRequest).json({
-      code: ErrorCode.ParamError,
+      code: ErrorCode.MissingParameters,
       msg: 'content 為必要參數',
     })
   }
@@ -92,33 +90,35 @@ router.post('/:id/messages', (req, res) => {
     .then((result) => {
       res.json(result)
     })
-    .catch(({ ret, err }) => {
-      res.status(ret).json(err)
+    .catch((error) => {
+      res.status(ErrorCode.getReturnCode(error.code)).json(error)
     })
 })
 
 router.put('/:id', (req, res) => {
+  const id = Number(req.params.id)
   Article2.update({
-    id: Number(req.params.id),
+    id,
     article: req.body,
   })
     .then((result) => {
       res.json(result)
     })
-    .catch(({ ret, err }) => {
-      res.status(ret).json(err)
+    .catch((error) => {
+      res.status(ErrorCode.getReturnCode(error.code)).json(error)
     })
 })
 
 router.delete('/:id', (req, res) => {
+  const id = Number(req.params.id)
   Article2.delete({
-    id: Number(req.params.id),
+    id,
   })
     .then((result) => {
       res.json(result)
     })
-    .catch(({ ret, err }) => {
-      res.status(ret).json(err)
+    .catch((error) => {
+      res.status(ErrorCode.getReturnCode(error.code)).json(error)
     })
 })
 

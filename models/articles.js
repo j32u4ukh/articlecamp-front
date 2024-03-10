@@ -1,5 +1,4 @@
 const Model = require('./base')
-const { ErrorCode } = require('../utils/codes.js')
 const Utils = require('../utils')
 
 class ArticleModel extends Model {
@@ -55,14 +54,7 @@ class ArticleModel extends Model {
   }
   // 根據文章 id 取得指定文章
   get(id) {
-    let article
-    for (let i = 0; i < this.n_article; i++) {
-      article = this.articles[i]
-      if (article.id === id) {
-        return { index: i, data: article }
-      }
-    }
-    return { index: -1, data: null }
+    return super.get({ id: id, datas: this.articles, n_data: this.n_article })
   }
   getList(func) {
     if (func) {
@@ -116,43 +108,24 @@ class ArticleModel extends Model {
     return results
   }
   // 根據文章 id 更新指定文章
-  update(id, article) {
+  update(index, article) {
     return new Promise((resolve, reject) => {
-      const { index, data } = this.get(id)
-      if (index === -1) {
-        reject({
-          code: ErrorCode.UpdateError,
-          msg: `沒有 id 為 ${id} 的文章`,
-        })
-      } else {
-        article.id = data.id
-        article.createAt = data.createAt
-        article.updateAt = Utils.getTimestamp()
-        this.articles[index] = article
+      article.updateAt = Utils.getTimestamp()
+      this.articles[index] = article
 
-        // 將文章列表寫入檔案中
-        this.write(this.articles)
-          .then((articles) => {
-            resolve(articles[index])
-          })
-          .catch((error) => {
-            reject(error)
-          })
-      }
+      // 將文章列表寫入檔案中
+      this.write(this.articles)
+        .then((articles) => {
+          resolve(articles[index])
+        })
+        .catch((error) => {
+          reject(error)
+        })
     })
   }
   // 根據文章 id 刪除文章
-  delete(id) {
+  delete(index) {
     return new Promise((resolve, reject) => {
-      const { index, _ } = this.get(id)
-      if (index === -1) {
-        reject({
-          code: ErrorCode.UpdateError,
-          msg: `沒有 id 為 ${id} 的文章`,
-        })
-        return
-      }
-
       // 根據索引值移除文章
       this.articles.splice(index, 1)
 
