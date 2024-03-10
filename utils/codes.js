@@ -9,12 +9,13 @@ const ReturnCode = {
 }
 
 const ErrorCode = {
-  None: 0,
-  ParamError: 1,
-  WriteError: 2,
-  ReadError: 3,
-  UpdateError: 4,
-  DeleteError: 5,
+  None: 20000,
+  ParamError: 40001,
+  NotFound: 40400,
+  WriteError: 50001,
+  ReadError: 50002,
+  UpdateError: 50003,
+  DeleteError: 50004,
 }
 
 module.exports = { ReturnCode, ErrorCode }

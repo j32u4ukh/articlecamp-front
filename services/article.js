@@ -130,20 +130,38 @@ class ArticleService {
           ret: BadRequest,
           err: '缺少必要參數',
         })
-      } else {
-        this.model
-          .update(id, article)
-          .then((result) => {
-            resolve(result)
-          })
-          .catch((err) => {
-            reject({ ret: ReturnCode.ServerInternalError, err })
-          })
+        return
       }
+      const { index, data } = this.model.get(id)
+      if (index === -1) {
+        reject({
+          code: ErrorCode.NotFound,
+          msg: `沒有 id 為 ${id} 的文章`,
+        })
+        return
+      }
+      article.id = id
+      article.createAt = data.createAt
+      this.model
+        .update(index, article)
+        .then((result) => {
+          resolve(result)
+        })
+        .catch((err) => {
+          reject({ ret: ReturnCode.ServerInternalError, err })
+        })
     })
   }
   delete({ id }) {
     return new Promise((resolve, reject) => {
+      const { index, _ } = this.model.get(id)
+      if (index === -1) {
+        reject({
+          code: ErrorCode.NotFound,
+          msg: `沒有 id 為 ${id} 的文章`,
+        })
+        return
+      }
       this.model
         .delete(id)
         .then(() => {

@@ -1,6 +1,5 @@
 const Model = require('./base')
 const Utils = require('../utils')
-const { ErrorCode } = require('../utils/codes.js')
 
 function belongToArticle(articleId, message) {
   return message.articleId === articleId
@@ -64,35 +63,6 @@ class MessageModel extends Model {
       }
     }
     return super.getList(this.messages, offset, size, filterFunc)
-  }
-  // 根據留言 id 刪除留言
-  delete(id) {
-    return new Promise((resolve, reject) => {
-      const { index, _ } = this.get({
-        id: id,
-        datas: this.messages,
-        n_data: this.n_messages,
-      })
-      if (index === -1) {
-        reject({
-          code: ErrorCode.DeleteError,
-          msg: `沒有 id 為 ${id} 的留言`,
-        })
-        return
-      }
-
-      // 根據索引值移除留言
-      this.messages.splice(index, 1)
-
-      // 將留言列表寫入檔案中
-      this.write(this.messages)
-        .then(() => {
-          resolve()
-        })
-        .catch((error) => {
-          reject(error)
-        })
-    })
   }
   // 檢查傳入數據(data)是否必要欄位(requiredFields)都有定義
   validate(data) {

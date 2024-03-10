@@ -56,8 +56,9 @@ router.get('/categories', (req, res) => {
 })
 
 router.get('/:id', (req, res) => {
+  const id = Number(req.params.id)
   Article2.get({
-    id: Number(req.params.id),
+    id,
   })
     .then((result) => {
       res.json(result)
