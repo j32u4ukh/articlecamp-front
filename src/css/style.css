@@ -236,3 +236,74 @@ footer {
 .non-fixed-footer {
   height: var(--header-footer-height);
 }
+
+/* 新增留言區 */
+#comments-container {
+  margin: 0 auto;
+  margin-top: 50px;
+  position: relative;
+  border: 3px solid tomato;
+  width: 60%;
+}
+
+/* commenter */
+#commenter {
+  height: 30%;
+  display: flex;
+  border: 2px solid blue;
+  align-items: center;
+  margin: 5px;
+}
+
+.commenter-img {
+  display: block;
+  height: 50px;
+  aspect-ratio: 1/1;
+  margin: 0 12px;
+  display: flex;
+  border: 2px solid darkcyan;
+}
+
+.commenter-name {
+  border: 2px solid firebrick;
+}
+
+
+#commentForm {
+  width: 100%;
+  margin-top: 20px;
+  border: 2px solid darkcyan;
+}
+
+#comment {
+  resize: none;
+  width: 100%;
+}
+
+#commentForm textarea {
+  height: 100px;
+  /* 初始高度 */
+  width: 100%;
+  transition: height 0.3s ease;
+  /* 高度變化動畫 */
+}
+
+#commentForm.expanded textarea {
+  height: 200px;
+  /* 點擊後的高度 */
+}
+
+
+/* 留言、取消按鈕 */
+.comment-controls {
+  text-align: end;
+  position: relative;
+
+}
+
+/* 歷史留言區 (還要做每則留言的格子)*/
+.comment-list {
+  width: 60%;
+  border-top: 1px solid #ccc;
+  padding-top: 20px;
+}
