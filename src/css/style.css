@@ -242,7 +242,7 @@ footer {
   margin: 0 auto;
   margin-top: 50px;
   position: relative;
-  border: 3px solid tomato;
+  /* border: 1px solid tomato; */
   width: 60%;
 }
 
@@ -250,7 +250,7 @@ footer {
 #commenter {
   height: 30%;
   display: flex;
-  border: 2px solid blue;
+  /* border: 2px solid blue; */
   align-items: center;
   margin: 5px;
 }
@@ -261,18 +261,17 @@ footer {
   aspect-ratio: 1/1;
   margin: 0 12px;
   display: flex;
-  border: 2px solid darkcyan;
+  /* border: 2px solid darkcyan; */
 }
 
-.commenter-name {
+/* .commenter-name {
   border: 2px solid firebrick;
-}
-
+} */
 
 #commentForm {
   width: 100%;
   margin-top: 20px;
-  border: 2px solid darkcyan;
+  /* border: 2px solid darkcyan; */
 }
 
 #comment {
@@ -284,26 +283,25 @@ footer {
   height: 100px;
   /* 初始高度 */
   width: 100%;
-  transition: height 0.3s ease;
   /* 高度變化動畫 */
+  transition: height 0.2s ease;
 }
 
 #commentForm.expanded textarea {
-  height: 200px;
   /* 點擊後的高度 */
+  height: 120px;
 }
-
 
 /* 留言、取消按鈕 */
 .comment-controls {
   text-align: end;
   position: relative;
-
 }
 
 /* 歷史留言區 (還要做每則留言的格子)*/
 .comment-list {
+  margin: 0 auto;
   width: 60%;
   border-top: 1px solid #ccc;
-  padding-top: 20px;
+  margin-top: 20px;
 }
