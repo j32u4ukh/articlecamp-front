@@ -52,20 +52,27 @@
         </div>
       </div>
     </section>
-    <section id="comments-container">
-      <h2>留言區</h2>
-      <div id="commentList">
-        <!-- 留言列表 -->
+
+    <!-- 留言區 -->
+    <div id="comments-container">
+      <div id="commenter">
+        <div class="commenter-img">
+          <img src="../data/Alex.png" />
+        </div>
+        <div class="commenter-name">Alex</div>
       </div>
-      <div class="comment-controls">
-        <button id="cancelButton">取消</button>
-        <button id="submitCommentButton">留言</button>
-      </div>
+
       <form id="commentForm">
-        <input type="text" id="name" placeholder="您的名字" required><br>
         <textarea id="comment" placeholder="請留下您的評論" required></textarea>
       </form>
-    </section>
+      <div class="comment-controls">
+        <button id="submit-comment-button">留言</button>
+        <button id="cancel-button">取消</button>
+      </div>
+    </div>
+    <!-- 歷史留言區 (還要放留言者頭像及名字)-->
+    <div id="commentList" class="comment-list"></div>
+    </div>
   </main>
 
   <!-- Script -->

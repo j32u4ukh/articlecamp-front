@@ -36,41 +36,51 @@ function renderArticle(data) {
 })()
 
 
-// JavaScript 代碼
-document.getElementById('commentForm').addEventListener('submit', function (event) {
+// 留言區
+const commentForm = document.querySelector('#commentForm');
+const commentInput = document.querySelector('#comment');
+const commentList = document.querySelector('#commentList');
+const cancelButton = document.querySelector('#cancel-button');
+const submitButton = document.querySelector('#submit-comment-button')
+let comment = commentInput.value;
+
+commentForm.addEventListener('submit', function (event) {
   event.preventDefault(); // 防止表單提交
-
-  // 獲取輸入值
-  let name = document.getElementById('name').value;
-  let comment = document.getElementById('comment').value;
-
-  // 建立留言元素
-  let commentElement = document.createElement('div');
-  commentElement.innerHTML = '<strong>' + name + '</strong>: ' + comment;
-
-  // 將留言添加到留言列表
-  document.getElementById('commentList').appendChild(commentElement);
-
-  // 清空輸入框
-  document.getElementById('name').value = '';
-  document.getElementById('comment').value = '';
-
-  // 將留言區域高度重置為初始狀態
-  document.getElementById('commentForm').classList.remove('expanded');
-  document.getElementById('comment').style.height = '100px';
 });
 
-// 取消按鈕的事件處理
-document.getElementById('cancelButton').addEventListener('click', function () {
-  // 清空文字
-  document.getElementById('comment').value = '';
 
-  // 將留言區域高度重置為初始狀態
-  document.getElementById('commentForm').classList.remove('expanded');
-  document.getElementById('comment').style.height = '100px';
-});
+// 留言按鈕
+submitButton.addEventListener('click', function () {
+  comment = commentInput.value.trim();
 
-// 當點擊留言框時，增加高度
-document.getElementById('comment').addEventListener('click', function () {
-  document.getElementById('commentForm').classList.add('expanded');
-});
+  if (comment !== '') {
+    // Create comment element
+    let commentElement = document.createElement('div');
+    commentElement.classList.add('comment-List');
+    commentElement.innerText = comment;
+
+    // Add comment to the list
+    commentList.appendChild(commentElement);
+
+    // Clear input
+    commentInput.value = '';
+  }
+})
+
+// 點擊留言框後高度增加。取消按鈕清空文字並恢復留言框高度。
+document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('click', (e) => {
+    if (e.target === commentInput) {
+      // 點選留言框時增加高度
+      commentForm.classList.add('expanded')
+    } else if (e.target !== commentInput && e.target !== cancelButton) {
+      // 點到留言框及取消按鈕以外恢復留言框高度
+      commentForm.classList.remove('expanded')
+    } else {
+      // 點選取消按鈕時清空文字並恢復留言框高度
+      commentInput.value = ''
+      commentForm.classList.remove('expanded')
+    }
+  })
+})
+
