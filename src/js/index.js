@@ -5,10 +5,20 @@ const searchButton = document.querySelector('#search-btn')
 const homeIcon = document.querySelector('.icon')
 const API_URL = `${BASE_URL}/articles`
 const articles = []
+//////////無限下滑//////////
+// 頁面載入後渲染文章篇數及下滑後新增篇數(可任意調整)
+// document.body.scrollHeight > window.innerHeight
+const articleCount = 10 // 參考:VH為695時,最低值為6
+// 滑動觸發前的Y軸值
+let previousY = 0
+// 已渲染總篇數
+let scrollCount = articleCount
+//////////無限下滑//////////
 
 // 渲染所有文章
 function renderArticles(articles) {
-  articleContainer.innerHTML = ''
+  // 無限下滑:每次只插入新增文章篇數
+  // articleContainer.innerHTML = ''
   const parent = document.createElement('ul')
   parent.classList.add('list-group', 'col-sm-12', 'mb-2')
   articleContainer.appendChild(parent)
@@ -17,16 +27,37 @@ function renderArticles(articles) {
   })
 }
 
+window.addEventListener('scroll', () => {
+  // 總滾動高度(此高度比實際最高Y軸值多一個VH的值)
+  const scrollHeight = document.documentElement.scrollHeight
+  // VH值
+  const innerHeight = window.innerHeight
+  // 觸發點(減10是為了避免Y軸值的誤差可能造成的錯誤)
+  const triggerPoint = scrollHeight - innerHeight - 10
+  // 當下Y軸值
+  const scrollY = window.scrollY || window.pageYOffset
+  // 總文章篇數
+  const articlesLength = articles.length
+  // 條件1: 預防網頁刷新後沒有跑回原點(Y=0)且誤觸新增新文章篇數的渲染
+  // 如刷新後scrollbar介於觸發點之下,且使用者向上滑動,新文章篇數會被渲染
+  // 條件2: 當下Y軸值大於觸發點
+  // 條件3: 欲渲染篇數小於總文章數(避免無謂觸發)
+  if (scrollY > previousY && scrollY > triggerPoint && scrollCount < articlesLength) {
+    console.log(`新增前篇數: ${scrollCount}`)
+    // 渲染文章篇數調整,如剩餘渲染篇數較少,只多渲染該數量
+    scrollCount =
+      articlesLength - scrollCount > articleCount ? (scrollCount += articleCount) : articlesLength
+    renderArticles(articles.slice(scrollCount, scrollCount + articleCount))
+    console.log(`新增後篇數: ${scrollCount}`)
+  }
+  // scroll事件觸發前的Y軸值
+  previousY = window.scrollY || window.pageYOffset
+})
+
 // 渲染單篇文章
 function renderArticle(parent, article) {
   const child = document.createElement('li')
-  child.classList.add(
-    'list-group-item',
-    'd-flex',
-    'justify-content-between',
-    'article',
-    'c-border'
-  )
+  child.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'article', 'c-border')
   let preview = article.content.substring(0, 20)
   if (article.content.length > 20) {
     preview += '...'
@@ -124,7 +155,8 @@ function renderArticle(parent, article) {
       // setPaginator(movies.length);
       // currentPage = 1;
       // renderArticles(getMoviesByPage(movies, currentPage));
-      renderArticles(articles)
+      // 頁面載入後渲染特定文章篇數
+      renderArticles(articles.slice(0, articleCount))
     })
     .catch((error) => {
       console.log(error)
