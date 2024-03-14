@@ -19,45 +19,61 @@ let scrollCount = articleCount
 function renderArticles(articles) {
   // 無限下滑:每次只插入新增文章篇數
   // articleContainer.innerHTML = ''
-  const parent = document.createElement('ul')
-  parent.classList.add('list-group', 'col-sm-12', 'mb-2')
-  articleContainer.appendChild(parent)
+  // const parent = document.createElement('ul')
+  // parent.classList.add('list-group', 'col-sm-12', 'mb-2')
+  // articleContainer.appendChild(parent)
   articles.forEach((article) => {
-    renderArticle(parent, article)
+    renderArticle(article)
   })
 }
 
 window.addEventListener('scroll', () => {
-  // 總滾動高度(此高度比實際最高Y軸值多一個VH的值)
+  // 總滾動高度(此高度比實際最高 Y 軸值多一個 VH 的值)
+  // document.documentElement.scrollHeight: 用於獲取當前文檔的根元素（即 <html> 元素）的整個高度。這個值包括了所有文檔內容的高度，即使該內容超出了當前可見區域，也會被計算在內。
   const scrollHeight = document.documentElement.scrollHeight
-  // VH值
+  // VH 值
+  // window.innerHeight: 用於獲取當前瀏覽器視窗的內部高度，即瀏覽器窗口中可見內容的高度，不包括工具欄、地址欄、滾動條等非內容區域的高度。
   const innerHeight = window.innerHeight
-  // 觸發點(減10是為了避免Y軸值的誤差可能造成的錯誤)
-  const triggerPoint = scrollHeight - innerHeight - 10
-  // 當下Y軸值
+  const offset = 10
+  // 觸發點(減 offset 是為了避免 Y 軸值的誤差可能造成的錯誤)
+  const triggerPoint = scrollHeight - innerHeight - offset
+  // 當下 Y 軸值
+  // window.scrollY 和 window.pageYOffset 都是 JavaScript 中用於獲取當前頁面垂直方向上滾動的距離的屬性。它們兩者的作用是相同的，都用於獲取用戶在垂直方向上滾動的距離，即滾動條距離視窗頂部的距離。
   const scrollY = window.scrollY || window.pageYOffset
   // 總文章篇數
   const articlesLength = articles.length
-  // 條件1: 預防網頁刷新後沒有跑回原點(Y=0)且誤觸新增新文章篇數的渲染
-  // 如刷新後scrollbar介於觸發點之下,且使用者向上滑動,新文章篇數會被渲染
-  // 條件2: 當下Y軸值大於觸發點
-  // 條件3: 欲渲染篇數小於總文章數(避免無謂觸發)
-  if (scrollY > previousY && scrollY > triggerPoint && scrollCount < articlesLength) {
+  // 條件 1: 預防網頁刷新後沒有跑回原點(Y = 0)且誤觸新增新文章篇數的渲染
+  // 如刷新後 scrollbar 介於觸發點之下, 且使用者向上滑動, 新文章篇數會被渲染
+  // 條件 2: 當下 Y 軸值大於觸發點
+  // 條件 3: 欲渲染篇數小於總文章數(避免無謂觸發)
+  if (
+    scrollY > previousY &&
+    scrollY > triggerPoint &&
+    scrollCount < articlesLength
+  ) {
     console.log(`新增前篇數: ${scrollCount}`)
-    // 渲染文章篇數調整,如剩餘渲染篇數較少,只多渲染該數量
+    // 渲染文章篇數調整, 如剩餘渲染篇數較少, 只多渲染該數量
     scrollCount =
-      articlesLength - scrollCount > articleCount ? (scrollCount += articleCount) : articlesLength
+      articlesLength - scrollCount > articleCount
+        ? (scrollCount += articleCount)
+        : articlesLength
     renderArticles(articles.slice(scrollCount, scrollCount + articleCount))
     console.log(`新增後篇數: ${scrollCount}`)
   }
-  // scroll事件觸發前的Y軸值
+  // scroll 事件觸發前的 Y 軸值
   previousY = window.scrollY || window.pageYOffset
 })
 
 // 渲染單篇文章
-function renderArticle(parent, article) {
+function renderArticle(article) {
   const child = document.createElement('li')
-  child.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'article', 'c-border')
+  child.classList.add(
+    'list-group-item',
+    'd-flex',
+    'justify-content-between',
+    'article',
+    'c-border'
+  )
   let preview = article.content.substring(0, 20)
   if (article.content.length > 20) {
     preview += '...'
@@ -92,7 +108,7 @@ function renderArticle(parent, article) {
           <i class="fa-solid fa-heart favorite"> 7</i>
       </div>
     </div>`
-  parent.appendChild(child)
+  articleContainer.appendChild(child)
 }
 
 // 初始化
@@ -151,10 +167,6 @@ function renderArticle(parent, article) {
     .then((response) => {
       let datas = response.data
       articles.push(...datas)
-      // currentMovies = movies;
-      // setPaginator(movies.length);
-      // currentPage = 1;
-      // renderArticles(getMoviesByPage(movies, currentPage));
       // 頁面載入後渲染特定文章篇數
       renderArticles(articles.slice(0, articleCount))
     })
