@@ -21,47 +21,76 @@
     <title>Articlecamp</title>
   </head>
 
-<body>
-  <!-- Header -->
-  <header>
-    <nav>
-      <div class="icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-          <!-- 圓圈 -->
-          <circle cx="50" cy="50" r="40" fill="#c32f27" />
-          <!-- 文字 "A" -->
-          <text x="50" y="57" font-family="Arial" font-size="50" fill="#f9c80e" text-anchor="middle"
-            dominant-baseline="middle">
-            A
-          </text>
-        </svg>
-      </div>
-    </nav>
-  </header>
+  <body>
+    <!-- Header -->
+    <header>
+      <nav>
+        <div class="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+            <!-- 圓圈 -->
+            <circle cx="50" cy="50" r="40" fill="#c32f27" />
+            <!-- 文字 "A" -->
+            <text
+              x="50"
+              y="57"
+              font-family="Arial"
+              font-size="50"
+              fill="#f9c80e"
+              text-anchor="middle"
+              dominant-baseline="middle"
+            >
+              A
+            </text>
+          </svg>
+        </div>
+      </nav>
+    </header>
 
-  <main>
-    <div class="article-content">
-      <label class="article-title">文章標題: <input type="text" value="" id="article-title"></label><br/>
-      <label class="article-author">文章作者: <input type="text" value="" id="article-author"></label>
-      <div class="article-context">
-        文章內容:
-        <article>
-          <textarea id="article-context" cols="50" rows="4" value=""></textarea>
-        </article>
+    <main>
+      <div class="article-content">
+        <label class="article-title"
+          >文章標題: <input type="text" value="" id="article-title" /></label
+        ><br />
+        <label class="article-author"
+          >文章作者: <input type="text" value="" id="article-author"
+        /></label>
+        <br />
+        <select name="" class="article-cetegory">
+          <option selected>請選擇文章類別</option>
+          <option>類別1</option>
+          <option>類別2</option>
+          <option>類別3</option>
+          <option>類別4</option>
+          <option>類別5</option>
+          <option>類別6</option>
+          <option>類別7</option>
+        </select>
+        <div class="article-context">
+          文章內容:
+          <article>
+            <textarea
+              id="article-context"
+              cols="50"
+              rows="4"
+              value=""
+            ></textarea>
+          </article>
+        </div>
+        <button class="cancel-btn">Cancel</button>
+        <button class="submit-btn">Submit</button>
       </div>
-      <button class="cancel-btn">Cancel</button>
-      <button class="submit-btn">Submit</button>
-    </div>
-  </main>
+    </main>
 
     <!-- Script -->
     <!-- axios -->
     <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
 
-  <script src="https://kit.fontawesome.com/6fb9682f78.js" crossorigin="anonymous"></script>
-  
-  <script src="../js/utils.js"></script>
-  <script src="../js/create.js"></script>
-</body>
+    <script
+      src="https://kit.fontawesome.com/6fb9682f78.js"
+      crossorigin="anonymous"
+    ></script>
 
+    <script src="../js/utils.js"></script>
+    <script src="../js/create.js"></script>
+  </body>
 </html>
