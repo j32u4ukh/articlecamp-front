@@ -27,6 +27,9 @@ function renderArticles(articles) {
   })
 }
 
+// NOTE: 目前高度沒有考慮到 Header
+// TODO: 嘗試使用 IntersectionObserver 實作無限下滑
+// TODO: 每次到底部時，再觸發 axios 發送請求後面的文章數據
 window.addEventListener('scroll', () => {
   // 總滾動高度(此高度比實際最高 Y 軸值多一個 VH 的值)
   // document.documentElement.scrollHeight: 用於獲取當前文檔的根元素（即 <html> 元素）的整個高度。這個值包括了所有文檔內容的高度，即使該內容超出了當前可見區域，也會被計算在內。
@@ -57,8 +60,10 @@ window.addEventListener('scroll', () => {
       articlesLength - scrollCount > articleCount
         ? (scrollCount += articleCount)
         : articlesLength
-    renderArticles(articles.slice(scrollCount, scrollCount + articleCount))
+
     console.log(`新增後篇數: ${scrollCount}`)
+    renderArticles(articles.slice(scrollCount, scrollCount + articleCount))
+    console.log(`From: ${scrollCount}, To: ${scrollCount + articleCount}`)
   }
   // scroll 事件觸發前的 Y 軸值
   previousY = window.scrollY || window.pageYOffset
@@ -121,13 +126,14 @@ function renderArticle(article) {
 
   // 監聽 articleContainer
   articleContainer.addEventListener('click', function onArticleClicked(event) {
-    const id = Number(event.target.dataset.id)
-    console.log(`article id: ${id}`)
+    const target = event.target
 
-    if (event.target.matches('.read')) {
+    if (target.matches('.read')) {
+      const id = Number(target.dataset.id)
       setCookie('articleId', id)
       window.location.href = `./article.html?id=${id}`
-    } else if (event.target.matches('.edit-btn')) {
+    } else if (target.matches('.edit-btn')) {
+      const id = Number(target.dataset.id)
       setCookie('articleId', id)
       window.location.href = './edit.html'
     }
