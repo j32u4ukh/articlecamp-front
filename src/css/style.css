@@ -94,6 +94,12 @@ main {
   position: relative;
 }
 
+.article-cetegory {
+  margin: 5px 0px;
+  width: 228.13px;
+  text-align: center;
+}
+
 .article-content {
   padding: 10px;
   background-color: var(--article-background-color);
