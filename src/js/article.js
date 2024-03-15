@@ -5,6 +5,13 @@ const title = document.querySelector('.article-title')
 const author = document.querySelector('.article-author')
 const context = document.querySelector('.article-context')
 
+// 留言區
+const commentForm = document.querySelector('#commentForm')
+const commentInput = document.querySelector('#comment')
+const commentList = document.querySelector('#commentList')
+const cancelButton = document.querySelector('#cancel-button')
+const submitButton = document.querySelector('#submit-comment-button')
+
 const articleId = Number(getCookie('articleId'))
 const API_URL = `${BASE_URL}/articles/${articleId}`
 
@@ -14,7 +21,7 @@ function renderArticle(data) {
   context.innerHTML = data.content
 }
 
-; (function init() {
+;(function init() {
   homeIcon.addEventListener('click', () => {
     window.location.href = './index.html'
   })
@@ -22,6 +29,56 @@ function renderArticle(data) {
   // 編輯文章按鈕
   editArticle.addEventListener('click', function () {
     window.location.href = './edit.html'
+  })
+
+  commentForm.addEventListener('submit', function (event) {
+    event.preventDefault() // 防止表單提交
+  })
+
+  // 留言按鈕
+  submitButton.addEventListener('click', function () {
+    comment = commentInput.value.trim()
+
+    if (comment !== '') {
+      // Create comment element
+      let commentElement = document.createElement('div')
+      commentElement.classList.add('historical-commenter')
+      // commentElement.innerText = comment;
+      commentElement.innerHTML = `<div class="historical-commenter">
+        <div class="commenter-container">
+          <div class="historical-commenter-img">
+            <img src="../data/Alex.png" />
+          </div>
+          <div class="historical-commenter-name">Alex
+          </div>
+        </div>
+            <div class="message"> ${comment}</div>
+      </div>`
+
+      commentList.prepend(commentElement)
+
+      // 清空留言區
+      commentInput.value = ''
+      // 有留言時歷史留言區才顯示
+      commentList.style.display = 'flex'
+    }
+  })
+
+  // 點擊留言框後高度增加。取消按鈕清空文字並恢復留言框高度。
+  document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('click', (e) => {
+      if (e.target === commentInput) {
+        // 點選留言框時增加高度
+        commentForm.classList.add('expanded')
+      } else if (e.target !== commentInput && e.target !== cancelButton) {
+        // 點到留言框及取消按鈕以外恢復留言框高度
+        commentForm.classList.remove('expanded')
+      } else {
+        // 點選取消按鈕時清空文字並恢復留言框高度
+        commentInput.value = ''
+        commentForm.classList.remove('expanded')
+      }
+    })
   })
 
   axios
@@ -34,77 +91,3 @@ function renderArticle(data) {
       console.log(error)
     })
 })()
-
-
-// 留言區
-const commentForm = document.querySelector('#commentForm');
-const commentInput = document.querySelector('#comment');
-const commentList = document.querySelector('#commentList');
-const cancelButton = document.querySelector('#cancel-button');
-const submitButton = document.querySelector('#submit-comment-button')
-let comment = commentInput.value;
-
-commentForm.addEventListener('submit', function (event) {
-  event.preventDefault(); // 防止表單提交
-});
-
-
-// 留言按鈕
-submitButton.addEventListener('click', function () {
-  comment = commentInput.value.trim();
-
-  if (comment !== '') {
-    // Create comment element
-    let commentElement = document.createElement('div');
-    commentElement.classList.add('historical-commenter');
-    // commentElement.innerText = comment;
-    commentElement.innerHTML =
-      `<div class="historical-commenter">
-        <div class="commenter-container">
-          <div class="historical-commenter-img">
-            <img src="../data/Alex.png" />
-          </div>
-          <div class="historical-commenter-name">Alex
-          </div>
-        </div>
-            <div class="message"> ${comment}</div>
-      </div>`
-
-    commentList.prepend(commentElement)
-
-    // 清空留言區
-    commentInput.value = '';
-    // 有留言時歷史留言區才顯示
-    commentList.style.display = 'flex'
-  }
-
-})
-
-// 點擊留言框後高度增加。取消按鈕清空文字並恢復留言框高度。
-document.addEventListener('DOMContentLoaded', function () {
-  document.addEventListener('click', (e) => {
-    if (e.target === commentInput) {
-      // 點選留言框時增加高度
-      commentForm.classList.add('expanded')
-    } else if (e.target !== commentInput && e.target !== cancelButton) {
-      // 點到留言框及取消按鈕以外恢復留言框高度
-      commentForm.classList.remove('expanded')
-    } else {
-      // 點選取消按鈕時清空文字並恢復留言框高度
-      commentInput.value = ''
-      commentForm.classList.remove('expanded')
-    }
-  })
-})
-
-
-
-// // 歷史留言區
-// let messages = [];
-
-// // 模拟生成假数据
-// function generateFakeMessages() {
-//   for (let i = 1; i <= 20; i++) {
-//     messages.unshift(`Message ${i}`);
-//   }
-// }
