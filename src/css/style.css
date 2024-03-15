@@ -313,3 +313,122 @@ footer {
   border-top: 1px solid #ccc;
   margin-top: 20px;
 }
+
+/* 新增留言區 */
+#comments-container {
+  margin: 0 auto;
+  margin-top: 50px;
+  position: relative;
+  border: 3px solid rgb(227, 155, 143);
+  border-radius: 10px 10px;
+  width: 60%;
+  padding: 10px;
+}
+
+/* commenter */
+#commenter {
+  height: 30%;
+  display: flex;
+  align-items: center;
+  margin: 5px;
+}
+
+.commenter-img {
+  display: block;
+  height: 50px;
+  aspect-ratio: 1/1;
+  margin: 0 12px;
+  display: flex;
+}
+
+.commenter-name {
+  font-size: 1em;
+  font-weight: bolder;
+}
+
+
+#commentForm {
+  width: 100%;
+  margin-top: 20px;
+}
+
+#comment {
+  resize: none;
+  width: 100%;
+}
+
+#commentForm textarea {
+  height: 100px;
+  /* 初始高度 */
+  width: 100%;
+  transition: height 0.3s ease;
+  /* 高度變化動畫 */
+}
+
+#commentForm.expanded textarea {
+  height: 200px;
+  /* 點擊後的高度 */
+}
+
+
+/* 留言、取消按鈕 */
+.comment-controls {
+  text-align: end;
+  position: relative;
+
+}
+
+/* 歷史留言區 (還要做每則留言的格子)*/
+.comment-list {
+  max-height: 300px;
+  overflow: auto;
+  margin: 20px auto;
+  display: none;
+  flex-direction: column;
+  background-color: rgb(222, 173, 125);
+  width: 60%;
+  padding-top: 20px;
+  border-radius: 10px 10px;
+}
+
+/* 歷史留言 */
+.historical-commenter {
+  max-height: 500px;
+  flex-direction: row;
+  align-items: center;
+  margin: 5px;
+  background-color: rgb(238, 211, 187);
+  border-radius: 10px 10px;
+}
+
+.commenter-container {
+  max-height: 200px;
+  overflow: auto;
+  display: flex;
+  flex-direction: row;
+  background-color: #ecd4ae;
+}
+
+.commenter-container img {
+  display: block;
+  height: 50px;
+  aspect-ratio: 1/1;
+  margin: 0 12px;
+  display: flex;
+}
+
+.historical-commenter-name {
+  display: flex;
+  align-items: center;
+}
+
+.message {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  max-height: 150px;
+  overflow: auto;
+  background-color: #f3994f;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 10px 10px;
+}

@@ -37,19 +37,30 @@ function renderArticle(data) {
 
   // 留言按鈕
   submitButton.addEventListener('click', function () {
-    let comment = commentInput.value.trim()
+    comment = commentInput.value.trim()
 
     if (comment !== '') {
       // Create comment element
       let commentElement = document.createElement('div')
-      commentElement.classList.add('comment-List')
-      commentElement.innerText = comment
+      commentElement.classList.add('historical-commenter')
+      // commentElement.innerText = comment;
+      commentElement.innerHTML = `<div class="historical-commenter">
+        <div class="commenter-container">
+          <div class="historical-commenter-img">
+            <img src="../data/Alex.png" />
+          </div>
+          <div class="historical-commenter-name">Alex
+          </div>
+        </div>
+            <div class="message"> ${comment}</div>
+      </div>`
 
-      // Add comment to the list
-      commentList.appendChild(commentElement)
+      commentList.prepend(commentElement)
 
-      // Clear input
+      // 清空留言區
       commentInput.value = ''
+      // 有留言時歷史留言區才顯示
+      commentList.style.display = 'flex'
     }
   })
 
