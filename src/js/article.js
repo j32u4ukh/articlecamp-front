@@ -56,15 +56,28 @@ submitButton.addEventListener('click', function () {
   if (comment !== '') {
     // Create comment element
     let commentElement = document.createElement('div');
-    commentElement.classList.add('comment-List');
-    commentElement.innerText = comment;
+    commentElement.classList.add('historical-commenter');
+    // commentElement.innerText = comment;
+    commentElement.innerHTML =
+      `<div class="historical-commenter">
+        <div class="commenter-container">
+          <div class="historical-commenter-img">
+            <img src="../data/Alex.png" />
+          </div>
+          <div class="historical-commenter-name">Alex
+          </div>
+        </div>
+            <div class="message"> ${comment}</div>
+      </div>`
 
-    // Add comment to the list
-    commentList.appendChild(commentElement);
+    commentList.prepend(commentElement)
 
-    // Clear input
+    // 清空留言區
     commentInput.value = '';
+    // 有留言時歷史留言區才顯示
+    commentList.style.display = 'flex'
   }
+
 })
 
 // 點擊留言框後高度增加。取消按鈕清空文字並恢復留言框高度。
@@ -84,3 +97,14 @@ document.addEventListener('DOMContentLoaded', function () {
   })
 })
 
+
+
+// // 歷史留言區
+// let messages = [];
+
+// // 模拟生成假数据
+// function generateFakeMessages() {
+//   for (let i = 1; i <= 20; i++) {
+//     messages.unshift(`Message ${i}`);
+//   }
+// }
