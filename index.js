@@ -6,7 +6,7 @@ const port = 3000
 // 使用 cors 中間件
 app.use(cors())
 
-app.use(express.static('public'))
+// app.use(express.static('public'))
 app.use(express.json())
 
 // 引用路由器
