@@ -1,4 +1,4 @@
-const { Category: Model } = require('../models/index')
+import { Category as Model } from '../models/index'
 
 class CategoryService {
   getList(filterFunc) {
@@ -10,4 +10,4 @@ class CategoryService {
 }
 
 const Category = new CategoryService()
-module.exports = Category
+export default Category

@@ -1,5 +1,5 @@
-const Model = require('./base')
-const Utils = require('../utils')
+import Model from './base'
+import { getTimestamp } from '../utils'
 
 class ArticleModel extends Model {
   constructor({ version }) {
@@ -29,7 +29,7 @@ class ArticleModel extends Model {
   add(article) {
     return new Promise((resolve, reject) => {
       article.id = this.next_id
-      const timestamp = Utils.getTimestamp()
+      const timestamp = getTimestamp()
       article.createAt = timestamp
       article.updateAt = timestamp
       this.articles.push(article)
@@ -110,7 +110,7 @@ class ArticleModel extends Model {
   // 根據文章 id 更新指定文章
   update(index, article) {
     return new Promise((resolve, reject) => {
-      article.updateAt = Utils.getTimestamp()
+      article.updateAt = getTimestamp()
       this.articles[index] = article
 
       // 將文章列表寫入檔案中
@@ -143,4 +143,4 @@ class ArticleModel extends Model {
 
 const Article1 = new ArticleModel({ version: 1 })
 const Article2 = new ArticleModel({ version: 2 })
-module.exports = { Article1, Article2 }
+export default { Article1, Article2 }
