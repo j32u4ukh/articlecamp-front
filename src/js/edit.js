@@ -21,7 +21,31 @@ const API_URL = `${BASE_URL}/articles/${articleId}`
 const originalArticle = {}
 let currentArticle = {}
 
+// 0317 取得下拉選單區塊
+const articleCategory = document.querySelector('.article-category')
+
+// 0317 根據 getCookie 的 category 數據， 動態新增新的選項並設定value屬性
+function renderCategory() {
+  //取得StringCookie 並轉換型態
+  const categoryArrayCookie = getCookie('categoryArrayCookie')
+  console.log(categoryArrayCookie)
+  const categoryCookie = JSON.parse(categoryArrayCookie)
+  console.log(categoryCookie)
+  //根據CookieArray長度 設定要建立幾個option 並給予值 跟文字顯示name
+  for (let count = 0; count < categoryCookie.length; count++) {
+    const category = categoryCookie[count]
+    const newOption = document.createElement('option')
+    newOption.textContent = category.name
+    newOption.setAttribute('value', category.id)
+    // 将新创建的 option 元素添加到 articleCategory 中
+    articleCategory.appendChild(newOption)
+    console.log(newOption.value)
+  }
+}
+renderCategory()
+
 /* 根據 getCookie articleId 動態渲染 HTML */
+//0317 新增 category 參數
 function renderArticle(data) {
   panel.addEventListener('change', function onDataChanged(e) {
     const target = e.target
@@ -34,9 +58,11 @@ function renderArticle(data) {
   title.value = data.title
   author.value = data.author
   context.value = data.content
+  category.value = data.category
   originalArticle.title = data.title
   originalArticle.author = data.author
   originalArticle.content = data.content
+  originalArticle.category = data.category
   currentArticle = Object.assign({}, originalArticle)
 }
 
