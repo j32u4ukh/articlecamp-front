@@ -2,6 +2,26 @@ const { Router } = require('express')
 const { User } = require('../../services')
 const router = Router()
 const { ReturnCode, ErrorCode } = require('../../utils/codes')
+const { getRoot, getImageFolder } = require('../../utils')
+const fs = require('fs')
+const path = require('path')
+
+router.get('/images/:fileName', (req, res) => {
+  const imageFolder = getImageFolder()
+  const fileName = req.params.fileName
+  const filePath = path.join(imageFolder, fileName)
+
+  // 檢查檔案是否存在
+  fs.access(filePath, fs.constants.F_OK, (err) => {
+    if (err) {
+      // 返回 404 圖片
+      res.sendFile(path.join(imageFolder, 'icons8-not-found-100.png'))
+    } else {
+      // 發送圖片文件
+      res.sendFile(filePath)
+    }
+  })
+})
 
 router.get('/:id', (req, res) => {
   const token = req.headers.token
