@@ -1,5 +1,5 @@
-const Model = require('./base')
-const Utils = require('../utils')
+import Model from './base'
+import { getTimestamp } from '../utils'
 
 function belongToArticle(articleId, message) {
   return message.articleId === articleId
@@ -11,7 +11,7 @@ class MessageModel extends Model {
     this.messages = []
     this.next_id = 0
     this.n_message = 0
-    this.requiredFields = ['articleId', 'content']
+    this.requiredFields = ['articleId', 'userId', 'content']
 
     this.read()
       .then((messages) => {
@@ -30,10 +30,10 @@ class MessageModel extends Model {
   add(message) {
     return new Promise((resolve, reject) => {
       message.id = this.next_id
-      const timestamp = Utils.getTimestamp()
+      const timestamp = getTimestamp()
       message.createAt = timestamp
       this.messages.push(message)
-      // 將文章列表寫入檔案中
+      // 將留言寫入檔案中
       this.write(this.messages)
         .then((messages) => {
           // 成功寫入，再更新索引值
@@ -71,4 +71,4 @@ class MessageModel extends Model {
 }
 
 const Message = new MessageModel()
-module.exports = Message
+export default Message

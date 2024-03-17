@@ -1,1 +1,37 @@
-[{"id":1,"articleId":1,"content":"This is message content","createAt":1705819929},{"id":2,"articleId":1,"content":"This is message content","createAt":1705819929},{"id":3,"articleId":2,"content":"This is message content","createAt":1705819929},{"id":4,"articleId":2,"content":"This is message content","createAt":1705819929},{"id":5,"articleId":2,"content":"This is message content","createAt":1705819929},{"content":"Hello","articleId":1,"id":6,"createAt":1710041448}]
+[
+    {
+        "id": 1,
+        "articleId": 1,
+        "userId": 3,
+        "content": "This is message content",
+        "createAt": 1705819929
+    },
+    {
+        "id": 2,
+        "articleId": 1,
+        "userId": 2,
+        "content": "This is message content",
+        "createAt": 1705819929
+    },
+    {
+        "id": 3,
+        "articleId": 2,
+        "userId": 5,
+        "content": "This is message content",
+        "createAt": 1705819929
+    },
+    {
+        "id": 4,
+        "articleId": 2,
+        "userId": 1,
+        "content": "This is message content",
+        "createAt": 1705819929
+    },
+    {
+        "id": 5,
+        "articleId": 2,
+        "userId": 4,
+        "content": "This is message content",
+        "createAt": 1705819929
+    }
+]
