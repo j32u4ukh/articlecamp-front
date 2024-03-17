@@ -71,13 +71,18 @@ class Model {
   // 將數據寫入檔案中
   write(data) {
     return new Promise((resolve, reject) => {
-      writeFile(this.FILE_PATH, JSON.stringify(data), 'utf8', (err) => {
-        if (err) {
-          reject(reject(`寫出數據失敗, err: ${err}`))
-        } else {
-          resolve(data)
+      writeFile(
+        this.FILE_PATH,
+        JSON.stringify(data, null, 4),
+        'utf8',
+        (err) => {
+          if (err) {
+            reject(reject(`寫出數據失敗, err: ${err}`))
+          } else {
+            resolve(data)
+          }
         }
-      })
+      )
     })
   }
 }

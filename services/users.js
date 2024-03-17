@@ -1,5 +1,10 @@
 const { User: UserModel } = require('../models/index')
-const { ErrorCode } = require('../utils/codes.js')
+const { ErrorCode } = require('../utils/codes')
+const multer = require('multer')
+const { getImageFolder, toBase62 } = require('../utils/index')
+const upload = multer({ dest: 'public/images/' })
+const fs = require('fs')
+const path = require('path')
 
 class UserService {
   getList(userId, offset, size, filterFunc) {
@@ -26,7 +31,7 @@ class UserService {
       resolve(users)
     })
   }
-  get({ id }) {
+  get({ id, concealing = true }) {
     return new Promise((resolve, reject) => {
       let { index, data } = UserModel.get(id)
       if (index === -1) {
@@ -35,8 +40,10 @@ class UserService {
           msg: `沒有 id 為 ${id} 的用戶`,
         })
       }
-      delete data.password
-      delete data.createAt
+      if (concealing) {
+        delete data.password
+        delete data.createAt
+      }
       resolve(data)
     })
   }
@@ -101,7 +108,51 @@ class UserService {
         })
     })
   }
+  // 經過 upload.single() 這個 middleware 後，檔案的部分就會被放到 req.file 屬性裡，而其他非檔案的欄位仍然會保留在 req.body 屬性裡
+  uploadImage(image) {
+    return new Promise((resolve, reject) => {
+      // 從檔案路徑讀檔
+      fs.readFile(image, (err, data) => {
+        if (err) {
+          console.error(err)
+          return reject({
+            code: ErrorCode.ReadError,
+            msg: '讀取檔案時發生錯誤',
+          })
+        }
+
+        // 寫入 upload 資料夾 file.originalname
+        const timestamp = Date.now()
+        const prefix = Math.floor(Math.random() * 10000)
+          .toString()
+          .padEnd(5, '0')
+        const suffix = Math.floor(Math.random() * 10000)
+          .toString()
+          .padStart(5, '0')
+        const fileName = `${toBase62(`${prefix}${timestamp}${suffix}`)}.png`
+        console.log(
+          `prefix: ${prefix}, timestamp: ${timestamp}, suffix: ${suffix}`
+        )
+        console.log(`fileName: ${fileName}`)
+        const filePath = path.join(getImageFolder(), fileName)
+        fs.writeFile(filePath, data, () => {
+          // 檔案寫入成功後，後續動作...
+          console.log(`image: ${image}`)
+          // 使用 fs-extra 的 remove() 方法删除文件夹及其中的所有内容
+          fs.unlink(image, (err) => {
+            if (err) {
+              console.error(err)
+            }
+
+            // 文件删除成功
+            console.log('刪除暫時圖檔')
+            resolve(fileName)
+          })
+        })
+      })
+    })
+  }
 }
 
 const User = new UserService()
-module.exports = User
+module.exports = { User, upload }
