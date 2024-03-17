@@ -1,4 +1,4 @@
-const fs = require('fs')
+import { readFile, writeFile } from 'fs'
 
 class Model {
   constructor({ file_path }) {
@@ -6,6 +6,7 @@ class Model {
   }
   // 根據 id 取得指定數據
   get({ id, datas, n_data }) {
+    // TODO: use findIndex
     let data
     for (let i = 0; i < n_data; i++) {
       data = datas[i]
@@ -54,7 +55,7 @@ class Model {
   // 從檔案中讀取數據
   read() {
     return new Promise((resolve, reject) => {
-      fs.readFile(this.FILE_PATH, 'utf8', (err, data) => {
+      readFile(this.FILE_PATH, 'utf8', (err, data) => {
         if (err) {
           reject(`讀取數據失敗, err: ${err}`)
         }
@@ -70,7 +71,7 @@ class Model {
   // 將數據寫入檔案中
   write(data) {
     return new Promise((resolve, reject) => {
-      fs.writeFile(this.FILE_PATH, JSON.stringify(data), 'utf8', (err) => {
+      writeFile(this.FILE_PATH, JSON.stringify(data), 'utf8', (err) => {
         if (err) {
           reject(reject(`寫出數據失敗, err: ${err}`))
         } else {
@@ -81,4 +82,4 @@ class Model {
   }
 }
 
-module.exports = Model
+export default Model

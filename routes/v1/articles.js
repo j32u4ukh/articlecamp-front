@@ -1,7 +1,7 @@
-const express = require('express')
-const router = express.Router()
-const { Article1 } = require('../../services')
-const { ReturnCode, ErrorCode } = require('../../utils/codes.js')
+import { Router } from 'express'
+const router = Router()
+import { Article1 } from '../../services'
+import { ReturnCode, ErrorCode } from '../../utils/codes.js'
 
 router.get('/', (req, res) => {
   const keyword = req.query.keyword
@@ -82,4 +82,4 @@ router.delete('/:id', (req, res) => {
     })
 })
 
-module.exports = router
+export default router
