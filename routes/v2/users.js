@@ -75,18 +75,6 @@ router.patch('/:id', upload.single('image'), async (req, res) => {
     user.email = BODY.email ?? user.email
 
     if (file) {
-      /*
-      {
-        fieldname: 'image',
-        originalname: 'pJyapqOZj6KYraQ.png',
-        encoding: '7bit',
-        mimetype: 'image/png',
-        destination: 'temp/',
-        filename: 'b798ed4df44b69493a8ecf5415ee396e',
-        path: 'temp\\b798ed4df44b69493a8ecf5415ee396e',
-        size: 29250
-      }
-      */
       const image = await User.uploadImage(file.path)
       user.image = image
     }
