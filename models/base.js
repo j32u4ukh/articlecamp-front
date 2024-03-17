@@ -10,7 +10,7 @@ class Model {
     let data
     for (let i = 0; i < n_data; i++) {
       data = datas[i]
-      if (data.id === id) {
+      if (data.id == id) {
         return { index: i, data: data }
       }
     }
