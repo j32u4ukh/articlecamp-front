@@ -18,6 +18,7 @@ const ErrorCode = {
   NotFound: 40400,
   NotRelationship: 40401,
   Conflict: 40900,
+  ServerInternalError: 50000,
   WriteError: 50001,
   ReadError: 50002,
   UpdateError: 50003,

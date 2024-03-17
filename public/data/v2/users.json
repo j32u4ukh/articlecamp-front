@@ -4,7 +4,7 @@
         "name": "Henry",
         "email": "henry@articlecamp.com",
         "password": "password",
-        "image": "",
+        "image": "icons8-h-100.png",
         "categories": [],
         "createAt": 1705819929,
         "updateAt": 1705819929
@@ -14,7 +14,7 @@
         "name": "Alex",
         "email": "alex@articlecamp.com",
         "password": "password",
-        "image": "",
+        "image": "icons8-a-100.png",
         "categories": [],
         "createAt": 1705819929,
         "updateAt": 1705819929
@@ -24,7 +24,7 @@
         "name": "ShangRuey",
         "email": "shang-ruey@articlecamp.com",
         "password": "password",
-        "image": "",
+        "image": "icons8-s-100.png",
         "categories": [],
         "createAt": 1705819929,
         "updateAt": 1705819929
@@ -34,7 +34,7 @@
         "name": "Louis",
         "email": "louis@articlecamp.com",
         "password": "password",
-        "image": "",
+        "image": "icons8-l-100.png",
         "categories": [],
         "createAt": 1705819929,
         "updateAt": 1705819929
@@ -44,9 +44,19 @@
         "name": "Peggy",
         "email": "peggy@articlecamp.com",
         "password": "password",
-        "image": "",
+        "image": "icons8-p-100.png",
         "categories": [],
         "createAt": 1705819929,
         "updateAt": 1705819929
+    },
+    {
+        "id": "6",
+        "name": "Confuse Cat",
+        "email": "ConfuseCat@articlecamp.com",
+        "password": "password",
+        "image": "pJyapqOZj6KYraQ.png",
+        "categories": [],
+        "createAt": 1705819929,
+        "updateAt": 1710685861
     }
 ]
