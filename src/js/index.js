@@ -116,6 +116,25 @@ function renderArticle(article) {
   articleContainer.appendChild(child)
 }
 
+//0317 設置categoryCookie 並用 promise 包裝 確保cookie設置好後再做後續動作
+function setCategoryCookie() {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(API_URL + '/categories')
+      .then((response) => {
+        const categoryData = response.data
+        const categoryJsonString = JSON.stringify(categoryData)
+        setCookie('categoryArrayCookie', categoryJsonString)
+        resolve()
+      })
+      .catch((error) => {
+        console.log(error)
+        reject(error)
+      })
+  })
+}
+setCategoryCookie()
+
 // 初始化
 ;(function init() {
   // 初始化 Cookie 數據結構
