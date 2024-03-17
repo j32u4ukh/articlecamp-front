@@ -41,25 +41,17 @@ class FollowModel extends Model {
         })
     })
   }
-  // 取得所有追隨關係
-  getAll() {
-    return this.follows
-  }
-  // 根據追隨關係 id 取得指定追隨關係
-  get(id) {
-    return super.get({ id: id, datas: this.follows, n_data: this.n_follow })
-  }
   getList(userId) {
     const results = this.follows.filter((follow) => {
       return follow.userId === userId
     })
     return results
   }
-  checkRelationship(userId, targetId) {
+  getRelationship(userId, targetId) {
     const index = this.follows.findIndex((follow) => {
       return follow.userId === userId && follow.followTo === targetId
     })
-    return index !== -1
+    return index
   }
   // 根據追隨關係 id 刪除追隨關係
   delete(index) {

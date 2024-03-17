@@ -5,6 +5,7 @@ const ReturnCode = {
   Unauthorized: 401,
   Forbidden: 403,
   NotFound: 404,
+  Conflict: 409,
   ServerInternalError: 500,
 }
 
@@ -14,6 +15,8 @@ const ErrorCode = {
   MissingParameters: 40001,
   InvalidParameters: 40002,
   NotFound: 40400,
+  NotRelationship: 40401,
+  Conflict: 40900,
   WriteError: 50001,
   ReadError: 50002,
   UpdateError: 50003,
