@@ -1,0 +1,52 @@
+[
+    {
+        "id": 1,
+        "name": "Henry",
+        "email": "henry@articlecamp.com",
+        "password": "password",
+        "image": "",
+        "categories": [],
+        "createAt": 1705819929,
+        "updateAt": 1705819929
+    },
+    {
+        "id": 2,
+        "name": "Alex",
+        "email": "alex@articlecamp.com",
+        "password": "password",
+        "image": "",
+        "categories": [],
+        "createAt": 1705819929,
+        "updateAt": 1705819929
+    },
+    {
+        "id": 3,
+        "name": "ShangRuey",
+        "email": "shang-ruey@articlecamp.com",
+        "password": "password",
+        "image": "",
+        "categories": [],
+        "createAt": 1705819929,
+        "updateAt": 1705819929
+    },
+    {
+        "id": 4,
+        "name": "Louis",
+        "email": "louis@articlecamp.com",
+        "password": "password",
+        "image": "",
+        "categories": [],
+        "createAt": 1705819929,
+        "updateAt": 1705819929
+    },
+    {
+        "id": 5,
+        "name": "Peggy",
+        "email": "peggy@articlecamp.com",
+        "password": "password",
+        "image": "",
+        "categories": [],
+        "createAt": 1705819929,
+        "updateAt": 1705819929
+    }
+]
