@@ -26,4 +26,4 @@ const ErrorCode = {
   },
 }
 
-export default { ReturnCode, ErrorCode }
+module.exports = { ReturnCode, ErrorCode }

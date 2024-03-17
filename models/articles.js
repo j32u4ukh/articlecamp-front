@@ -1,5 +1,5 @@
-import Model from './base'
-import { getTimestamp } from '../utils'
+const Model = require('./base')
+const { getTimestamp } = require('../utils')
 
 class ArticleModel extends Model {
   constructor({ version }) {
@@ -143,4 +143,4 @@ class ArticleModel extends Model {
 
 const Article1 = new ArticleModel({ version: 1 })
 const Article2 = new ArticleModel({ version: 2 })
-export default { Article1, Article2 }
+module.exports = { Article1, Article2 }

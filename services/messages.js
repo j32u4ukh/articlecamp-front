@@ -1,5 +1,5 @@
-import { Message as Model } from '../models/index'
-import { ErrorCode } from '../utils/codes.js'
+const { Message: Model } = require('../models/index')
+const { ErrorCode } = require('../utils/codes.js')
 
 class MessageService {
   getList(articleId, offset, size, filterFunc) {
@@ -65,4 +65,4 @@ class MessageService {
 }
 
 const Message = new MessageService()
-export default Message
+module.exports = Message

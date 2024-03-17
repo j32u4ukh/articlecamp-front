@@ -1,4 +1,4 @@
-import { readFile, writeFile } from 'fs'
+const { readFile, writeFile } = require('fs')
 
 class Model {
   constructor({ file_path }) {
@@ -82,4 +82,4 @@ class Model {
   }
 }
 
-export default Model
+module.exports = Model
