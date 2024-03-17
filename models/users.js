@@ -1,5 +1,5 @@
-import Model from './base'
-import { getTimestamp } from '../utils'
+const Model = require('./base')
+const { getTimestamp } = require('../utils')
 
 class UserModel extends Model {
   constructor() {
@@ -91,4 +91,4 @@ class UserModel extends Model {
 }
 
 const User = new UserModel()
-export default User
+module.exports = User

@@ -1,4 +1,4 @@
-import { readFile, writeFile } from 'fs'
+const { readFile, writeFile } = require('fs')
 
 class Model {
   constructor({ file_path }) {
@@ -10,7 +10,7 @@ class Model {
     let data
     for (let i = 0; i < n_data; i++) {
       data = datas[i]
-      if (data.id === id) {
+      if (data.id == id) {
         return { index: i, data: data }
       }
     }
@@ -82,4 +82,4 @@ class Model {
   }
 }
 
-export default Model
+module.exports = Model

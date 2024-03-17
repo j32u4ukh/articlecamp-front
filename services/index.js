@@ -1,6 +1,6 @@
-import { Article1, Article2 } from './article'
-import Category from './categories'
-import Message from './messages'
-import User from './users'
+const { Article1, Article2 } = require('./article')
+const Category = require('./categories')
+const Message = require('./messages')
+const User = require('./users')
 
-export default { Article1, Article2, Category, Message, User }
+module.exports = { Article1, Article2, Category, Message, User }

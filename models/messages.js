@@ -1,5 +1,5 @@
-import Model from './base'
-import { getTimestamp } from '../utils'
+const Model = require('./base')
+const { getTimestamp } = require('../utils')
 
 function belongToArticle(articleId, message) {
   return message.articleId === articleId
@@ -71,4 +71,4 @@ class MessageModel extends Model {
 }
 
 const Message = new MessageModel()
-export default Message
+module.exports = Message

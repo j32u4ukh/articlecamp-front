@@ -1,4 +1,4 @@
-import Model from './base'
+const Model = require('./base')
 
 class FollowModel extends Model {
   constructor() {
@@ -72,4 +72,4 @@ class FollowModel extends Model {
 }
 
 const Follow = new FollowModel()
-export default Follow
+module.exports = Follow

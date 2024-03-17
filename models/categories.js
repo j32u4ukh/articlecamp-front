@@ -1,4 +1,4 @@
-import Model from './base'
+const Model = require('./base')
 
 class CategoryModel extends Model {
   constructor() {
@@ -65,4 +65,4 @@ class CategoryModel extends Model {
 }
 
 const Category = new CategoryModel()
-export default Category
+module.exports = Category

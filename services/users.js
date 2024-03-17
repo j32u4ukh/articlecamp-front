@@ -1,5 +1,5 @@
-import { User as UserModel } from '../models/index'
-import { ErrorCode } from '../utils/codes.js'
+const { User: UserModel } = require('../models/index')
+const { ErrorCode } = require('../utils/codes.js')
 
 class UserService {
   getList(userId, offset, size, filterFunc) {
@@ -28,14 +28,16 @@ class UserService {
   }
   get({ id }) {
     return new Promise((resolve, reject) => {
-      const result = UserModel.get(id)
-      if (result.index === -1) {
+      let { index, data } = UserModel.get(id)
+      if (index === -1) {
         reject({
           code: ErrorCode.NotFound,
           msg: `沒有 id 為 ${id} 的用戶`,
         })
       }
-      resolve(result.data)
+      delete data.password
+      delete data.createAt
+      resolve(data)
     })
   }
   add(user) {
@@ -102,4 +104,4 @@ class UserService {
 }
 
 const User = new UserService()
-export default User
+module.exports = User

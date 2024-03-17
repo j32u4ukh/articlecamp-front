@@ -1,10 +1,14 @@
 // 引用 Express 與 Express 路由器
-import { Router } from 'express'
-const router = Router()
+const { Router } = require('express')
 
 // 準備引入路由模組
-import articles from './articles'
+const articles = require('./articles')
+const users = require('./users')
+
+const router = Router()
+
 router.use('/articles', articles)
+router.use('/users', users)
 
 // 匯出路由器
-export default router
+module.exports = router

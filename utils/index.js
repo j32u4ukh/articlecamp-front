@@ -1,3 +1,5 @@
-export function getTimestamp() {
-  return Math.floor(new Date().getTime() / 1000)
+module.exports = {
+  getTimestamp() {
+    return Math.floor(new Date().getTime() / 1000)
+  },
 }

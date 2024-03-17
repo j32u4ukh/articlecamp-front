@@ -1,5 +1,5 @@
-import { Article1, Article2, Category } from '../models'
-import { ErrorCode } from '../utils/codes.js'
+const { Article1, Article2, Category } = require('../models')
+const { ErrorCode } = require('../utils/codes.js')
 
 class ArticleService {
   constructor(version) {
@@ -191,5 +191,4 @@ class ArticleService {
 
 const Service1 = new ArticleService(1)
 const Service2 = new ArticleService(2)
-export const Article1 = Service1
-export const Article2 = Service2
+module.exports = { Article1: Service1, Article2: Service2 }
