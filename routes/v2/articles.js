@@ -89,7 +89,7 @@ router.post('/:id/messages', (req, res) => {
 
   // TODO: 從 header 取得用戶 ID
   const userId = 1
-  Message.add(userId, articleId, BODY.content)
+  Message.add(userId, articleId, BODY)
     .then((result) => {
       res.json(result)
     })
