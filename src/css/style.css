@@ -346,7 +346,6 @@ footer {
   font-weight: bolder;
 }
 
-
 #commentForm {
   width: 100%;
   margin-top: 20px;
@@ -370,12 +369,10 @@ footer {
   /* 點擊後的高度 */
 }
 
-
 /* 留言、取消按鈕 */
 .comment-controls {
   text-align: end;
   position: relative;
-
 }
 
 /* 歷史留言區 (還要做每則留言的格子)*/
@@ -431,4 +428,17 @@ footer {
   padding: 10px;
   margin-top: 10px;
   border-radius: 10px 10px;
+}
+
+.profile-picture {
+  display: flex;
+  margin: 0 0 0 10px;
+  cursor: pointer;
+}
+.profile-picture a {
+  display: flex;
+}
+
+#editButton {
+  margin-left: auto;
 }
