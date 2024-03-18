@@ -4,6 +4,7 @@ const articleAuthor = document.querySelector('#article-author')
 const articleContext = document.querySelector('#article-context')
 const cancelButton = document.querySelector('.cancel-btn')
 const homeIcon = document.querySelector('.icon')
+const navbar = document.querySelector('.nav-bar')
 const API_URL = `${BASE_URL}/articles/create`
 
 // 取得下拉選單區塊
@@ -48,6 +49,17 @@ function createArticleAPI(author, title, content, category) {
       console.log(error)
     })
 }
+
+// 監聽 navbar
+navbar.addEventListener('click', function onNavbarClicked(event) {
+  const target = event.target
+
+  if (target.matches('.profile-picture')) {
+    const id = Number(target.dataset.id)
+    setCookie('articleId', id)
+    window.location.href = `./profile.html?id=${id}`
+  }
+})
 
 // 新增文章按鈕，按下後，確認欄位填寫，新增文章
 // 0317 新增category 參數

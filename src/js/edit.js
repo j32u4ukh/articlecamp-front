@@ -1,3 +1,5 @@
+const navbar = document.querySelector('.nav-bar')
+
 // 取得 Logo 物件
 const homeIcon = document.querySelector('.icon')
 
@@ -71,6 +73,17 @@ function renderArticle(data) {
 ;(function init() {
   homeIcon.addEventListener('click', () => {
     window.location.href = './index.html'
+  })
+
+  // 監聽 navbar
+  navbar.addEventListener('click', function onNavbarClicked(event) {
+    const target = event.target
+
+    if (target.matches('.profile-picture')) {
+      const id = Number(target.dataset.id)
+      setCookie('articleId', id)
+      window.location.href = `./profile.html?id=${id}`
+    }
   })
 
   submitBtn.addEventListener('click', () => {
