@@ -117,10 +117,30 @@ function renderArticle(article) {
   articleContainer.appendChild(child)
 }
 
+// 取得文章分類數據後，存入 Cookie
+function setCategoryCookie() {
+  const category = getCookie('categoryArrayCookie')
+  if (category === undefined) {
+    axios
+      .get(`${API_URL}/categories`)
+      .then((response) => {
+        const DATA = JSON.stringify(response.data)
+        setCookie('categoryArrayCookie', DATA)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+}
+
 // 初始化
 ;(function init() {
   // 初始化 Cookie 數據結構
   initCookies()
+
+  // 取得文章分類列表並記入 Cookie
+  setCategoryCookie()
+
   // 重置搜尋框
   searchInput.value = ''
 
