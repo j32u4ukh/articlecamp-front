@@ -116,29 +116,29 @@ function renderArticle(article) {
   articleContainer.appendChild(child)
 }
 
-//0317 設置categoryCookie 並用 promise 包裝 確保cookie設置好後再做後續動作
+// 取得文章分類數據後，存入 Cookie
 function setCategoryCookie() {
-  return new Promise((resolve, reject) => {
+  const category = getCookie('categoryArrayCookie')
+  if (category === undefined) {
     axios
-      .get(API_URL + '/categories')
+      .get(`${API_URL}/categories`)
       .then((response) => {
-        const categoryData = response.data
-        const categoryJsonString = JSON.stringify(categoryData)
-        setCookie('categoryArrayCookie', categoryJsonString)
-        resolve()
+        const DATA = JSON.stringify(response.data)
+        setCookie('categoryArrayCookie', DATA)
       })
       .catch((error) => {
-        console.log(error)
-        reject(error)
+        console.error(error)
       })
-  })
+  }
 }
-setCategoryCookie()
 
 // 初始化
 ;(function init() {
   // 初始化 Cookie 數據結構
   initCookies()
+
+  // 取得文章分類列表並記入 Cookie
+  setCategoryCookie()
 
   // 重置搜尋框
   searchInput.value = ''
