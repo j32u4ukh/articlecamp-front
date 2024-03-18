@@ -1,6 +1,7 @@
 const navbar = document.querySelector('.nav-bar')
 const userid = document.querySelector('#user-id')
 const cancelbtn = document.querySelector('#cancel-btn')
+
 // 監聽 navbar
 navbar.addEventListener('click', function onNavbarClicked(event) {
   const target = event.target
@@ -11,6 +12,7 @@ navbar.addEventListener('click', function onNavbarClicked(event) {
     window.location.href = `./profile.html?id=${id}`
   }
 })
+
 // 監聽 cancelbtn
 cancelbtn.addEventListener('click', function onCancelBtnClicked() {
   // 獲取原始的用戶名和郵箱值
@@ -21,26 +23,10 @@ cancelbtn.addEventListener('click', function onCancelBtnClicked() {
   document.querySelector('#user-name input').value = originalUsername
   document.querySelector('#email input').value = originalEmail
 })
-function renderUserid() {
+
+function renderUserId() {
   const articleId = getCookie('articleId')
   userid.textContent = `User ID: ${articleId}`
 }
-renderUserid()
-const navbar = document.querySelector('.nav-bar')
-const userid = document.querySelector('#user-id')
-// 監聽 navbar
-navbar.addEventListener('click', function onNavbarClicked(event) {
-  const target = event.target
 
-  if (target.matches('.profile-picture')) {
-    const id = Number(target.dataset.id)
-    setCookie('articleId', id)
-    window.location.href = `./profile.html?id=${id}`
-  }
-})
-
-function renderUserid() {
-  const articleId = getCookie('articleId')
-  userid.textContent = `User ID: ${articleId}`
-}
-renderUserid()
+renderUserId()
