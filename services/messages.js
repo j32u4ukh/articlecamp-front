@@ -38,8 +38,9 @@ class MessageService {
       resolve(result.data)
     })
   }
-  add(articleId, message) {
+  add(userId, articleId, message) {
     return new Promise((resolve, reject) => {
+      message.userId = userId
       message.articleId = articleId
       const isValid = Model.validate(message)
       if (!isValid) {
