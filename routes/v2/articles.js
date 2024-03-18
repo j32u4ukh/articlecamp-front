@@ -79,16 +79,17 @@ router.get('/:id/messages', (req, res) => {
 
 router.post('/:id/messages', (req, res) => {
   const articleId = Number(req.params.id)
-  const message = req.body
-  if (message.content === undefined || message.content === '') {
+  const BODY = req.body
+  if (BODY.content === undefined || BODY.content === '') {
     return res.status(ReturnCode.BadRequest).json({
       code: ErrorCode.MissingParameters,
       msg: 'content 為必要參數',
     })
   }
+
   // TODO: 從 header 取得用戶 ID
   const userId = 1
-  Message.add(userId, articleId, message)
+  Message.add(userId, articleId, BODY.content)
     .then((result) => {
       res.json(result)
     })
