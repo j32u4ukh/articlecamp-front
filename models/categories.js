@@ -1,4 +1,5 @@
 const Model = require('./base')
+const { toNumeric } = require('../utils')
 
 class CategoryModel extends Model {
   constructor() {
@@ -48,13 +49,14 @@ class CategoryModel extends Model {
   }
   // 有效文章分類 id 則直接返回，否則返回預設文章分類 id
   validCategory(categoryId) {
+    const [cid, ok] = toNumeric(categoryId)
+    if (ok) {
+      categoryId = cid
+    }
     return this.isValidCategory(categoryId) ? categoryId : 1
   }
   // 判斷文章分類 id 是否有效
   isValidCategory(categoryId) {
-    if (categoryId === undefined || categoryId === '') {
-      return false
-    }
     for (let i = 0; i < this.n_category; i++) {
       if (this.categories[i].id === categoryId) {
         return true
