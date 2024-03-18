@@ -41,7 +41,7 @@ function initCookies() {
   const initData = `data=${JSON.stringify({})}`
   if (document.cookie === '') {
     // 若您的應用程式需要這組 Cookie 才能在不同環境中運作，請加上「SameSite=None」屬性。
-    document.cookie = `${initData};SameSite=None;secure`
+    document.cookie = `${initData}; SameSite=None; Secure`
   } else {
     const [_, options] = getCookies()
     options.unshift(initData)

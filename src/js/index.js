@@ -3,6 +3,7 @@ const createArticle = document.querySelector('#createButton')
 const searchInput = document.querySelector('#search-input')
 const searchButton = document.querySelector('#search-btn')
 const homeIcon = document.querySelector('.icon')
+const navbar = document.querySelector('.nav-bar')
 const API_URL = `${BASE_URL}/articles`
 const articles = []
 //////////無限下滑//////////
@@ -116,14 +117,43 @@ function renderArticle(article) {
   articleContainer.appendChild(child)
 }
 
+// 取得文章分類數據後，存入 Cookie
+function setCategoryCookie() {
+  const category = getCookie('categoryArrayCookie')
+  if (category === undefined) {
+    axios
+      .get(`${API_URL}/categories`)
+      .then((response) => {
+        const DATA = JSON.stringify(response.data)
+        setCookie('categoryArrayCookie', DATA)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+}
+
 // 初始化
 ;(function init() {
   // 初始化 Cookie 數據結構
   initCookies()
 
+  // 取得文章分類列表並記入 Cookie
+  setCategoryCookie()
+
   // 重置搜尋框
   searchInput.value = ''
 
+  // 監聽 navbar
+  navbar.addEventListener('click', function onNavbarClicked(event) {
+    const target = event.target
+
+    if (target.matches('.profile-picture')) {
+      const id = Number(target.dataset.id)
+      setCookie('articleId', id)
+      window.location.href = `./profile.html?id=${id}`
+    }
+  })
   // 監聽 articleContainer
   articleContainer.addEventListener('click', function onArticleClicked(event) {
     const target = event.target
@@ -172,6 +202,7 @@ function renderArticle(article) {
     .get(API_URL)
     .then((response) => {
       let datas = response.data
+      console.log(datas)
       articles.push(...datas)
       // 頁面載入後渲染特定文章篇數
       renderArticles(articles.slice(0, articleCount))
