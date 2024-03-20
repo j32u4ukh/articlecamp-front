@@ -83,7 +83,7 @@ class ArticleModel extends Model {
     const results = {
       total: Number(total),
       offset: Number(offset),
-      size: Number(size),
+      size: Number(len - offset),
       articles: articles.slice(offset, len),
     }
     if (summary) {
