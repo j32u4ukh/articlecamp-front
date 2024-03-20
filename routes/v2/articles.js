@@ -4,16 +4,27 @@ const { Article2, Category, Message } = require('../../services')
 const { ReturnCode, ErrorCode } = require('../../utils/codes')
 
 router.get('/', (req, res) => {
+  const token = req.headers.token
+  if (token === undefined) {
+    return res.status(ReturnCode.BadRequest).json({
+      code: ErrorCode.MissingParameters,
+      msg: '缺少必要參數 token',
+    })
+  }
+  // 暫時使用 userId 作為 token
+  const userId = token
   const keyword = req.query.keyword
   const offset = req.query.offset
   const size = req.query.size
   const summary = true
   if (keyword) {
-    Article2.getByKeyword2(offset, size, summary, keyword).then((articles) => {
-      res.json(articles)
-    })
+    Article2.getByKeyword2(userId, offset, size, summary, keyword).then(
+      (articles) => {
+        res.json(articles)
+      }
+    )
   } else {
-    Article2.getList2(offset, size, summary).then((articles) => {
+    Article2.getList2(userId, offset, size, summary).then((articles) => {
       res.json(articles)
     })
   }
