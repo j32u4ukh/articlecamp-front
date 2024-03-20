@@ -1,5 +1,5 @@
 const { Article1, Article2, Category } = require('../models')
-const { ReturnCode, ErrorCode } = require('../utils/codes.js')
+const { ErrorCode } = require('../utils/codes.js')
 
 class ArticleService {
   constructor(version) {
