@@ -144,19 +144,21 @@ function setCategoryCookie() {
   // 取得文章分類列表並記入 Cookie
   setCategoryCookie()
 
+  setCookie('userId', '1')
+
   // 重置搜尋框
   searchInput.value = ''
 
-  // 監聽 navbar
-  navbar.addEventListener('click', function onNavbarClicked(event) {
-    const target = event.target
+  // // 監聽 navbar
+  // navbar.addEventListener('click', function onNavbarClicked(event) {
+  //   const target = event.target
 
-    if (target.matches('.profile-picture')) {
-      const id = Number(target.dataset.id)
-      setCookie('articleId', id)
-      window.location.href = `./profile.html?id=${id}`
-    }
-  })
+  //   if (target.matches('.profile-picture')) {
+  //     const id = Number(target.dataset.id)
+  //     setCookie('articleId', id)
+  //     window.location.href = `./profile.html?id=${id}`
+  //   }
+  // })
 
   // 監聽 articleContainer
   articleContainer.addEventListener('click', function onArticleClicked(event) {

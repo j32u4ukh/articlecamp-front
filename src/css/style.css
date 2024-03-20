@@ -365,7 +365,7 @@ footer {
 }
 
 #commentForm.expanded textarea {
-  height: 200px;
+  height: 120px;
   /* 點擊後的高度 */
 }
 
