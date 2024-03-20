@@ -50,16 +50,16 @@ function createArticleAPI(author, title, content, category) {
     })
 }
 
-// 監聽 navbar
-navbar.addEventListener('click', function onNavbarClicked(event) {
-  const target = event.target
+// // 監聽 navbar
+// navbar.addEventListener('click', function onNavbarClicked(event) {
+//   const target = event.target
 
-  if (target.matches('.profile-picture')) {
-    const id = Number(target.dataset.id)
-    setCookie('articleId', id)
-    window.location.href = `./profile.html?id=${id}`
-  }
-})
+//   if (target.matches('.profile-picture')) {
+//     const id = Number(target.dataset.id)
+//     setCookie('articleId', id)
+//     window.location.href = `./profile.html?id=${id}`
+//   }
+// })
 
 // 新增文章按鈕，按下後，確認欄位填寫，新增文章
 // 0317 新增category 參數
