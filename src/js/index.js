@@ -24,46 +24,10 @@ const size = 10
 
 // 渲染所有文章
 function renderArticles(articles) {
-  // 無限下滑:每次只插入新增文章篇數
-  // articleContainer.innerHTML = ''
-  // const parent = document.createElement('ul')
-  // parent.classList.add('list-group', 'col-sm-12', 'mb-2')
-  // articleContainer.appendChild(parent)
+  // 無限下滑: 每次只插入新增文章篇數
   articles.forEach((article) => {
     renderArticle(article)
   })
-  if (total > offset) {
-    const lastArticle = articleContainer.lastChild
-    // 設置IntersectionObserver
-    const observer = new IntersectionObserver(
-      (entry) => {
-        if (entry[0].isIntersecting) {
-          console.log('觸發成功: 渲染新文章')
-          console.log(`offset: ${offset}`)
-          console.log(`size: ${size}`)
-          // 關閉觀察
-          observer.unobserve(lastArticle)
-          // 發送請求
-          axios
-            .get(`${API_URL}?offset=${offset}&size=${size}`)
-            .then((response) => {
-              const data = response.data
-              const articles = data.articles
-              // 渲染新文章
-              renderArticles(articles)
-              // 更新位移值
-              offset += size
-            })
-            .catch((error) => {
-              console.error(error)
-            })
-        }
-      },
-      { threshold: 1 } // 預設為0,0是觀察對象上方,1是下方
-    )
-    // 啟動觀察
-    observer.observe(lastArticle)
-  }
 }
 
 // NOTE: 目前高度沒有考慮到 Header
@@ -111,7 +75,13 @@ function renderArticles(articles) {
 // 渲染單篇文章
 function renderArticle(article) {
   const child = document.createElement('li')
-  child.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'article', 'c-border')
+  child.classList.add(
+    'list-group-item',
+    'd-flex',
+    'justify-content-between',
+    'article',
+    'c-border'
+  )
   let preview = article.content.substring(0, 20)
   if (article.content.length > 20) {
     preview += '...'
@@ -152,6 +122,7 @@ function renderArticle(article) {
 // 取得文章分類數據後，存入 Cookie
 function setCategoryCookie() {
   const category = getCookie('categoryArrayCookie')
+  // 若 Cookie 中沒有文章分類數據，才向後端送出請求
   if (category === undefined) {
     axios
       .get(`${API_URL}/categories`)
@@ -186,6 +157,7 @@ function setCategoryCookie() {
       window.location.href = `./profile.html?id=${id}`
     }
   })
+
   // 監聽 articleContainer
   articleContainer.addEventListener('click', function onArticleClicked(event) {
     const target = event.target
@@ -242,8 +214,56 @@ function setCategoryCookie() {
       // 更新位移值
       offset = datas.size
       articles.push(...datas.articles)
+
       // 頁面載入後渲染特定文章篇數
       renderArticles(articles)
+
+      // 設置 IntersectionObserver
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            // 關閉觀察
+            observer.unobserve(articleContainer.lastChild)
+
+            // 發送請求
+            axios
+              .get(`${API_URL}?offset=${offset}&size=${size}`)
+              .then((response) => {
+                const DATA = response.data
+
+                // 更新總文章篇數
+                total = datas.total
+
+                // 取得下一批文章數據
+                const articles = DATA.articles
+
+                // 渲染新文章
+                renderArticles(articles)
+
+                // 更新位移值
+                offset += articles.length
+
+                console.log(
+                  `total: ${total}, offset: ${offset}, #articles: ${articles.length}`
+                )
+
+                if (total > offset) {
+                  // 啟動觀察
+                  observer.observe(articleContainer.lastChild)
+                } else {
+                  console.log('已全部渲染完成')
+                }
+              })
+              .catch((error) => {
+                console.error(error)
+              })
+          }
+        },
+        { threshold: 1 } // 預設為 0, 0 是觀察對象上方, 1 是下方
+      )
+
+      // 啟動觀察
+      observer.observe(articleContainer.lastChild)
     })
     .catch((error) => {
       console.log(error)
