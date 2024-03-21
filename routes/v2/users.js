@@ -1,11 +1,26 @@
 const { Router } = require('express')
-const { User } = require('../../services')
+const { User, UserFollow } = require('../../services')
 const { upload } = require('../../services/users')
 const router = Router()
 const { ReturnCode, ErrorCode } = require('../../utils/codes')
-const { getRoot, getImageFolder } = require('../../utils')
+const { getImageFolder } = require('../../utils')
 const fs = require('fs')
 const path = require('path')
+
+router.get('/', function (req, res) {
+  const token = req.headers.token
+  if (token === undefined) {
+    return res.status(ReturnCode.BadRequest).json({
+      code: ErrorCode.MissingParameters,
+      msg: '缺少必要參數 token',
+    })
+  }
+  const userId = token
+  const offset = req.query.offset
+  const size = req.query.size
+  const results = UserFollow.getListWithFollow(userId, offset, size)
+  res.json(results)
+})
 
 router.get('/images/:fileName', (req, res) => {
   const imageFolder = getImageFolder()

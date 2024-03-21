@@ -7,6 +7,9 @@ const fs = require('fs')
 const path = require('path')
 
 class UserService {
+  getAll() {
+    return UserModel.getList()
+  }
   getList(userId, offset, size, filterFunc) {
     return new Promise((resolve, reject) => {
       if (offset === undefined || offset === '') {
@@ -27,10 +30,31 @@ class UserService {
           size = 10
         }
       }
-      const users = UserModel.getList(userId, offset, size, filterFunc)
-      resolve(users)
+      const users = UserModel.getList((user) => {
+        if (filterFunc) {
+          let cond = filterFunc(user)
+          if (cond === false) {
+            return false
+          }
+        }
+        return user.id !== userId
+      })
+      const total = users.length
+      if (offset > total) {
+        offset = total
+      }
+      let len = offset + size
+      len = len > total ? total : len
+      const results = {
+        total: Number(total),
+        offset: Number(offset),
+        size: Number(size),
+        users: users.slice(offset, len),
+      }
+      resolve(results)
     })
   }
+  // concealing: 是否隱藏資訊
   get({ id, concealing = true }) {
     return new Promise((resolve, reject) => {
       let { index, data } = UserModel.get(id)

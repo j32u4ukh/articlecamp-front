@@ -28,4 +28,26 @@ module.exports = {
     data = textEncoder.encode(data)
     return base62Encoder.encode(data)
   },
+  selectByOffsetSize(datas, offset = 0, size = 10) {
+    try {
+      offset = Number(offset)
+      size = Number(size)
+    } catch {
+      offset = 0
+      size = 10
+    }
+    const total = datas.length
+    if (offset > total) {
+      offset = total
+    }
+    let len = offset + size
+    len = len > total ? total : len
+    const results = {
+      total: Number(total),
+      offset: Number(offset),
+      size: Number(len - offset),
+      datas: datas.slice(offset, len),
+    }
+    return results
+  },
 }

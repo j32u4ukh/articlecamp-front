@@ -49,7 +49,7 @@ class UserModel extends Model {
   get(id) {
     return super.get({ id: id, datas: this.users, n_data: this.n_user })
   }
-  getList(offset, size, func) {
+  getList(func) {
     let users
     if (func) {
       users = this.users.filter((user) => {
@@ -58,19 +58,7 @@ class UserModel extends Model {
     } else {
       users = this.users
     }
-    const total = users.length
-    if (offset > total) {
-      offset = total
-    }
-    let len = offset + size
-    len = len > total ? total : len
-    const results = {
-      total: Number(total),
-      offset: Number(offset),
-      size: Number(size),
-      users: users.slice(offset, len),
-    }
-    return results
+    return users
   }
   // 根據用戶 id 更新指定用戶
   update(index, user) {
