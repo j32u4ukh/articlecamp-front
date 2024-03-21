@@ -1,13 +1,11 @@
-import { Follow as FollowModel } from '../models/index'
-import { ErrorCode } from '../utils/codes.js'
-import User from '../models/users'
+const { Follow: FollowModel } = require('../models/index')
+const { ErrorCode } = require('../utils/codes.js')
+const User = require('../models/users')
 
 class FollowService {
   getList(userId) {
-    return new Promise((resolve, reject) => {
-      const follows = FollowModel.getList(userId)
-      resolve(follows)
-    })
+    const follows = FollowModel.getList(userId)
+    return follows
   }
   setRelationShip({ userId, followTo, follow }) {
     return new Promise((resolve, reject) => {
@@ -105,4 +103,4 @@ class FollowService {
 }
 
 const Follow = new FollowService()
-export default Follow
+module.exports = Follow

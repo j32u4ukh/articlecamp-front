@@ -1,4 +1,5 @@
 const { Article1, Article2, Category } = require('../models')
+const Follow = require('./follows.js')
 const { ErrorCode } = require('../utils/codes.js')
 
 class ArticleService {
@@ -41,7 +42,7 @@ class ArticleService {
       resolve(Article1.getList(filterFunc))
     })
   }
-  getList2(offset, size, summary, filterFunc) {
+  getList2(userId, offset, size, summary, filterFunc) {
     return new Promise((resolve, reject) => {
       if (offset === undefined || offset === '') {
         offset = 0
@@ -61,8 +62,61 @@ class ArticleService {
           size = 10
         }
       }
-      const articles = Article2.getList2(offset, size, summary, filterFunc)
-      resolve(articles)
+      // TODO: 取得用戶 ID 以及其追蹤對象的 ID 列表
+      const ids = [Number(userId)]
+      const follows = Follow.getList(userId)
+      follows.forEach((follow) => {
+        ids.push(follow.followTo)
+      })
+
+      // 根據 ID 列表返回文章列表
+      const articles = Article2.getList((article) => {
+        if (filterFunc) {
+          let cond = filterFunc(article)
+          if (cond === false) {
+            return false
+          }
+        }
+        return (
+          ids.findIndex((id) => {
+            return id == article.userId
+          }) !== -1
+        )
+      })
+
+      // 將數據重組的流程移到 service
+      const total = articles.length
+      if (offset > total) {
+        offset = total
+      }
+      let len = offset + size
+      len = len > total ? total : len
+      const results = {
+        total: Number(total),
+        offset: Number(offset),
+        size: Number(len - offset),
+        articles: articles.slice(offset, len),
+      }
+      if (summary) {
+        let article
+        len = results.articles.length
+        for (let i = 0; i < len; i++) {
+          article = results.articles[i]
+          let preview = article.content.substring(0, 20)
+          if (article.content.length > 20) {
+            preview += '...'
+          }
+          results.articles[i] = {
+            id: article.id,
+            author: article.author,
+            title: article.title,
+            category: article.category,
+            content: preview,
+            updateAt: article.updateAt,
+          }
+        }
+      }
+      resolve(results)
     })
   }
   getByKeyword(keyword) {
@@ -84,13 +138,13 @@ class ArticleService {
       })
     })
   }
-  getByKeyword2(offset, size, summary, keyword) {
+  getByKeyword2(userId, offset, size, summary, keyword) {
     return new Promise((resolve, reject) => {
       keyword = keyword.toUpperCase()
       // NOTE: 搜尋字如果要搜文章分類，必須是完整名稱，不區分大小寫
       // 根據搜尋字反查文章分類 id，再比對各篇文章的分類 id，而非將各篇文章的分類 id 轉換成字串來比對
       let cid = Category.getId(keyword)
-      this.getList2(offset, size, summary, (article) => {
+      this.getList2(userId, offset, size, summary, (article) => {
         if (article.author.toUpperCase().includes(keyword)) {
           return true
         }
