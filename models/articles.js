@@ -10,7 +10,7 @@ class ArticleModel extends Model {
     this.n_article = 0
 
     // TODO: 根據 version 不同，設置不同的必要欄位
-    this.requiredFields = ['author', 'title', 'content']
+    this.requiredFields = ['userId', 'title', 'content']
 
     this.read()
       .then((articles) => {

@@ -1,7 +1,6 @@
 [
     {
         "id": 1,
-        "author": "Author1",
         "userId": 1,
         "title": "Article1",
         "category": 1,
@@ -11,7 +10,6 @@
     },
     {
         "id": 2,
-        "author": "Author1",
         "userId": 1,
         "title": "Article2",
         "category": 1,
@@ -21,7 +19,6 @@
     },
     {
         "id": 3,
-        "author": "Author1",
         "userId": 1,
         "title": "Article3",
         "category": 1,
@@ -31,7 +28,6 @@
     },
     {
         "id": 4,
-        "author": "Author1",
         "userId": 2,
         "title": "Article4",
         "category": 1,
@@ -41,7 +37,6 @@
     },
     {
         "id": 5,
-        "author": "Author1",
         "userId": 3,
         "title": "Article5",
         "category": 1,

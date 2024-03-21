@@ -31,14 +31,16 @@ router.get('/', (req, res) => {
 })
 
 router.post('/create', (req, res) => {
-  const BODY = req.body
-  const author = BODY.author
-  if (author === undefined || author === '') {
+  const token = req.headers.token
+  if (token === undefined) {
     return res.status(ReturnCode.BadRequest).json({
-      code: ErrorCode.ParamError,
-      msg: 'author 為必要參數',
+      code: ErrorCode.MissingParameters,
+      msg: '缺少必要參數 token',
     })
   }
+  // 暫時使用 userId 作為 token
+  const userId = token
+  const BODY = req.body
   const title = BODY.title
   if (title === undefined || title === '') {
     return res.status(ReturnCode.BadRequest).json({
@@ -47,7 +49,7 @@ router.post('/create', (req, res) => {
     })
   }
   Article2.add({
-    author,
+    userId,
     title,
     category: BODY.category,
     content: BODY.content,

@@ -108,7 +108,7 @@ class ArticleService {
           }
           results.articles[i] = {
             id: article.id,
-            author: article.author,
+            userId: article.userId,
             title: article.title,
             category: article.category,
             content: preview,
@@ -123,9 +123,6 @@ class ArticleService {
     return new Promise((resolve, reject) => {
       keyword = keyword.toUpperCase()
       this.getList((article) => {
-        if (article.author.toUpperCase().includes(keyword)) {
-          return true
-        }
         if (article.title.toUpperCase().includes(keyword)) {
           return true
         }
@@ -138,6 +135,7 @@ class ArticleService {
       })
     })
   }
+  // TODO: 由於文章數據改存 userId，而非作者名稱，因此針對作者名稱的搜尋目前沒有實作，之後可以直接查完用戶名稱後，添加到文章數據當中
   getByKeyword2(userId, offset, size, summary, keyword) {
     return new Promise((resolve, reject) => {
       keyword = keyword.toUpperCase()
@@ -145,9 +143,6 @@ class ArticleService {
       // 根據搜尋字反查文章分類 id，再比對各篇文章的分類 id，而非將各篇文章的分類 id 轉換成字串來比對
       let cid = Category.getId(keyword)
       this.getList2(userId, offset, size, summary, (article) => {
-        if (article.author.toUpperCase().includes(keyword)) {
-          return true
-        }
         if (article.title.toUpperCase().includes(keyword)) {
           return true
         }
