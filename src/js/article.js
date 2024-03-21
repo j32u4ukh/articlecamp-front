@@ -4,6 +4,7 @@ const editArticle = document.querySelector('#editButton')
 const title = document.querySelector('.article-title')
 const author = document.querySelector('.article-author')
 const context = document.querySelector('.article-context')
+const category = document.querySelector('.article-category')
 const navbar = document.querySelector('.nav-bar')
 // 留言區
 const commentForm = document.querySelector('#commentForm')
@@ -16,8 +17,25 @@ const articleId = Number(getCookie('articleId'))
 const API_URL = `${BASE_URL}/articles/${articleId}`
 
 function renderArticle(data) {
+  // cookie data
+  const currentCookie = document.cookie
+  const cookieValue = currentCookie.split('=')[1]
+  const cookieObj = JSON.parse(cookieValue)
+  const userId = cookieObj.userId
+  const articleId = cookieObj.articleId
+  const categoryArrayCookie = cookieObj.categoryArrayCookie
+  const categoryArray = JSON.parse(categoryArrayCookie)
+  console.log(`userId: ${userId}`)
+  console.log(`articleId: ${articleId}`)
+  console.log('categoryArray: ', categoryArray)
+  // cookie data
+  let options = ``
+  categoryArray.forEach((data) => {
+    options += `<option value="${data.id}">${data.name}</option>`
+  })
   title.innerHTML = `文章標題: ${data.title}`
   author.innerHTML = `文章作者: ${data.author}`
+  category.innerHTML = options
   context.innerHTML = data.content
 }
 
