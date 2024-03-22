@@ -1,5 +1,5 @@
 const { Router } = require('express')
-const { User, UserFollow } = require('../../services')
+const { User, Follow, UserFollow } = require('../../services')
 const { upload } = require('../../services/users')
 const router = Router()
 const { ReturnCode, ErrorCode } = require('../../utils/codes')
@@ -20,6 +20,34 @@ router.get('/', function (req, res) {
   const size = req.query.size
   const results = UserFollow.getListWithFollow(userId, offset, size)
   res.json(results)
+})
+
+router.post('/follows/:id', function (req, res) {
+  const token = req.headers.token
+  if (token === undefined) {
+    return res.status(ReturnCode.BadRequest).json({
+      code: ErrorCode.MissingParameters,
+      msg: '缺少必要參數 token',
+    })
+  }
+  const follow = req.body.follow
+  if (follow === undefined || follow === '') {
+    return res.status(ReturnCode.BadRequest).json({
+      code: ErrorCode.ParamError,
+      msg: 'follow 為必要參數',
+    })
+  }
+  // 當前用戶的 id
+  const userId = Number(token)
+  // 欲追隨用戶的 id
+  const followTo = Number(req.params.id)
+  Follow.setRelationShip({ userId, followTo, follow })
+    .then((result) => {
+      res.json(result)
+    })
+    .catch((error) => {
+      res.status(ErrorCode.getReturnCode(error.code)).json(error)
+    })
 })
 
 router.get('/images/:fileName', (req, res) => {

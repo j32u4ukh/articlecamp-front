@@ -4,7 +4,7 @@ const { selectByOffsetSize } = require('../utils')
 
 class UserFollowService {
   getListWithFollow(userId, offset, size) {
-    const users = User.getAll().filter((user) => user.id !== userId)
+    const users = User.getAll().filter((user) => user.id != userId)
     const relationship = Follow.getList(userId)
     // 根據追隨關係，進行排序後，再考慮 offset 和 size
     const len = relationship.length
