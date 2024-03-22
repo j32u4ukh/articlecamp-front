@@ -117,9 +117,13 @@ function renderArticle(article) {
 }
 
 // 初始化
-;(function init() {
+; (function init() {
   // 初始化 Cookie 數據結構
   initCookies()
+
+  // 呼叫setCookie
+  const id = 1
+  setCookie('articleId', id)
 
   // 重置搜尋框
   searchInput.value = ''

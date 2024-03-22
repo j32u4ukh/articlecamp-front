@@ -307,6 +307,7 @@ footer {
 }
 
 /* 歷史留言區 (還要做每則留言的格子)*/
+
 .comment-list {
   margin: 0 auto;
   width: 60%;
@@ -380,14 +381,13 @@ footer {
 
 /* 歷史留言區 (還要做每則留言的格子)*/
 .comment-list {
-  max-height: 300px;
-  overflow: auto;
+  /* max-height: 300px; */
   margin: 20px auto;
-  display: none;
+  /* display: none; */
   flex-direction: column;
   background-color: rgb(222, 173, 125);
   width: 60%;
-  padding-top: 20px;
+  padding: 20px 10px;
   border-radius: 10px 10px;
 }
 
@@ -397,13 +397,13 @@ footer {
   flex-direction: row;
   align-items: center;
   margin: 5px;
+  padding: 5px 0px;
   background-color: rgb(238, 211, 187);
   border-radius: 10px 10px;
 }
 
 .commenter-container {
   max-height: 200px;
-  overflow: auto;
   display: flex;
   flex-direction: row;
   background-color: #ecd4ae;
@@ -426,9 +426,8 @@ footer {
   white-space: pre-wrap;
   word-wrap: break-word;
   max-height: 150px;
-  overflow: auto;
   background-color: #f3994f;
   padding: 10px;
-  margin-top: 10px;
+  margin: 10px;
   border-radius: 10px 10px;
 }

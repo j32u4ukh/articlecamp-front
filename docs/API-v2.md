@@ -333,7 +333,7 @@
     {
         user_id: 4,
         article_id: 3,
-        message: "This is message",
+        content: "This is message",
     }
     ```
     * Request header: 使用登入時給的 token 作為辨識用戶的代碼
@@ -346,7 +346,7 @@
         id: 3,
         user_id: 4,
         article_id: 3,
-        message: "This is message",
+        content: "This is message",
         updateAt: 1705840000,
     }
     ```
