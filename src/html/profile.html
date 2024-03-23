@@ -1,12 +1,13 @@
-<!-- 新增文章頁面 -->
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- <link rel="stylesheet" href="../css/reset.css" /> -->
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/bootstrap.css" />
     <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/c-style.css" />
+
     <link
       rel="icon"
       type="image/svg+xml"
@@ -18,6 +19,7 @@
       href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Noto+Sans+TC:wght@400;700&display=swap"
       rel="stylesheet"
     />
+
     <title>Articlecamp</title>
   </head>
 
@@ -51,37 +53,26 @@
 
     <main>
       <div class="article-content">
-        <label class="article-title"
-          >文章標題: <input type="text" value="" id="article-title" /></label
-        ><br />
-        <label class="article-author"
-          >文章作者: <input type="text" value="" id="article-author"
+        <label id="user-id"> </label>
+        <br />
+        <label id="user-name"
+          >User Name:<input type="text"
         /></label>
         <br />
-        <label>文章類別: </label>
-        <select class="article-category">
-          <!--<option selected>請選擇文章類別</option>
-          <option>類別1</option>
-          <option>類別2</option>
-          <option>類別3</option>
-          <option>類別4</option>
-          <option>類別5</option>
-          <option>類別6</option>
-          <option>類別7</option>-->
-        </select>
-        <div class="article-context">
-          文章內容:
-          <article>
-            <textarea
-              id="article-context"
-              cols="50"
-              rows="4"
-              value=""
-            ></textarea>
-          </article>
+        <label id="email">Email:<input type="text" /></label>
+        <br />
+        <label id="photo">Photo <button>上傳圖片</button></label>
+        <br />
+        <div id="profile-img">
+          <img
+            src="https://assets-global.website-files.com/60d196db74a1e36ff16ebd5d/63c117f19e248b737369b165_puppy-g3237d6104_1920.jpg"
+            alt="123"
+          />
         </div>
-        <button class="cancel-btn">Cancel</button>
-        <button class="submit-btn">Submit</button>
+      </div>
+      <div class="btn-list">
+        <button id="cancel-btn">Cancel</button>
+        <button id="update-btn">Update</button>
       </div>
     </main>
 
@@ -93,8 +84,7 @@
       src="https://kit.fontawesome.com/6fb9682f78.js"
       crossorigin="anonymous"
     ></script>
-
     <script src="../js/utils.js"></script>
-    <script src="../js/create.js"></script>
+    <script src="../js/profile.js"></script>
   </body>
 </html>
