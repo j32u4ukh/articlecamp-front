@@ -14,14 +14,57 @@ const submitButton = document.querySelector('#submit-comment-button')
 
 const articleId = Number(getCookie('articleId'))
 const API_URL = `${BASE_URL}/articles/${articleId}`
-
-// 留言 api
 const MESSAGE_URL = `${BASE_URL}/articles/${articleId}/messages`
+
+let total = 0
+let offset = 0
+const size = 10
 
 function renderArticle(data) {
   title.innerHTML = `文章標題: ${data.title}`
   author.innerHTML = `文章作者: ${data.author}`
   context.innerHTML = data.content
+}
+
+// 渲染留言列表
+function renderMessages(messages) {
+  messages.forEach((message) => {
+    renderMessage(message)
+  })
+  // const totalMessage = messages.length
+  // const LastElement = commentList.lastElementChild
+  // console.log(LastElement)
+
+  // // // intersectionObserver
+  // const observer = new IntersectionObserver(
+  //   (entry) => {
+  //     console.log(entry)
+  //     // axios 再調整offset size
+  //   },
+  //   { threshold: 1 }
+  //   // { rootMargin: "-100px" }
+  // )
+  // console.log(totalMessage)
+  // console.log(offset)
+  // if (totalMessage > offset) {
+  //   observer.observe(LastElement)
+  // }
+}
+
+function renderMessage(message) {
+  let commentElement = document.createElement('div')
+  commentElement.classList.add('historical-commenter')
+  commentElement.innerHTML = `<div class="historical-commenter">
+        <div class="commenter-container">
+          <div class="historical-commenter-img">
+            <img src="../data/Alex.png" />
+          </div>
+          <div class="historical-commenter-name">Alex
+          </div>
+        </div>
+            <div class="message"> ${message.content}</div>
+      </div>`
+  commentList.append(commentElement)
 }
 
 ;(function init() {
@@ -38,16 +81,40 @@ function renderArticle(data) {
     event.preventDefault() // 防止表單提交
   })
 
-  // // 監聽 navbar
-  // navbar.addEventListener('click', function onNavbarClicked(event) {
-  //   const target = event.target
+  axios.get(`${MESSAGE_URL}?offset=${offset}&size=${size}`).then((res) => {
+    // GET 留言列表
+    // console.log(res)
+    const DATA = res.data
+    const messages = DATA.datas
+    total = DATA.total
+    offset += messages.length
+    console.log(messages)
+    renderMessages(messages)
 
-  //   if (target.matches('.profile-picture')) {
-  //     const id = Number(target.dataset.id)
-  //     setCookie('articleId', id)
-  //     window.location.href = `./profile.html?id=${id}`
-  //   }
-  // })
+    // MoreMessageBTN
+    let messageLangth = messages.length
+    console.log(messageLangth)
+    if (messageLangth >= offset) {
+      const moreMessageBTN = document.createElement('button')
+      moreMessageBTN.innerText = '更多留言'
+      commentList.appendChild(moreMessageBTN)
+      moreMessageBTN.addEventListener('click', () => {
+        axios
+          .get(`${MESSAGE_URL}?offset=${offset}&size=${size}`, {
+            offset: offset,
+          })
+          .then((res) => {
+            // GET 留言列表
+            // 更新留言數據
+            const newdata = res.data
+            total = newdata.total
+            const messages = newdata.datas
+            offset += messages.length
+            renderMessages(messages)
+          })
+      })
+    }
+  })
 
   // 留言按鈕
   submitButton.addEventListener('click', function () {
@@ -79,7 +146,7 @@ function renderArticle(data) {
             <div class="message"> ${data.content}</div>
       </div>`
 
-          commentList.append(commentElement)
+          commentList.prepend(commentElement)
 
           // 清空留言區
           commentInput.value = ''
