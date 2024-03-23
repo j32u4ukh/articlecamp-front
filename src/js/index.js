@@ -121,14 +121,13 @@ function renderArticle(article) {
 
 // 取得文章分類數據後，存入 Cookie
 function setCategoryCookie() {
-  const category = getCookie('categoryArrayCookie')
+  const category = getCookie('category')
   // 若 Cookie 中沒有文章分類數據，才向後端送出請求
   if (category === undefined) {
     axios
       .get(`${API_URL}/categories`)
       .then((response) => {
-        const DATA = JSON.stringify(response.data)
-        setCookie('categoryArrayCookie', DATA)
+        setCookie('category', response.data)
       })
       .catch((error) => {
         console.error(error)

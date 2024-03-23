@@ -4,6 +4,7 @@ const editArticle = document.querySelector('#editButton')
 const title = document.querySelector('.article-title')
 const author = document.querySelector('.article-author')
 const context = document.querySelector('.article-context')
+const category = document.querySelector('#show-category')
 const navbar = document.querySelector('.nav-bar')
 // 留言區
 const commentForm = document.querySelector('#commentForm')
@@ -21,8 +22,15 @@ let offset = 0
 const size = 10
 
 function renderArticle(data) {
+  // cookie data
+  const currentCookie = getCookie('category')
+  const categoryArray = currentCookie.filter((e) => e.id === data.category)
+  const categoryName = categoryArray[0].name
+  console.log('data: ', data)
+  console.log('currentCookie: ', currentCookie)
   title.innerHTML = `文章標題: ${data.title}`
   author.innerHTML = `文章作者: ${data.author}`
+  category.innerHTML = `文章分類: ${categoryName}`
   context.innerHTML = data.content
 }
 
