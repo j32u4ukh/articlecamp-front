@@ -61,6 +61,9 @@ function renderArticle(data) {
           content: comment,
         })
         .then((res) => {
+          return res.data
+        })
+        .then((data) => {
           // Create comment element
           let commentElement = document.createElement('div')
           commentElement.classList.add('historical-commenter')
@@ -73,7 +76,7 @@ function renderArticle(data) {
           <div class="historical-commenter-name">Alex
           </div>
         </div>
-            <div class="message"> ${res.content}</div>
+            <div class="message"> ${data.content}</div>
       </div>`
 
           commentList.append(commentElement)
