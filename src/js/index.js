@@ -117,7 +117,7 @@ function renderArticle(article) {
 }
 
 // 初始化
-(function init() {
+;(function init() {
   // 初始化 Cookie 數據結構
   initCookies()
 
@@ -129,7 +129,7 @@ function renderArticle(article) {
     const target = event.target
 
     if (target.matches('.read')) {
-      // const id = Number(target.dataset.id)
+      const id = Number(target.dataset.id)
       setCookie('articleId', id)
       window.location.href = `./article.html?id=${id}`
     } else if (target.matches('.edit-btn')) {

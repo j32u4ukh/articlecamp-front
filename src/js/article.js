@@ -15,18 +15,16 @@ const submitButton = document.querySelector('#submit-comment-button')
 const articleId = Number(getCookie('articleId'))
 const API_URL = `${BASE_URL}/articles/${articleId}`
 
-console.log(API_URL)
-
-// message_API_RUL
+// 留言 api
 const MESSAGE_URL = `${BASE_URL}/articles/${articleId}/messages`
-console.log(MESSAGE_URL)
+
 function renderArticle(data) {
   title.innerHTML = `文章標題: ${data.title}`
   author.innerHTML = `文章作者: ${data.author}`
   context.innerHTML = data.content
 }
 
-; (function init() {
+;(function init() {
   homeIcon.addEventListener('click', () => {
     window.location.href = './index.html'
   })
@@ -49,13 +47,13 @@ function renderArticle(data) {
       axios
         .post(MESSAGE_URL, {
           // 請求格式
-          content: comment
+          content: comment,
         })
-        .then((response) => {
+        .then((res) => {
           // Create comment element
           let commentElement = document.createElement('div')
           commentElement.classList.add('historical-commenter')
-          // API-v2 res數據格式 新增comment
+          // API-v2 res 數據格式 新增 comment
           commentElement.innerHTML = `<div class="historical-commenter">
         <div class="commenter-container">
           <div class="historical-commenter-img">
@@ -64,10 +62,10 @@ function renderArticle(data) {
           <div class="historical-commenter-name">Alex
           </div>
         </div>
-            <div class="message"> ${comment}</div>
+            <div class="message"> ${res.content}</div>
       </div>`
 
-          commentList.prepend(commentElement)
+          commentList.append(commentElement)
 
           // 清空留言區
           commentInput.value = ''
@@ -77,8 +75,6 @@ function renderArticle(data) {
         .catch((error) => {
           console.log(error)
         })
-
-
     }
   })
 
