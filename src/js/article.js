@@ -18,24 +18,15 @@ const API_URL = `${BASE_URL}/articles/${articleId}`
 
 function renderArticle(data) {
   // cookie data
-  const currentCookie = document.cookie
-  const cookieValue = currentCookie.split('=')[1]
-  const cookieObj = JSON.parse(cookieValue)
-  const userId = cookieObj.userId
-  const articleId = cookieObj.articleId
-  const categoryArrayCookie = cookieObj.categoryArrayCookie
-  const categoryArray = JSON.parse(categoryArrayCookie)
-  console.log(`userId: ${userId}`)
-  console.log(`articleId: ${articleId}`)
-  console.log('categoryArray: ', categoryArray)
-  // cookie data
-  let options = ``
-  categoryArray.forEach((data) => {
-    options += `<option value="${data.id}">${data.name}</option>`
-  })
+  const currentCookie = getCookies()[0]
+  const categoryArrayCookie = JSON.parse(currentCookie.categoryArrayCookie)
+  const categoryArray = categoryArrayCookie.filter((e) => e.id === data.category)
+  const categoryName = categoryArray[0].name
+  console.log('data: ', data)
+  console.log('categoryArrayCookie: ', categoryArrayCookie)
   title.innerHTML = `文章標題: ${data.title}`
   author.innerHTML = `文章作者: ${data.author}`
-  category.innerHTML = options
+  category.innerHTML = `文章分類: ${categoryName}`
   context.innerHTML = data.content
 }
 
