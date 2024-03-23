@@ -15,6 +15,9 @@ const submitButton = document.querySelector('#submit-comment-button')
 const articleId = Number(getCookie('articleId'))
 const API_URL = `${BASE_URL}/articles/${articleId}`
 
+// 留言 api
+const MESSAGE_URL = `${BASE_URL}/articles/${articleId}/messages`
+
 function renderArticle(data) {
   title.innerHTML = `文章標題: ${data.title}`
   author.innerHTML = `文章作者: ${data.author}`
@@ -51,11 +54,21 @@ function renderArticle(data) {
     comment = commentInput.value.trim()
 
     if (comment !== '') {
-      // Create comment element
-      let commentElement = document.createElement('div')
-      commentElement.classList.add('historical-commenter')
-      // commentElement.innerText = comment;
-      commentElement.innerHTML = `<div class="historical-commenter">
+      // 發送新增留言API
+      axios
+        .post(MESSAGE_URL, {
+          // 請求格式
+          content: comment,
+        })
+        .then((res) => {
+          return res.data
+        })
+        .then((data) => {
+          // Create comment element
+          let commentElement = document.createElement('div')
+          commentElement.classList.add('historical-commenter')
+          // API-v2 res 數據格式 新增 comment
+          commentElement.innerHTML = `<div class="historical-commenter">
         <div class="commenter-container">
           <div class="historical-commenter-img">
             <img src="../data/Alex.png" />
@@ -63,15 +76,19 @@ function renderArticle(data) {
           <div class="historical-commenter-name">Alex
           </div>
         </div>
-            <div class="message"> ${comment}</div>
+            <div class="message"> ${data.content}</div>
       </div>`
 
-      commentList.prepend(commentElement)
+          commentList.append(commentElement)
 
-      // 清空留言區
-      commentInput.value = ''
-      // 有留言時歷史留言區才顯示
-      commentList.style.display = 'flex'
+          // 清空留言區
+          commentInput.value = ''
+          // 有留言時歷史留言區才顯示
+          commentList.style.display = 'flex'
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   })
 
