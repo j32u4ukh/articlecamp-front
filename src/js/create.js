@@ -12,10 +12,7 @@ const articleCategory = document.querySelector('.article-category')
 
 // 根據 getCookie 的 category 數據， 動態新增新的選項並設定value屬性
 function renderCategory() {
-  // 取得 StringCookie 並轉換型態
-  const categoryArrayCookie = getCookie('categoryArrayCookie')
-  // console.log(categoryArrayCookie)
-  const categoryCookie = JSON.parse(categoryArrayCookie)
+  const categoryCookie = getCookie('category')
   // console.log(categoryCookie)
 
   // 根據 CookieArray 長度 設定要建立幾個 option 並給予值 跟文字顯示 name
