@@ -51,7 +51,7 @@ class ArticleModel extends Model {
   }
   // 根據文章 id 取得指定文章
   get(id) {
-    return super.get({ id: id, datas: this.articles, n_data: this.n_article })
+    return super.get({ id: id, datas: this.articles })
   }
   getList(func) {
     if (func) {

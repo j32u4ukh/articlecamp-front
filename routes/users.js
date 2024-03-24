@@ -75,8 +75,9 @@ router.get('/:id', (req, res) => {
       msg: '缺少必要參數 token',
     })
   }
-  const id = req.params.id
-  if (token !== id) {
+  const userId = Number(token)
+  const id = Number(req.params.id)
+  if (userId !== id) {
     return res.status(ReturnCode.Unauthorized).json({
       code: ErrorCode.Unauthorized,
       msg: `當前用戶沒有權限取得用戶 ${id} 的個人資料`,

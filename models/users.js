@@ -47,7 +47,7 @@ class UserModel extends Model {
   }
   // 根據用戶 id 取得指定用戶
   get(id) {
-    return super.get({ id: id, datas: this.users, n_data: this.n_user })
+    return super.get({ id: id, datas: this.users })
   }
   getList(func) {
     let users

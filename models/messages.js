@@ -48,7 +48,7 @@ class MessageModel extends Model {
     })
   }
   get(id) {
-    return super.get({ id, datas: this.messages, n_data: this.n_message })
+    return super.get({ id, datas: this.messages })
   }
   // 取得留言列表
   getList(articleId, offset, size, func) {

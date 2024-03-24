@@ -5,16 +5,13 @@ class Model {
     this.FILE_PATH = file_path
   }
   // 根據 id 取得指定數據
-  get({ id, datas, n_data }) {
-    // TODO: use findIndex
-    let data
-    for (let i = 0; i < n_data; i++) {
-      data = datas[i]
-      if (data.id == id) {
-        return { index: i, data: data }
-      }
+  get({ id, datas }) {
+    const index = datas.findIndex((data) => data.id == id)
+    if (index === -1) {
+      return { index: -1, data: null }
+    } else {
+      return { index: index, data: datas[index] }
     }
-    return { index: -1, data: null }
   }
   getList(datas, offset, size, func) {
     let tempDatas
@@ -77,7 +74,7 @@ class Model {
         'utf8',
         (err) => {
           if (err) {
-            reject(reject(`寫出數據失敗, err: ${err}`))
+            reject(`寫出數據失敗, err: ${err}`)
           } else {
             resolve(data)
           }
