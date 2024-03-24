@@ -1,7 +1,9 @@
 const { Router } = require('express')
-const router = Router()
 const { Article, Category, Message } = require('../services')
 const { ReturnCode, ErrorCode } = require('../utils/codes')
+
+// 建立路由物件
+const router = Router()
 
 // 取得文章列表
 router.get('/', (req, res) => {

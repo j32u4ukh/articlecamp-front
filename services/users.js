@@ -12,27 +12,10 @@ class UserService {
       resolve(UserModel.getList())
     })
   }
-  getList(userId, offset, size, filterFunc) {
+  // concealing: 是否隱藏資訊
+  getList(userId, concealing, filterFunc) {
     return new Promise((resolve, reject) => {
-      if (offset === undefined || offset === '') {
-        offset = 0
-      } else {
-        try {
-          offset = Number(offset)
-        } catch {
-          offset = 0
-        }
-      }
-      if (size === undefined || size === '') {
-        size = 10
-      } else {
-        try {
-          size = Number(size)
-        } catch {
-          size = 10
-        }
-      }
-      const users = UserModel.getList((user) => {
+      let users = UserModel.getList((user) => {
         if (filterFunc) {
           let cond = filterFunc(user)
           if (cond === false) {
@@ -41,19 +24,13 @@ class UserService {
         }
         return user.id !== userId
       })
-      const total = users.length
-      if (offset > total) {
-        offset = total
+      if (concealing) {
+        users = users.map((user) => {
+          delete user.password
+          return user
+        })
       }
-      let len = offset + size
-      len = len > total ? total : len
-      const results = {
-        total: Number(total),
-        offset: Number(offset),
-        size: Number(size),
-        users: users.slice(offset, len),
-      }
-      resolve(results)
+      resolve(users)
     })
   }
   // concealing: 是否隱藏資訊
@@ -137,7 +114,7 @@ class UserService {
 
   // TODO: 每個用戶有自己的資料夾，當中則是專屬各個使用者的圖片資源
   // 經過 upload.single() 這個 middleware 後，檔案的部分就會被放到 req.file 屬性裡，而其他非檔案的欄位仍然會保留在 req.body 屬性裡
-  uploadImage(image) {
+  uploadImage(userId, image) {
     return new Promise((resolve, reject) => {
       // 從檔案路徑讀檔
       fs.readFile(image, (err, data) => {
@@ -149,6 +126,13 @@ class UserService {
           })
         }
 
+        const folder = path.join(getImageFolder(), userId.toString())
+
+        // 確認資料夾是否存在，若不存在則建立資料夾
+        if (!fs.existsSync(folder)) {
+          fs.mkdirSync(folder, { recursive: true })
+        }
+
         const timestamp = Date.now()
         const prefix = Math.floor(Math.random() * 10000)
           .toString()
@@ -156,8 +140,13 @@ class UserService {
         const suffix = Math.floor(Math.random() * 10000)
           .toString()
           .padStart(5, '0')
-        const fileName = `${toBase62(`${prefix}${timestamp}${suffix}`)}.png`
+        const fileName = path.join(
+          userId.toString(),
+          `${toBase62(`${prefix}${timestamp}${suffix}`)}.png`
+        )
         const filePath = path.join(getImageFolder(), fileName)
+        console.log(`filePath: ${filePath}`)
+
         fs.writeFile(filePath, data, () => {
           // 檔案寫入成功後，刪除暫時的檔案
           fs.unlink(image, (err) => {
