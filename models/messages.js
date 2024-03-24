@@ -7,7 +7,7 @@ function belongToArticle(articleId, message) {
 
 class MessageModel extends Model {
   constructor() {
-    super({ file_path: './public/data/v2/messages.json' })
+    super({ file_path: './public/data/messages.json' })
     this.messages = []
     this.next_id = 0
     this.n_message = 0

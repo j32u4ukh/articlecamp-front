@@ -2,7 +2,7 @@ const Model = require('./base')
 
 class FollowModel extends Model {
   constructor() {
-    super({ file_path: `./public/data/v2/follows.json` })
+    super({ file_path: `./public/data/follows.json` })
     this.follows = []
     this.next_id = 0
     this.n_follow = 0

@@ -3,7 +3,7 @@ const { toNumeric } = require('../utils')
 
 class CategoryModel extends Model {
   constructor() {
-    super({ file_path: './public/data/v2/categories.json' })
+    super({ file_path: './public/data/categories.json' })
     this.categories = []
     this.n_category = 0
 

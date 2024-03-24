@@ -3,7 +3,7 @@ const { getTimestamp } = require('../utils')
 
 class ArticleModel extends Model {
   constructor() {
-    super({ file_path: `./public/data/v2/articles.json` })
+    super({ file_path: `./public/data/articles.json` })
     this.articles = []
     this.next_id = 0
     this.n_article = 0

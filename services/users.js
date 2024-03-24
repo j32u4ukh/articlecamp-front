@@ -133,6 +133,7 @@ class UserService {
     })
   }
 
+  // TODO: 每個用戶有自己的資料夾，當中則是專屬各個使用者的圖片資源
   // 經過 upload.single() 這個 middleware 後，檔案的部分就會被放到 req.file 屬性裡，而其他非檔案的欄位仍然會保留在 req.body 屬性裡
   uploadImage(image) {
     return new Promise((resolve, reject) => {
