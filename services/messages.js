@@ -1,34 +1,35 @@
-const { Message: Model } = require('../models/index')
+const { Message: MessageModel, Article: ArticleModel } = require('../models')
 const { ErrorCode } = require('../utils/codes.js')
+const Service = require('./base')
 
-class MessageService {
-  getList(articleId, offset, size, filterFunc) {
+class MessageService extends Service {
+  getBatchDatas(articleId, offset, size, filterFunc) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const messages = await this.getList(articleId, filterFunc)
+        const results = super.getBatchDatas({ datas: messages, offset, size })
+        resolve(results)
+      } catch (error) {
+        reject(error)
+      }
+    })
+  }
+  getList(articleId, filterFunc) {
     return new Promise((resolve, reject) => {
-      if (offset === undefined || offset === '') {
-        offset = 0
-      } else {
-        try {
-          offset = Number(offset)
-        } catch {
-          offset = 0
-        }
+      const article = ArticleModel.get(articleId)
+      if (article.index === -1) {
+        return reject({
+          code: ErrorCode.NotFound,
+          msg: `沒有 id 為 ${id} 的文章`,
+        })
       }
-      if (size === undefined || size === '') {
-        size = 10
-      } else {
-        try {
-          size = Number(size)
-        } catch {
-          size = 10
-        }
-      }
-      const messages = Model.getList(articleId, offset, size, filterFunc)
+      const messages = MessageModel.getList(articleId, filterFunc)
       resolve(messages)
     })
   }
   get({ id }) {
     return new Promise((resolve, reject) => {
-      const result = Model.get(id)
+      const result = MessageModel.get(id)
       if (result.index === -1) {
         reject({
           code: ErrorCode.NotFound,
@@ -40,9 +41,19 @@ class MessageService {
   }
   add(userId, articleId, message) {
     return new Promise((resolve, reject) => {
+      // 檢查 articleId 是否存在
+      const article = ArticleModel.get(articleId)
+      if (article.index === -1) {
+        reject({
+          code: ErrorCode.NotFound,
+          msg: `沒有 id 為 ${articleId} 的文章`,
+        })
+        return
+      }
+
       message.userId = userId
       message.articleId = articleId
-      const isValid = Model.validate(message)
+      const isValid = MessageModel.validate(message)
       if (!isValid) {
         reject({
           code: ErrorCode.MissingParameters,
@@ -50,7 +61,7 @@ class MessageService {
         })
         return
       }
-      Model.add(message)
+      MessageModel.add(message)
         .then((result) => {
           resolve(result)
         })

@@ -8,7 +8,9 @@ const path = require('path')
 
 class UserService {
   getAll() {
-    return UserModel.getList()
+    return new Promise((resolve, reject) => {
+      resolve(UserModel.getList())
+    })
   }
   getList(userId, offset, size, filterFunc) {
     return new Promise((resolve, reject) => {

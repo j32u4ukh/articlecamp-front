@@ -50,15 +50,13 @@ class UserModel extends Model {
     return super.get({ id: id, datas: this.users })
   }
   getList(func) {
-    let users
     if (func) {
-      users = this.users.filter((user) => {
+      return this.users.filter((user) => {
         return func(user)
       })
     } else {
-      users = this.users
+      return this.users
     }
-    return users
   }
   // 根據用戶 id 更新指定用戶
   update(index, user) {

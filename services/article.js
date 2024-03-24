@@ -1,8 +1,11 @@
 const { Article: ArticleModel, Category } = require('../models')
 const Follow = require('./follows.js')
 const { ErrorCode } = require('../utils/codes.js')
+const Service = require('./base')
+const { User } = require('./users')
 
-class ArticleService {
+class ArticleService extends Service {
+  // 新增文章
   add(article) {
     return new Promise((resolve, reject) => {
       article.category = Category.validCategory(article.category)
@@ -17,6 +20,8 @@ class ArticleService {
       } else {
         ArticleModel.add(article)
           .then((article) => {
+            delete article.userId
+            delete article.createAt
             resolve(article)
           })
           .catch((err) => {
@@ -29,35 +34,30 @@ class ArticleService {
       }
     })
   }
-  getList2(userId, offset, size, summary, filterFunc) {
-    return new Promise((resolve, reject) => {
-      if (offset === undefined || offset === '') {
-        offset = 0
-      } else {
-        try {
-          offset = Number(offset)
-        } catch {
-          offset = 0
-        }
+  // 取得批次的文章列表
+  getBatchDatas(userId, offset, size, summary, filterFunc) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const articles = await this.getList(userId, summary, filterFunc)
+        const results = super.getBatchDatas({ datas: articles, offset, size })
+        resolve(results)
+      } catch (error) {
+        reject(error)
       }
-      if (size === undefined || size === '') {
-        size = 10
-      } else {
-        try {
-          size = Number(size)
-        } catch {
-          size = 10
-        }
-      }
-      // TODO: 取得用戶 ID 以及其追蹤對象的 ID 列表
-      const ids = [Number(userId)]
-      const follows = Follow.getList(userId)
+    })
+  }
+  // 取得文章列表
+  getList(userId, summary, filterFunc) {
+    return new Promise(async (resolve, reject) => {
+      // 取得用戶 ID 以及其追蹤對象的 ID 列表
+      const ids = [userId]
+      const follows = await Follow.getList(userId)
       follows.forEach((follow) => {
         ids.push(follow.followTo)
       })
 
       // 根據 ID 列表返回文章列表
-      const articles = ArticleModel.getList((article) => {
+      let articles = ArticleModel.getList((article) => {
         if (filterFunc) {
           let cond = filterFunc(article)
           if (cond === false) {
@@ -65,71 +65,46 @@ class ArticleService {
           }
         }
         return (
+          // 只取得 ID 列表中的作者的文章
           ids.findIndex((id) => {
-            return id == article.userId
+            return id === article.userId
           }) !== -1
         )
       })
 
-      // 將數據重組的流程移到 service
-      const total = articles.length
-      if (offset > total) {
-        offset = total
-      }
-      let len = offset + size
-      len = len > total ? total : len
-      const results = {
-        total: Number(total),
-        offset: Number(offset),
-        size: Number(len - offset),
-        articles: articles.slice(offset, len),
-      }
-      if (summary) {
-        let article
-        len = results.articles.length
-        for (let i = 0; i < len; i++) {
-          article = results.articles[i]
+      // 取得用戶列表，並將用戶名稱帶入文章列表數據
+      const users = await User.getAll()
+      articles = articles.map((article) => {
+        const user = users.find((user) => {
+          return user.id === article.userId
+        })
+        if (user) {
+          article.author = user.name
+        }
+        // 是否返回摘要即可
+        if (summary) {
           let preview = article.content.substring(0, 20)
           if (article.content.length > 20) {
             preview += '...'
           }
-          results.articles[i] = {
-            id: article.id,
-            userId: article.userId,
-            title: article.title,
-            category: article.category,
-            content: preview,
-            updateAt: article.updateAt,
-          }
+          article.content = preview
         }
-      }
-      resolve(results)
-    })
-  }
-  getByKeyword(keyword) {
-    return new Promise((resolve, reject) => {
-      keyword = keyword.toUpperCase()
-      this.getList((article) => {
-        if (article.title.toUpperCase().includes(keyword)) {
-          return true
-        }
-        if (article.content.toUpperCase().includes(keyword)) {
-          return true
-        }
-        return false
-      }).then((articles) => {
-        resolve(articles)
+        return article
       })
+      resolve(articles)
     })
   }
-  // TODO: 由於文章數據改存 userId，而非作者名稱，因此針對作者名稱的搜尋目前沒有實作，之後可以直接查完用戶名稱後，添加到文章數據當中
-  getByKeyword2(userId, offset, size, summary, keyword) {
-    return new Promise((resolve, reject) => {
+  // 根據關鍵字搜尋文章
+  getByKeyword(userId, offset, size, summary, keyword) {
+    return new Promise(async (resolve, reject) => {
       keyword = keyword.toUpperCase()
       // NOTE: 搜尋字如果要搜文章分類，必須是完整名稱，不區分大小寫
       // 根據搜尋字反查文章分類 id，再比對各篇文章的分類 id，而非將各篇文章的分類 id 轉換成字串來比對
       let cid = Category.getId(keyword)
-      this.getList2(userId, offset, size, summary, (article) => {
+      const articles = await this.getList(userId, summary, (article) => {
+        if (article.author.toUpperCase().includes(keyword)) {
+          return true
+        }
         if (article.title.toUpperCase().includes(keyword)) {
           return true
         }
@@ -140,11 +115,12 @@ class ArticleService {
           return true
         }
         return false
-      }).then((results) => {
-        resolve(results)
       })
+      const results = super.getBatchDatas({ datas: articles, offset, size })
+      resolve(results)
     })
   }
+  // 根據文章 ID 取得文章
   get({ id }) {
     return new Promise((resolve, reject) => {
       const result = ArticleModel.get(id)
@@ -158,17 +134,10 @@ class ArticleService {
       resolve(result.data)
     })
   }
-  update({ id, article }) {
+  // 根據文章 ID 更新文章
+  update({ id, userId, article }) {
     return new Promise((resolve, reject) => {
       article.category = Category.validCategory(article.category)
-      const isValid = ArticleModel.validate(article)
-      if (!isValid) {
-        reject({
-          code: ErrorCode.MissingParameters,
-          msg: '缺少必要參數',
-        })
-        return
-      }
       const { index, data } = ArticleModel.get(id)
       if (index === -1) {
         reject({
@@ -177,9 +146,28 @@ class ArticleService {
         })
         return
       }
+
+      // 檢查請求是否來自原作者
+      if (userId !== data.userId) {
+        return reject({
+          code: ErrorCode.Unauthorized,
+          msg: '當前用戶沒有權限修改這篇文章',
+        })
+      }
+
       article.id = id
+      article.userId = data.userId
       article.createAt = data.createAt
-      ArticleModel.update(index, article)
+      const isValid = ArticleModel.validate(article)
+      if (!isValid) {
+        return reject({
+          code: ErrorCode.MissingParameters,
+          msg: '缺少必要參數',
+        })
+      }
+
+      // 更新文章數據
+      ArticleModel.update(article)
         .then((result) => {
           resolve(result)
         })
@@ -192,6 +180,7 @@ class ArticleService {
         })
     })
   }
+  // 根據文章 ID 刪除文章
   delete({ id }) {
     return new Promise((resolve, reject) => {
       const { index, _ } = ArticleModel.get(id)
