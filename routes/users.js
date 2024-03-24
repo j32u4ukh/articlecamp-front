@@ -1,9 +1,9 @@
 const { Router } = require('express')
-const { User, Follow, UserFollow } = require('../../services')
-const { upload } = require('../../services/users')
+const { User, Follow, UserFollow } = require('../services')
+const { upload } = require('../services/users')
 const router = Router()
-const { ReturnCode, ErrorCode } = require('../../utils/codes')
-const { getImageFolder } = require('../../utils')
+const { ReturnCode, ErrorCode } = require('../utils/codes')
+const { getImageFolder } = require('../utils')
 const fs = require('fs')
 const path = require('path')
 

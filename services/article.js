@@ -1,29 +1,21 @@
-const { Article1, Article2, Category } = require('../models')
+const { Article: ArticleModel, Category } = require('../models')
 const Follow = require('./follows.js')
 const { ErrorCode } = require('../utils/codes.js')
 
 class ArticleService {
-  constructor(version) {
-    this.version = version
-    this.model = version === 1 ? Article1 : Article2
-  }
   add(article) {
     return new Promise((resolve, reject) => {
-      // 版本 2 才考慮文章分類欄位
-      if (this.version === 2) {
-        article.category = Category.validCategory(article.category)
-      }
-      const isValid = this.model.validate(article, this.model.requiredFields)
+      article.category = Category.validCategory(article.category)
+      const isValid = ArticleModel.validate(article)
       if (!isValid) {
         reject({
           code: ErrorCode.MissingParameters,
           msg: `缺少必要參數, requiredFields: ${JSON.stringify(
-            this.model.requiredFields
+            ArticleModel.requiredFields
           )}`,
         })
       } else {
-        this.model
-          .add(article)
+        ArticleModel.add(article)
           .then((article) => {
             resolve(article)
           })
@@ -35,11 +27,6 @@ class ArticleService {
             })
           })
       }
-    })
-  }
-  getList(filterFunc) {
-    return new Promise((resolve, reject) => {
-      resolve(Article1.getList(filterFunc))
     })
   }
   getList2(userId, offset, size, summary, filterFunc) {
@@ -70,7 +57,7 @@ class ArticleService {
       })
 
       // 根據 ID 列表返回文章列表
-      const articles = Article2.getList((article) => {
+      const articles = ArticleModel.getList((article) => {
         if (filterFunc) {
           let cond = filterFunc(article)
           if (cond === false) {
@@ -160,7 +147,7 @@ class ArticleService {
   }
   get({ id }) {
     return new Promise((resolve, reject) => {
-      const result = this.model.get(id)
+      const result = ArticleModel.get(id)
       if (result.index === -1) {
         reject({
           code: ErrorCode.NotFound,
@@ -173,11 +160,8 @@ class ArticleService {
   }
   update({ id, article }) {
     return new Promise((resolve, reject) => {
-      // 版本 2 才考慮文章分類欄位
-      if (this.version === 2) {
-        article.category = Category.validCategory(article.category)
-      }
-      const isValid = this.model.validate(article, this.model.requiredFields)
+      article.category = Category.validCategory(article.category)
+      const isValid = ArticleModel.validate(article)
       if (!isValid) {
         reject({
           code: ErrorCode.MissingParameters,
@@ -185,7 +169,7 @@ class ArticleService {
         })
         return
       }
-      const { index, data } = this.model.get(id)
+      const { index, data } = ArticleModel.get(id)
       if (index === -1) {
         reject({
           code: ErrorCode.NotFound,
@@ -195,8 +179,7 @@ class ArticleService {
       }
       article.id = id
       article.createAt = data.createAt
-      this.model
-        .update(index, article)
+      ArticleModel.update(index, article)
         .then((result) => {
           resolve(result)
         })
@@ -211,7 +194,7 @@ class ArticleService {
   }
   delete({ id }) {
     return new Promise((resolve, reject) => {
-      const { index, _ } = this.model.get(id)
+      const { index, _ } = ArticleModel.get(id)
       if (index === -1) {
         reject({
           code: ErrorCode.NotFound,
@@ -219,8 +202,7 @@ class ArticleService {
         })
         return
       }
-      this.model
-        .delete(id)
+      ArticleModel.delete(id)
         .then(() => {
           resolve({
             code: ErrorCode.Ok,
@@ -238,6 +220,5 @@ class ArticleService {
   }
 }
 
-const Service1 = new ArticleService(1)
-const Service2 = new ArticleService(2)
-module.exports = { Article1: Service1, Article2: Service2 }
+const Article = new ArticleService()
+module.exports = Article

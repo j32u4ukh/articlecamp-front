@@ -1,7 +1,7 @@
 const { Router } = require('express')
 const router = Router()
-const { Article2, Category, Message } = require('../../services')
-const { ReturnCode, ErrorCode } = require('../../utils/codes')
+const { Article, Category, Message } = require('../services')
+const { ReturnCode, ErrorCode } = require('../utils/codes')
 
 router.get('/', (req, res) => {
   const token = req.headers.token
@@ -18,13 +18,13 @@ router.get('/', (req, res) => {
   const size = req.query.size
   const summary = true
   if (keyword) {
-    Article2.getByKeyword2(userId, offset, size, summary, keyword).then(
+    Article.getByKeyword2(userId, offset, size, summary, keyword).then(
       (articles) => {
         res.json(articles)
       }
     )
   } else {
-    Article2.getList2(userId, offset, size, summary).then((articles) => {
+    Article.getList2(userId, offset, size, summary).then((articles) => {
       res.json(articles)
     })
   }
@@ -48,7 +48,7 @@ router.post('/create', (req, res) => {
       msg: 'title 為必要參數',
     })
   }
-  Article2.add({
+  Article.add({
     userId,
     title,
     category: BODY.category,
@@ -70,7 +70,7 @@ router.get('/categories', (req, res) => {
 
 router.get('/:id', (req, res) => {
   const id = Number(req.params.id)
-  Article2.get({
+  Article.get({
     id,
   })
     .then((result) => {
@@ -113,7 +113,7 @@ router.post('/:id/messages', (req, res) => {
 
 router.put('/:id', (req, res) => {
   const id = Number(req.params.id)
-  Article2.update({
+  Article.update({
     id,
     article: req.body,
   })
@@ -127,7 +127,7 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   const id = Number(req.params.id)
-  Article2.delete({
+  Article.delete({
     id,
   })
     .then((result) => {

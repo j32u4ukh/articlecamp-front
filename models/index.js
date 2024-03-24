@@ -1,7 +1,7 @@
-const { Article1, Article2 } = require('./articles')
+const Article = require('./articles')
 const Category = require('./categories')
 const Message = require('./messages')
 const User = require('./users')
 const Follow = require('./follows')
 
-module.exports = { Article1, Article2, Category, Message, User, Follow }
+module.exports = { Article, Category, Message, User, Follow }
