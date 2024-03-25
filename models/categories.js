@@ -27,23 +27,10 @@ class CategoryModel extends Model {
     }
   }
   getId(name) {
-    let category
     name = name.toUpperCase()
-    for (let i = 0; i < this.n_category; i++) {
-      category = this.categories[i]
-      if (category.name.toUpperCase() === name) {
-        return category.id
-      }
-    }
-    return null
-  }
-  getName(id) {
-    let category
-    for (let i = 0; i < this.n_category; i++) {
-      category = this.categories[i]
-      if (category.id === id) {
-        return category.name
-      }
+    const category = this.categories.find((c) => c.name.toUpperCase() === name)
+    if (category) {
+      return category.id
     }
     return null
   }

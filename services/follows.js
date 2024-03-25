@@ -4,8 +4,9 @@ const User = require('../models/users')
 
 class FollowService {
   getList(userId) {
-    const follows = FollowModel.getList(userId)
-    return follows
+    return new Promise((resolve, reject) => {
+      resolve(FollowModel.getList(userId))
+    })
   }
   setRelationShip({ userId, followTo, follow }) {
     return new Promise((resolve, reject) => {

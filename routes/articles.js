@@ -1,36 +1,40 @@
 const { Router } = require('express')
-const router = Router()
 const { Article, Category, Message } = require('../services')
 const { ReturnCode, ErrorCode } = require('../utils/codes')
 
+// 建立路由物件
+const router = Router()
+
+// 取得文章列表
 router.get('/', (req, res) => {
   const token = req.headers.token
-  if (token === undefined) {
+  if (token === undefined || token === '') {
     return res.status(ReturnCode.BadRequest).json({
       code: ErrorCode.MissingParameters,
       msg: '缺少必要參數 token',
     })
   }
   // 暫時使用 userId 作為 token
-  const userId = token
+  const userId = Number(token)
   const keyword = req.query.keyword
   const offset = req.query.offset
   const size = req.query.size
   const summary = true
   if (keyword) {
-    Article.getByKeyword2(userId, offset, size, summary, keyword).then(
+    Article.getByKeyword(userId, offset, size, summary, keyword).then(
       (articles) => {
         res.json(articles)
       }
     )
   } else {
-    Article.getList2(userId, offset, size, summary).then((articles) => {
+    Article.getBatchDatas(userId, offset, size, summary).then((articles) => {
       res.json(articles)
     })
   }
 })
 
-router.post('/create', (req, res) => {
+// 新增文章
+router.post('/', (req, res) => {
   const token = req.headers.token
   if (token === undefined) {
     return res.status(ReturnCode.BadRequest).json({
@@ -39,7 +43,7 @@ router.post('/create', (req, res) => {
     })
   }
   // 暫時使用 userId 作為 token
-  const userId = token
+  const userId = Number(token)
   const BODY = req.body
   const title = BODY.title
   if (title === undefined || title === '') {
@@ -68,6 +72,47 @@ router.get('/categories', (req, res) => {
   })
 })
 
+router.get('/:id/messages', (req, res) => {
+  const articleId = Number(req.params.id)
+  const offset = req.query.offset
+  const size = req.query.size
+  Message.getBatchDatas(articleId, offset, size)
+    .then((result) => {
+      res.json(result)
+    })
+    .catch((error) => {
+      res.status(ErrorCode.getReturnCode(error.code)).json(error)
+    })
+})
+
+router.post('/:id/messages', (req, res) => {
+  const token = req.headers.token
+  if (token === undefined) {
+    return res.status(ReturnCode.BadRequest).json({
+      code: ErrorCode.MissingParameters,
+      msg: '缺少必要參數 token',
+    })
+  }
+  const articleId = Number(req.params.id)
+  const message = req.body
+  if (message.content === undefined || message.content === '') {
+    return res.status(ReturnCode.BadRequest).json({
+      code: ErrorCode.MissingParameters,
+      msg: 'content 為必要參數',
+    })
+  }
+
+  // TODO: 從 token 取得用戶 ID
+  const userId = Number(token)
+  Message.add(userId, articleId, message)
+    .then((result) => {
+      res.json(result)
+    })
+    .catch((error) => {
+      res.status(ErrorCode.getReturnCode(error.code)).json(error)
+    })
+})
+
 router.get('/:id', (req, res) => {
   const id = Number(req.params.id)
   Article.get({
@@ -81,54 +126,20 @@ router.get('/:id', (req, res) => {
     })
 })
 
-router.get('/:id/messages', (req, res) => {
-  const articleId = Number(req.params.id)
-  const offset = req.query.offset
-  const size = req.query.size
-  Message.getList(articleId, offset, size).then((result) => {
-    res.json(result)
-  })
-})
-
-router.post('/:id/messages', (req, res) => {
-  const articleId = Number(req.params.id)
-  const BODY = req.body
-  if (BODY.content === undefined || BODY.content === '') {
+router.put('/:id', (req, res) => {
+  const token = req.headers.token
+  if (token === undefined) {
     return res.status(ReturnCode.BadRequest).json({
       code: ErrorCode.MissingParameters,
-      msg: 'content 為必要參數',
+      msg: '缺少必要參數 token',
     })
   }
-
-  // TODO: 從 header 取得用戶 ID
-  const userId = 1
-  Message.add(userId, articleId, BODY)
-    .then((result) => {
-      res.json(result)
-    })
-    .catch((error) => {
-      res.status(ErrorCode.getReturnCode(error.code)).json(error)
-    })
-})
-
-router.put('/:id', (req, res) => {
+  const userId = Number(token)
   const id = Number(req.params.id)
   Article.update({
     id,
+    userId,
     article: req.body,
-  })
-    .then((result) => {
-      res.json(result)
-    })
-    .catch((error) => {
-      res.status(ErrorCode.getReturnCode(error.code)).json(error)
-    })
-})
-
-router.delete('/:id', (req, res) => {
-  const id = Number(req.params.id)
-  Article.delete({
-    id,
   })
     .then((result) => {
       res.json(result)

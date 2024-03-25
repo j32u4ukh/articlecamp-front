@@ -50,13 +50,13 @@
         "updateAt": 1705819929
     },
     {
-        "id": "6",
+        "id": 6,
         "name": "Confuse Cat",
         "email": "ConfuseCat@articlecamp.com",
         "password": "password",
-        "image": "pJyapqOZj6KYraQ.png",
+        "image": "6\\8sy04jqVJ0wcN0VSeogwn6XpXqBJu7w.png",
         "categories": [],
         "createAt": 1705819929,
-        "updateAt": 1710685861
+        "updateAt": 1711270411
     }
 ]

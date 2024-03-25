@@ -10,11 +10,11 @@ module.exports = {
   getTimestamp() {
     return Math.floor(new Date().getTime() / 1000)
   },
-  toNumeric(str) {
-    if (str === null || str === '' || isNaN(str)) {
+  toNumeric(input) {
+    if (input === null || input === '' || isNaN(input)) {
       return [NaN, false]
     }
-    const val = Number(str)
+    const val = Number(input)
     return [val, !isNaN(val)]
   },
   getImageFolder() {

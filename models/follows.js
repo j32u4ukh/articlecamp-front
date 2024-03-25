@@ -43,7 +43,7 @@ class FollowModel extends Model {
   }
   getList(userId) {
     const results = this.follows.filter((follow) => {
-      return follow.userId == userId
+      return follow.userId === userId
     })
     return results
   }
