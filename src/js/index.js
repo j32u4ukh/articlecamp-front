@@ -6,6 +6,7 @@ const homeIcon = document.querySelector('.icon')
 const navbar = document.querySelector('.nav-bar')
 const API_URL = `${BASE_URL}/articles`
 const articles = []
+
 // 總文章篇數
 let total = 0
 // 取得文章位移值
@@ -135,138 +136,148 @@ function setCategoryCookie() {
   }
 }
 
-// 初始化
-;(function init() {
-  // 初始化 Cookie 數據結構
-  initCookies()
+const userList = document.querySelector('.user-list')
 
-  // 取得文章分類列表並記入 Cookie
-  setCategoryCookie()
+// 用戶列表按鈕
+userList.addEventListener('click', function onuserListClicked(event) {
+  window.location.href = './user-list.html'
+})
 
-  setCookie('userId', '1')
 
-  // 重置搜尋框
-  searchInput.value = ''
+  // 初始化
+  ; (function init() {
+    // 初始化 Cookie 數據結構
+    initCookies()
 
-  // // 監聽 navbar
-  // navbar.addEventListener('click', function onNavbarClicked(event) {
-  //   const target = event.target
+    // 取得文章分類列表並記入 Cookie
+    setCategoryCookie()
 
-  //   if (target.matches('.profile-picture')) {
-  //     const id = Number(target.dataset.id)
-  //     setCookie('articleId', id)
-  //     window.location.href = `./profile.html?id=${id}`
-  //   }
-  // })
+    setCookie('userId', '1')
 
-  // 監聽 articleContainer
-  articleContainer.addEventListener('click', function onArticleClicked(event) {
-    const target = event.target
+    // 重置搜尋框
+    searchInput.value = ''
 
-    if (target.matches('.read')) {
-      const id = Number(target.dataset.id)
-      setCookie('articleId', id)
-      window.location.href = `./article.html?id=${id}`
-    } else if (target.matches('.edit-btn')) {
-      const id = Number(target.dataset.id)
-      setCookie('articleId', id)
-      window.location.href = './edit.html'
-    }
-  })
+    // // 監聽 navbar
+    // navbar.addEventListener('click', function onNavbarClicked(event) {
+    //   const target = event.target
 
-  // 新增文章按鈕
-  createArticle.addEventListener('click', function onCreateClicked(event) {
-    window.location.href = './create.html'
-  })
+    //   if (target.matches('.profile-picture')) {
+    //     const id = Number(target.dataset.id)
+    //     setCookie('articleId', id)
+    //     window.location.href = `./profile.html?id=${id}`
+    //   }
+    // })
 
-  // 根據關鍵字查詢文章
-  searchButton.addEventListener('click', (event) => {
-    const input = searchInput.value.trim()
-    let url = API_URL
-    if (input !== '') {
-      url += `?keyword=${input}`
-    }
+    // 監聽 articleContainer
+    articleContainer.addEventListener('click', function onArticleClicked(event) {
+      const target = event.target
+
+      if (target.matches('.read')) {
+        const id = Number(target.dataset.id)
+        setCookie('articleId', id)
+        window.location.href = `./article.html?id=${id}`
+      } else if (target.matches('.edit-btn')) {
+        const id = Number(target.dataset.id)
+        setCookie('articleId', id)
+        window.location.href = './edit.html'
+      }
+    })
+
+    // 新增文章按鈕
+    createArticle.addEventListener('click', function onCreateClicked(event) {
+      window.location.href = './create.html'
+    })
+
+
+    // 根據關鍵字查詢文章
+    searchButton.addEventListener('click', (event) => {
+      const input = searchInput.value.trim()
+      let url = API_URL
+      if (input !== '') {
+        url += `?keyword=${input}`
+      }
+      axios
+        .get(url)
+        .then((response) => {
+          let datas = response.data
+          articles.splice(0, articles.length)
+          articles.push(...datas.articles)
+          renderArticles(articles)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    })
+
+    homeIcon.addEventListener('click', (e) => {
+      window.location.href = './index.html'
+    })
+
     axios
-      .get(url)
+      .get(API_URL)
       .then((response) => {
         let datas = response.data
-        articles.splice(0, articles.length)
+        console.log(datas)
+        console.log(`offset: ${datas.offset}`)
+        console.log(`size: ${datas.size}`)
+        // 總文章篇數
+        total = datas.total
+        // 更新位移值
+        offset = datas.size
         articles.push(...datas.articles)
+
+        // 頁面載入後渲染特定文章篇數
         renderArticles(articles)
+
+        // 設置 IntersectionObserver
+        const observer = new IntersectionObserver(
+          (entries) => {
+            if (entries[0].isIntersecting) {
+              // 關閉觀察
+              observer.unobserve(articleContainer.lastChild)
+
+              // 發送請求
+              axios
+                .get(`${API_URL}?offset=${offset}&size=${size}`)
+                .then((response) => {
+                  const DATA = response.data
+
+                  // 更新總文章篇數
+                  total = datas.total
+
+                  // 取得下一批文章數據
+                  const articles = DATA.articles
+
+                  // 渲染新文章
+                  renderArticles(articles)
+
+                  // 更新位移值
+                  offset += articles.length
+
+                  console.log(
+                    `total: ${total}, offset: ${offset}, #articles: ${articles.length}`
+                  )
+
+                  if (total > offset) {
+                    // 啟動觀察
+                    observer.observe(articleContainer.lastChild)
+                  } else {
+                    console.log('已全部渲染完成')
+                  }
+                })
+                .catch((error) => {
+                  console.error(error)
+                })
+            }
+          },
+          { threshold: 1 } // 預設為 0, 0 是觀察對象上方, 1 是下方
+        )
+
+        // 啟動觀察
+        observer.observe(articleContainer.lastChild)
       })
       .catch((error) => {
         console.log(error)
       })
-  })
+  })()
 
-  homeIcon.addEventListener('click', (e) => {
-    window.location.href = './index.html'
-  })
-
-  axios
-    .get(API_URL)
-    .then((response) => {
-      let datas = response.data
-      console.log(datas)
-      console.log(`offset: ${datas.offset}`)
-      console.log(`size: ${datas.size}`)
-      // 總文章篇數
-      total = datas.total
-      // 更新位移值
-      offset = datas.size
-      articles.push(...datas.articles)
-
-      // 頁面載入後渲染特定文章篇數
-      renderArticles(articles)
-
-      // 設置 IntersectionObserver
-      const observer = new IntersectionObserver(
-        (entries) => {
-          if (entries[0].isIntersecting) {
-            // 關閉觀察
-            observer.unobserve(articleContainer.lastChild)
-
-            // 發送請求
-            axios
-              .get(`${API_URL}?offset=${offset}&size=${size}`)
-              .then((response) => {
-                const DATA = response.data
-
-                // 更新總文章篇數
-                total = datas.total
-
-                // 取得下一批文章數據
-                const articles = DATA.articles
-
-                // 渲染新文章
-                renderArticles(articles)
-
-                // 更新位移值
-                offset += articles.length
-
-                console.log(
-                  `total: ${total}, offset: ${offset}, #articles: ${articles.length}`
-                )
-
-                if (total > offset) {
-                  // 啟動觀察
-                  observer.observe(articleContainer.lastChild)
-                } else {
-                  console.log('已全部渲染完成')
-                }
-              })
-              .catch((error) => {
-                console.error(error)
-              })
-          }
-        },
-        { threshold: 1 } // 預設為 0, 0 是觀察對象上方, 1 是下方
-      )
-
-      // 啟動觀察
-      observer.observe(articleContainer.lastChild)
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-})()
