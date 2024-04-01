@@ -140,7 +140,7 @@ const userList = document.querySelector('.user-list')
 
 // 用戶列表按鈕
 userList.addEventListener('click', function onuserListClicked(event) {
-  window.location.href = './user-list.html'
+  window.location.href = './user.html'
 })
 
 
