@@ -517,6 +517,11 @@ footer {
   border: 2px solid seagreen;
 }
 
+.user-list {
+  display: flex;
+  align-items: center;
+}
+
 .user-image {
   display: flex;
   height: 50px;
