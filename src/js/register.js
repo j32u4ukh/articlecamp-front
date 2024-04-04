@@ -3,12 +3,14 @@ const API_URL = `${BASE_URL}/register`
 const registerSubmit = document.querySelector('#registerSubmit')
 const registerErrorMsg = document.querySelector('#registerErrorMsg')
 
+//註冊submit監聽器
 registerSubmit.addEventListener('click', (event) => {
   event.preventDefault()
   const username = document.getElementById('username').value
   const email = document.getElementById('email').value
   const password = document.getElementById('password').value
   const repassword = document.getElementById('repassword').value
+  //密碼 與 確認密碼 需相同
   if (password === repassword) {
     axios
       .post(`${API_URL}`, {

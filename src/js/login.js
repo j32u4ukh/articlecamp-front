@@ -2,6 +2,7 @@ const API_URL = `${BASE_URL}/login`
 const loginSubmit = document.querySelector('#loginSubmit')
 const loginErrorMsg = document.querySelector('#loginErrorMsg')
 
+//登入submit 監聽器
 loginSubmit.addEventListener('click', (event) => {
   event.preventDefault()
   const email = document.getElementById('email').value
