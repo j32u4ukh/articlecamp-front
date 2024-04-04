@@ -502,7 +502,7 @@ footer {
 
 .user-list-container {
   margin: 50px auto 0px;
-  width: 80%;
+  width: 50%;
   text-align: center;
   border: 2px solid tomato;
   display: flex;
