@@ -488,27 +488,33 @@ footer {
   margin-left: auto;
 }
 
-#loginErrorMsg {
+#loginErrorMsg,
+#registerErrorMsg {
   text-align: center;
   font-size: 30px;
   font-weight: bold;
   color: red;
 }
 
-#loginH2 {
+#loginH2,
+#registerH2 {
   text-align: center;
 }
-#loginH3 {
+#loginH3,
+#registerH3 {
   margin: 20px;
   text-align: center;
 }
 
-#loginMain {
+#loginMain,
+#registerMain {
   display: flex;
   justify-content: center;
 }
 
-#loginForm {
+#loginForm,
+#registerForm {
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   font-size: 20px;
@@ -517,10 +523,13 @@ footer {
 }
 
 #loginForm input,
+label,
+#registerForm input,
 label {
   margin: 5px;
 }
-#loginForm button {
+#loginForm button,
+#registerForm button {
   margin: 10px;
   align-self: center;
 }
