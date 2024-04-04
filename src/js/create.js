@@ -5,7 +5,9 @@ const articleContext = document.querySelector('#article-context')
 const cancelButton = document.querySelector('.cancel-btn')
 const homeIcon = document.querySelector('.icon')
 const navbar = document.querySelector('.nav-bar')
-const API_URL = `${BASE_URL}/articles/create`
+const API_URL = `${BASE_URL}/articles`
+// 先預設用戶為id=1
+const token = 1
 
 // 取得下拉選單區塊
 const articleCategory = document.querySelector('.article-category')
@@ -36,8 +38,7 @@ function createArticleAPI(author, title, content, category) {
       author,
       title,
       content,
-      category,
-    })
+      category},{ headers: { token: token } })
     .then((res) => {
       console.log(`res: ${JSON.stringify(res.data)}`)
       // window.location.href = './index.html'

@@ -189,7 +189,7 @@ function setCategoryCookie() {
         console.log(response)
         let data = response.data
         articles.splice(0, articles.length)
-        articles.push(...datas.datas)
+        articles.push(...data.datas)
         renderArticles(articles)
       })
       .catch((error) => {
@@ -232,7 +232,7 @@ function setCategoryCookie() {
 
             // 發送請求
             axios
-              // header新增token
+              // header新增
               .get(`${API_URL}?offset=${offset}&size=${size}`, { headers: { token: token } })
               .then((response) => {
                 const DATA = response.data

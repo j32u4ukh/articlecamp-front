@@ -23,6 +23,9 @@ const API_URL = `${BASE_URL}/articles/${articleId}`
 const originalArticle = {}
 let currentArticle = {}
 
+// 先預設用戶為id=1
+const token = 1
+
 // 取得下拉選單區塊
 const articleCategory = document.querySelector('.article-category')
 
@@ -92,7 +95,7 @@ function renderArticle(data) {
     if (isUpdated) {
       console.log('Content updated, ready to submit.')
       axios
-        .put(API_URL, currentArticle)
+        .put(API_URL, currentArticle, { headers: { token: token } })
         .then(() => {
           // console.log(response)
         })
