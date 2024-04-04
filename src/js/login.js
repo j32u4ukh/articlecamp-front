@@ -10,6 +10,7 @@ loginSubmit.addEventListener('click', (event) => {
   axios
     .post(`${API_URL}`, { email: email, password: password })
     .then((response) => {
+      window.location.href = 'articles.html'
       console.log('登入成功')
     })
     .catch((error) => {
