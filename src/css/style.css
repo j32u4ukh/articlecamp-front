@@ -535,5 +535,10 @@ footer {
 .follow-btn {
   display: flex;
   margin-left: auto;
-  ;
+  background-color: #507ad5;
+  align-items: center;
+}
+
+.followed {
+  background-color: #777777a3;
 }

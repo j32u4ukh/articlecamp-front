@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/bootstrap.css" />
     <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/c-style.css" />
     <link rel="icon" type="image/svg+xml"
         href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%23c32f27'/%3E%3Ctext x='50' y='60' font-family='Arial' font-size='50' fill='%23f9c80e' text-anchor='middle' dominant-baseline='middle'%3EA%3C/text%3E%3C/svg%3E" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -31,10 +33,18 @@
                     </text>
                 </svg>
             </div>
+
+            <div class="search-container d-flex c-flex-axis0-center">
+                <div id="search-form" class="search-bar">
+                    <input id="search-input" type="text" placeholder="Search..." name="search" value="">
+                    <button id="search-btn" class="btn c-border">Search</button>
+                </div>
+            </div>
+
             <!-- UserList -->
             <div class="list-profile-container">
                 <div class="user-list">
-                    U
+                    <i class="fa-solid fa-users fa-2xl"></i>
                 </div>
 
                 <div class="profile-picture">
@@ -47,7 +57,7 @@
     </header>
 
     <main>
-        <div style="margin: 0 auto;width: 60%;text-align: center;">search bar</div>
+
 
         <div class="user-list-container">
             <div class="user-container">
@@ -81,6 +91,12 @@
         </div>
     </main>
 
+
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+
+    <script src="https://kit.fontawesome.com/6fb9682f78.js" crossorigin="anonymous"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/user.js"></script>
 </body>
 
 </html>
