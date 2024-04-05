@@ -1,5 +1,4 @@
 const userListContainer = document.querySelector('.user-list-container')
-// const followBtn = document.querySelectorAll('.follow-btn')
 const homeIcon = document.querySelector('.icon')
 const USERLIST_URL = `${BASE_URL}/users`
 
