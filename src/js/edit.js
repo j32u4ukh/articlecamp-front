@@ -1,33 +1,31 @@
-const navbar = document.querySelector('.nav-bar')
-
 // 取得 Logo 物件
 const homeIcon = document.querySelector('.icon')
 
 // DOM 抓取 class article-content
 const submitBtn = document.querySelector('.submit-btn')
 
-// cancel-btn，回到article.html
-const cancelArticle = document.querySelector('.cancel-btn')
+// cancel-btn，回到 article.html
+const cancelBtn = document.querySelector('.cancel-btn')
 
 const panel = document.querySelector('.article-content')
 const title = document.querySelector('#title')
 const author = document.querySelector('#author')
 const context = document.querySelector('#context')
 
+// 取得下拉選單區塊
+const articleCategory = document.querySelector('.article-category')
+
 // 使用 getCookie 取得 articleId 將 String 轉型成 Number
 const articleId = Number(COOKIE.get('articleId'))
 
-// 根據指定的 Id 取得資料
+// 根據指定的 articleId 取得資料
 const API_URL = `${BASE_URL}/articles/${articleId}`
 
 const originalArticle = {}
 let currentArticle = {}
 
-// 先預設用戶為id=1
+// 先預設用戶為 id = 1
 const token = 1
-
-// 取得下拉選單區塊
-const articleCategory = document.querySelector('.article-category')
 
 // 根據 getCookie 的 category 數據， 動態新增新的選項並設定value屬性
 function renderCategory() {
@@ -47,7 +45,7 @@ function renderCategory() {
   }
 }
 
-/* 根據 getCookie articleId 動態渲染 HTML */
+/* 根據 articleId 動態渲染 HTML */
 function renderArticle(data) {
   panel.addEventListener('change', function onDataChanged(e) {
     const target = e.target
@@ -74,17 +72,6 @@ function renderArticle(data) {
     window.location.href = './index.html'
   })
 
-  // // 監聽 navbar
-  // navbar.addEventListener('click', function onNavbarClicked(event) {
-  //   const target = event.target
-
-  //   if (target.matches('.profile-picture')) {
-  //     const id = Number(target.dataset.id)
-  //     setCookie('articleId', id)
-  //     window.location.href = `./profile.html?id=${id}`
-  //   }
-  // })
-
   submitBtn.addEventListener('click', () => {
     const origial = Object.values(originalArticle)
     const current = Object.values(currentArticle)
@@ -110,14 +97,13 @@ function renderArticle(data) {
   })
 
   // cancel-btn，回到 index.html
-  cancelArticle.addEventListener('click', function () {
+  cancelBtn.addEventListener('click', function () {
     // console.log(event)
     window.location.href = './index.html'
   })
 
   renderCategory()
 
-  // TODO: article id
   axios
     .get(API_URL)
     .then((response) => {
