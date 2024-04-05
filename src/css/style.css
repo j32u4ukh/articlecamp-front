@@ -490,5 +490,6 @@ footer {
 }
 
 #editButton {
-  margin-left: auto;
+  position: absolute;
+  right: 10px;
 }
