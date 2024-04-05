@@ -1,5 +1,5 @@
 const Model = require('./base')
-const { getTimestamp } = require('../utils')
+const { getTimestamp, deepCopy } = require('../utils')
 
 class UserModel extends Model {
   constructor() {
@@ -51,11 +51,13 @@ class UserModel extends Model {
   }
   getList(func) {
     if (func) {
-      return this.users.filter((user) => {
-        return func(user)
-      })
+      return deepCopy(
+        this.users.filter((user) => {
+          return func(user)
+        })
+      )
     } else {
-      return this.users
+      return deepCopy(this.users)
     }
   }
   // 根據用戶 id 更新指定用戶
