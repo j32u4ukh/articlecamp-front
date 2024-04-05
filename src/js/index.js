@@ -86,11 +86,60 @@ function setCategoryCookie() {
   }
 }
 
+// 設置 IntersectionObserver
+function setIntersectionObserver() {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (entries[0].isIntersecting) {
+        // 關閉觀察
+        observer.unobserve(articleContainer.lastChild)
+
+        // 發送請求
+        axios
+          // header新增
+          .get(`${API_URL}?offset=${offset}&size=${size}`, {
+            headers: { token: token },
+          })
+          .then((response) => {
+            const DATA = response.data
+
+            // 更新總文章篇數
+            total = DATA.total
+
+            // 取得下一批文章數據
+            const articles = DATA.datas
+
+            // 渲染新文章
+            renderArticles(articles)
+
+            // 更新位移值
+            offset += articles.length
+
+            console.log(
+              `total: ${total}, offset: ${offset}, #articles: ${articles.length}`
+            )
+
+            if (total > offset) {
+              // 啟動觀察
+              observer.observe(articleContainer.lastChild)
+            } else {
+              console.log('已全部渲染完成')
+            }
+          })
+          .catch((error) => {
+            console.error(error)
+          })
+      }
+    },
+    { threshold: 1 } // 預設為 0, 0 是觀察對象上方, 1 是下方
+  )
+
+  // 啟動觀察
+  observer.observe(articleContainer.lastChild)
+}
+
 // 初始化
 ;(function init() {
-  // 初始化 Cookie 數據結構
-  // initCookies()
-
   // 取得文章分類列表並記入 Cookie
   setCategoryCookie()
 
@@ -99,12 +148,6 @@ function setCategoryCookie() {
   // 重置搜尋框
   searchInput.value = ''
 
-  // document.cookie = 'k1=123; SameSite=None; Secure'
-  // document.cookie = 'k2=abc; SameSite=None; Secure'
-  // console.log(`cookie: ${JSON.stringify(document.cookie)}`)
-  // const datas = document.cookie.split(';')
-  // console.log(`datas: ${JSON.stringify(datas)}`)
-
   // 監聽 articleContainer
   articleContainer.addEventListener('click', function onArticleClicked(event) {
     const target = event.target
@@ -112,7 +155,7 @@ function setCategoryCookie() {
     if (target.matches('.read')) {
       const id = Number(target.dataset.id)
       COOKIE.set('articleId', id)
-      window.location.href = `./article.html?id=${id}`
+      window.location.href = `./article.html`
     } else if (target.matches('.edit-btn')) {
       const id = Number(target.dataset.id)
       COOKIE.set('articleId', id)
@@ -133,7 +176,7 @@ function setCategoryCookie() {
       url += `?keyword=${input}`
     }
     axios
-      // header新增token
+      // header 新增 token
       .get(url, { headers: { token: token } })
       .then((response) => {
         console.log(response)
@@ -159,7 +202,7 @@ function setCategoryCookie() {
       // {total: 3, offset: 0, size: 3, articles: Array(3)}
       // 更新: (ariticles => datas)
       // {total: 3, offset: 0, size: 3, datas: Array(3)}
-      // 故將原datas改成data, articles改成datas避免bad naming
+      // 故將原 datas 改成 data, articles 改成 datas 避免 bad naming
       let data = response.data
       console.log(data)
       console.log(`offset: ${data.offset}`)
@@ -174,54 +217,7 @@ function setCategoryCookie() {
       renderArticles(articles)
 
       // 設置 IntersectionObserver
-      const observer = new IntersectionObserver(
-        (entries) => {
-          if (entries[0].isIntersecting) {
-            // 關閉觀察
-            observer.unobserve(articleContainer.lastChild)
-
-            // 發送請求
-            axios
-              // header新增
-              .get(`${API_URL}?offset=${offset}&size=${size}`, {
-                headers: { token: token },
-              })
-              .then((response) => {
-                const DATA = response.data
-
-                // 更新總文章篇數
-                total = data.total
-
-                // 取得下一批文章數據
-                const articles = DATA.datas
-
-                // 渲染新文章
-                renderArticles(articles)
-
-                // 更新位移值
-                offset += articles.length
-
-                console.log(
-                  `total: ${total}, offset: ${offset}, #articles: ${articles.length}`
-                )
-
-                if (total > offset) {
-                  // 啟動觀察
-                  observer.observe(articleContainer.lastChild)
-                } else {
-                  console.log('已全部渲染完成')
-                }
-              })
-              .catch((error) => {
-                console.error(error)
-              })
-          }
-        },
-        { threshold: 1 } // 預設為 0, 0 是觀察對象上方, 1 是下方
-      )
-
-      // 啟動觀察
-      observer.observe(articleContainer.lastChild)
+      setIntersectionObserver()
     })
     .catch((error) => {
       console.log(error)
