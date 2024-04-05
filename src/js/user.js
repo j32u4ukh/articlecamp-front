@@ -1,24 +1,42 @@
+// const User = require('./UserModel')
+
 const userListContainer = document.querySelector('.user-list-container')
 const userContainer = document.querySelector('.user-container')
-// const userImage = document.querySelector('.user-image')
-// const userName = document.querySelector('.user-name')
-const followBtn = document.querySelector('.follow-btn')
+const userImage = document.querySelector('.user-image')
+const userName = document.querySelector('.user-name')
+const followBtn = document.querySelectorAll('.follow-btn')
 const homeIcon = document.querySelector('.icon')
-
-const API_URL = `${BASE_URL}/users/:3`
+const USERLIST_URL = `${BASE_URL}/users`
 
 ;(function init() {
   homeIcon.addEventListener('click', (e) => {
     window.location.href = './index.html'
   })
-
-  // TODO: 監聽上一層容器(只有一個)，而非 user-container，querySelector 只會取得第一個 class 為 user-container 的元素
-  userContainer.addEventListener('click', (e) => {
-    const target = e.target
-    if (target === followBtn) {
-      let isfollowed = followBtn.classList.toggle('followed')
-      followBtn.textContent = isfollowed ? 'Followed' : 'Follow'
-      console.log(isfollowed)
-    }
+  followBtn.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      const target = e.target
+      if (target.matches('.follow-btn')) {
+        const btnId = target.id
+        const isfollowed = target.classList.toggle('followed')
+        target.textContent = isfollowed ? 'Followed' : 'Follow'
+        console.log(`ID:${btnId}`)
+      }
+    })
   })
 })()
+
+const token = 2
+document.addEventListener('DOMContentLoaded', function () {
+  axios
+    .get(USERLIST_URL, {
+      headers: {
+        token: token,
+      },
+    })
+    .then((response) => {
+      console.log(response)
+    })
+    .catch((error) => {
+      console.error('Error:', error)
+    })
+})
