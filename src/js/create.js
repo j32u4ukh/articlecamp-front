@@ -5,14 +5,15 @@ const articleContext = document.querySelector('#article-context')
 const cancelButton = document.querySelector('.cancel-btn')
 const homeIcon = document.querySelector('.icon')
 const navbar = document.querySelector('.nav-bar')
-const API_URL = `${BASE_URL}/articles`
-// 先預設用戶為id=1
-const token = 1
-
 // 取得下拉選單區塊
 const articleCategory = document.querySelector('.article-category')
 
-// 根據 getCookie 的 category 數據， 動態新增新的選項並設定value屬性
+const API_URL = `${BASE_URL}/articles`
+
+// 先預設用戶為 id = 1
+const token = 1
+
+// 根據 getCookie 的 category 數據， 動態新增新的選項並設定 value 屬性
 function renderCategory() {
   const categoryCookie = COOKIE.get('category')
   // console.log(categoryCookie)
@@ -52,40 +53,30 @@ function createArticleAPI(author, title, content, category) {
     })
 }
 
-// // 監聽 navbar
-// navbar.addEventListener('click', function onNavbarClicked(event) {
-//   const target = event.target
+;(function init() {
+  // 新增文章按鈕，按下後，確認欄位填寫，新增文章
+  submitButton.addEventListener('click', function createArticleClicked(event) {
+    const title = articleTitle.value.trim()
+    const author = articleAuthor.value.trim()
+    const content = articleContext.value.trim()
+    const category = articleCategory.value
+    // console.log(`category: ${category}`)
+    if (title.length === 0 || author.length === 0 || content.length === 0) {
+      alert('文章標題、文章作者、文章內容皆不得空白!')
+    } else {
+      createArticleAPI(author, title, content, category)
+    }
+  })
 
-//   if (target.matches('.profile-picture')) {
-//     const id = Number(target.dataset.id)
-//     setCookie('articleId', id)
-//     window.location.href = `./profile.html?id=${id}`
-//   }
-// })
+  // 取消新增文章，按下按鈕返回首頁
+  cancelButton.addEventListener('click', function cancelButtonClicked(event) {
+    console.log(event)
+    window.location.href = './index.html'
+  })
 
-// 新增文章按鈕，按下後，確認欄位填寫，新增文章
-// 0317 新增category 參數
-submitButton.addEventListener('click', function createArticleClicked(event) {
-  const title = articleTitle.value.trim()
-  const author = articleAuthor.value.trim()
-  const content = articleContext.value.trim()
-  const category = articleCategory.value
-  // console.log(`category: ${category}`)
-  if (title.length === 0 || author.length === 0 || content.length === 0) {
-    alert('文章標題、文章作者、文章內容皆不得空白!')
-  } else {
-    createArticleAPI(author, title, content, category)
-  }
-})
+  homeIcon.addEventListener('click', (e) => {
+    window.location.href = './index.html'
+  })
 
-// 取消新增文章，按下按鈕返回首頁
-cancelButton.addEventListener('click', function cancelButtonClicked(event) {
-  console.log(event)
-  window.location.href = './index.html'
-})
-
-homeIcon.addEventListener('click', (e) => {
-  window.location.href = './index.html'
-})
-
-renderCategory()
+  renderCategory()
+})()
