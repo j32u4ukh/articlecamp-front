@@ -21,25 +21,17 @@ function renderUserId() {
     window.location.href = './index.html'
   })
 
-  // 監聽 navbar
-  navbar.addEventListener('click', function onNavbarClicked(event) {
-    // NOTE: target 會是實際被點擊的元素，而非外層的 div 標籤
-    const target = event.target
-    console.log(target)
-    console.log(target.classList)
-    console.log('icon => ' + target.classList.contains('icon'))
-    console.log(
-      'profile-picture => ' + target.classList.contains('profile-picture')
-    )
-
-    // if (target.matches('.profile-picture')) {
-    //   const id = Number(target.dataset.id)
-    //   setCookie('articleId', id)
-    //   // window.location.href = `./profile.html?id=${id}`
-    // } else if (target.matches('.icon')) {
-    //   window.location.href = './index.html'
-    // }
-  })
+  // // 監聽 navbar
+  // navbar.addEventListener('click', function onNavbarClicked(event) {
+  //   // NOTE: target 會是實際被點擊的元素，而非外層的 div 標籤
+  //   const target = event.target
+  //   console.log(target)
+  //   console.log(target.classList)
+  //   console.log('icon => ' + target.classList.contains('icon'))
+  //   console.log(
+  //     'profile-picture => ' + target.classList.contains('profile-picture')
+  //   )
+  // })
 
   // 監聽 cancelbtn
   cancelbtn.addEventListener('click', function onCancelBtnClicked() {
