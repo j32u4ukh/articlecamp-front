@@ -1,4 +1,4 @@
-const articleContent = document.querySelector('.article-content')
+// const articleContent = document.querySelector('.article-content')
 const homeIcon = document.querySelector('.icon')
 const editArticle = document.querySelector('#editButton')
 const title = document.querySelector('.article-title')
@@ -42,30 +42,12 @@ function renderMessages(messages) {
   messages.forEach((message) => {
     renderMessage(message)
   })
-  // const totalMessage = messages.length
-  // const LastElement = commentList.lastElementChild
-  // console.log(LastElement)
-
-  // // // intersectionObserver
-  // const observer = new IntersectionObserver(
-  //   (entry) => {
-  //     console.log(entry)
-  //     // axios 再調整offset size
-  //   },
-  //   { threshold: 1 }
-  //   // { rootMargin: "-100px" }
-  // )
-  // console.log(totalMessage)
-  // console.log(offset)
-  // if (totalMessage > offset) {
-  //   observer.observe(LastElement)
-  // }
 }
 
-function renderMessage(message) {
-  let commentElement = document.createElement('div')
-  commentElement.classList.add('historical-commenter')
-  commentElement.innerHTML = `<div class="historical-commenter">
+function renderMessage(message, prepend = false) {
+  let comment = document.createElement('div')
+  comment.classList.add('historical-commenter')
+  comment.innerHTML = `<div class="historical-commenter">
         <div class="commenter-container">
           <div class="historical-commenter-img">
             <img src="../data/Alex.png" />
@@ -75,7 +57,12 @@ function renderMessage(message) {
         </div>
             <div class="message"> ${message.content}</div>
       </div>`
-  commentList.append(commentElement)
+
+  if (prepend) {
+    commentList.prepend(comment)
+  } else {
+    commentList.append(comment)
+  }
 }
 
 ;(function init() {
@@ -149,25 +136,27 @@ function renderMessage(message) {
           return res.data
         })
         .then((data) => {
-          // Create comment element
-          let commentElement = document.createElement('div')
-          commentElement.classList.add('historical-commenter')
-          // API-v2 res 數據格式 新增 comment
-          commentElement.innerHTML = `<div class="historical-commenter">
-        <div class="commenter-container">
-          <div class="historical-commenter-img">
-            <img src="../data/Alex.png" />
-          </div>
-          <div class="historical-commenter-name">Alex
-          </div>
-        </div>
-            <div class="message"> ${data.content}</div>
-      </div>`
-
-          commentList.prepend(commentElement)
+          // NOTE: 新增和渲染幾乎沒差別，應透過函式來複用，也要避免讓一個函式過於冗長
+          renderMessage(data, true)
+          //     // Create comment element
+          //     let commentElement = document.createElement('div')
+          //     commentElement.classList.add('historical-commenter')
+          //     // API-v2 res 數據格式 新增 comment
+          //     commentElement.innerHTML = `<div class="historical-commenter">
+          //   <div class="commenter-container">
+          //     <div class="historical-commenter-img">
+          //       <img src="../data/Alex.png" />
+          //     </div>
+          //     <div class="historical-commenter-name">Alex
+          //     </div>
+          //   </div>
+          //       <div class="message"> ${data.content}</div>
+          // </div>`
+          //     commentList.prepend(commentElement)
 
           // 清空留言區
           commentInput.value = ''
+
           // 有留言時歷史留言區才顯示
           commentList.style.display = 'flex'
         })
