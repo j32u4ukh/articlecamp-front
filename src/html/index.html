@@ -19,47 +19,63 @@
   <title>Articlecamp</title>
 </head>
 
-<body>
-  <!-- Header -->
-  <header>
-    <nav class="nav-bar">
-      <div class="icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-          <!-- 圓圈 -->
-          <circle cx="50" cy="50" r="40" fill="#c32f27" />
-          <!-- 文字 "A" -->
-          <text x="50" y="57" font-family="Arial" font-size="50" fill="#f9c80e" text-anchor="middle"
-            dominant-baseline="middle">
-            A
-          </text>
-        </svg>
-      </div>
+  <body>
+    <!-- Header -->
+    <header>
+      <nav class="nav-bar">
+        <div class="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+            <!-- 圓圈 -->
+            <circle cx="50" cy="50" r="40" fill="#c32f27" />
+            <!-- 文字 "A" -->
+            <text
+              x="50"
+              y="57"
+              font-family="Arial"
+              font-size="50"
+              fill="#f9c80e"
+              text-anchor="middle"
+              dominant-baseline="middle"
+            >
+              A
+            </text>
+          </svg>
+        </div>
 
-      <div class="search-container d-flex c-flex-axis0-center">
-        <div id="search-form" class="search-bar">
-          <input id="search-input" type="text" placeholder="Search..." name="search" value="">
-          <button id="search-btn" class="btn c-border">Search</button>
-        </div>
+        <div class="list-profile-container">
+          <!-- UserList -->
+          <div class="user-list">
+            <a href="user.html"><i class="fa-solid fa-users fa-2xl"></i></a>
+          </div>
+          <!-- Profile -->
+          <div class="profile-picture">
+            <a href="profile.html"><img src="../data/Alex.png" /></a>
+          </div>
       </div>
-      
-      <div class="list-profile-container">
-        <!-- UserList -->
-        <div class="user-list">
-          <a href="user.html"><i class="fa-solid fa-users fa-2xl"></i></a>
-        </div>
-        <!-- Profile -->
-        <div class="profile-picture">
-          <a href="profile.html"><img src="../data/Alex.png" /></a>
-        </div>
-      </div>
-    </nav>
-  </header>
+      </nav>
+    </header>
 
-  <main>
-    <!-- Article list -->
-    <section>
-      <ul id="article-container" class="list-group col-sm-12 mb-2"></ul>
-      <!-- <div class="article">
+    <main>
+      <!-- Article list -->
+      <section>
+        <div class="search-container d-flex c-flex-axis0-center">
+          <div id="search-form" class="search-bar">
+            <input
+              id="search-input"
+              type="text"
+              placeholder="Search..."
+              name="search"
+              value=""
+            />
+            <button id="search-btn" class="btn c-border">Search</button>
+          </div>
+          <div class="d-flex c-flex-axis0-center">
+            <!-- type="submit" 的 <button> 用於提交表單，而未指定 type 的 <button> 通常用於其他目的，例如 JavaScript 事件處理程序。 -->
+            <button id="createButton" class="btn c-border">Create</button>
+          </div>
+        </div>
+        <ul id="article-container" class="list-group col-sm-12 mb-2"></ul>
+        <!-- <div class="article">
           <div class="article-left">
             <div class="author">
               <div class="author-img">
@@ -91,8 +107,8 @@
             </div>
           </div>
         </div> -->
-    </section>
-  </main>
+      </section>
+    </main>
 
   <!-- Script -->
   <!-- axios -->

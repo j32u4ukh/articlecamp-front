@@ -6,7 +6,8 @@ const homeIcon = document.querySelector('.icon')
 const navbar = document.querySelector('.nav-bar')
 const API_URL = `${BASE_URL}/articles`
 const articles = []
-
+// 先預設用戶為id=1
+const token = 1
 // 總文章篇數
 let total = 0
 // 取得文章位移值
@@ -137,11 +138,13 @@ function setCategoryCookie() {
       url += `?keyword=${input}`
     }
     axios
-      .get(url)
+      // header新增token
+      .get(url, { headers: { token: token } })
       .then((response) => {
-        let datas = response.data
+        console.log(response)
+        let data = response.data
         articles.splice(0, articles.length)
-        articles.push(...datas.articles)
+        articles.push(...data.datas)
         renderArticles(articles)
       })
       .catch((error) => {
@@ -154,17 +157,23 @@ function setCategoryCookie() {
   })
 
   axios
-    .get(API_URL)
+    // header新增token
+    .get(API_URL, { headers: { token: token } })
     .then((response) => {
-      let datas = response.data
-      console.log(datas)
-      console.log(`offset: ${datas.offset}`)
-      console.log(`size: ${datas.size}`)
+      // 原始:
+      // {total: 3, offset: 0, size: 3, articles: Array(3)}
+      // 更新: (ariticles => datas)
+      // {total: 3, offset: 0, size: 3, datas: Array(3)}
+      // 故將原datas改成data, articles改成datas避免bad naming
+      let data = response.data
+      console.log(data)
+      console.log(`offset: ${data.offset}`)
+      console.log(`size: ${data.size}`)
       // 總文章篇數
-      total = datas.total
+      total = data.total
       // 更新位移值
-      offset = datas.size
-      articles.push(...datas.articles)
+      offset = data.size
+      articles.push(...data.datas)
 
       // 頁面載入後渲染特定文章篇數
       renderArticles(articles)
@@ -178,15 +187,18 @@ function setCategoryCookie() {
 
             // 發送請求
             axios
-              .get(`${API_URL}?offset=${offset}&size=${size}`)
+              // header新增
+              .get(`${API_URL}?offset=${offset}&size=${size}`, {
+                headers: { token: token },
+              })
               .then((response) => {
                 const DATA = response.data
 
                 // 更新總文章篇數
-                total = datas.total
+                total = data.total
 
                 // 取得下一批文章數據
-                const articles = DATA.articles
+                const articles = DATA.datas
 
                 // 渲染新文章
                 renderArticles(articles)

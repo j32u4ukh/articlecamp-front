@@ -23,6 +23,9 @@ const API_URL = `${BASE_URL}/articles/${articleId}`
 const originalArticle = {}
 let currentArticle = {}
 
+// 先預設用戶為id=1
+const token = 1
+
 // 取得下拉選單區塊
 const articleCategory = document.querySelector('.article-category')
 
@@ -45,7 +48,6 @@ function renderCategory() {
 }
 
 /* 根據 getCookie articleId 動態渲染 HTML */
-//0317 新增 category 參數
 function renderArticle(data) {
   panel.addEventListener('change', function onDataChanged(e) {
     const target = e.target
@@ -92,7 +94,7 @@ function renderArticle(data) {
     if (isUpdated) {
       console.log('Content updated, ready to submit.')
       axios
-        .put(API_URL, currentArticle)
+        .put(API_URL, currentArticle, { headers: { token: token } })
         .then(() => {
           // console.log(response)
         })
@@ -115,6 +117,7 @@ function renderArticle(data) {
 
   renderCategory()
 
+  // TODO: article id
   axios
     .get(API_URL)
     .then((response) => {

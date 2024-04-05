@@ -21,6 +21,9 @@ let total = 0
 let offset = 0
 const size = 10
 
+// 先預設用戶為id=1
+const token = 1
+
 function renderArticle(data) {
   // cookie data
   const currentCookie = getCookie('category')
@@ -108,9 +111,7 @@ function renderMessage(message) {
       commentList.appendChild(moreMessageBTN)
       moreMessageBTN.addEventListener('click', () => {
         axios
-          .get(`${MESSAGE_URL}?offset=${offset}&size=${size}`, {
-            offset: offset,
-          })
+          .get(`${MESSAGE_URL}?offset=${offset}&size=${size}`, { offset: offset })
           .then((res) => {
             // GET 留言列表
             // 更新留言數據
@@ -131,10 +132,15 @@ function renderMessage(message) {
     if (comment !== '') {
       // 發送新增留言API
       axios
-        .post(MESSAGE_URL, {
-          // 請求格式
-          content: comment,
-        })
+        // header新增token
+        .post(
+          MESSAGE_URL,
+          {
+            // 請求格式
+            content: comment
+          },
+          { headers: { token: token } }
+        )
         .then((res) => {
           return res.data
         })
