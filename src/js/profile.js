@@ -8,7 +8,7 @@ const originalUsername = 'UserName' // 替換為載入時獲取的原始用戶�
 const originalEmail = 'abc@email.com' // 替換為載入時獲取的原始 email
 
 function renderUserId() {
-  const userId = getCookie('userId')
+  const userId = COOKIE.get('userId')
   userid.textContent = `User ID: ${userId}`
 
   // 將用戶名和 email 載入

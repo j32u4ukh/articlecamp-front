@@ -15,7 +15,7 @@ const author = document.querySelector('#author')
 const context = document.querySelector('#context')
 
 // 使用 getCookie 取得 articleId 將 String 轉型成 Number
-const articleId = Number(getCookie('articleId'))
+const articleId = Number(COOKIE.get('articleId'))
 
 // 根據指定的 Id 取得資料
 const API_URL = `${BASE_URL}/articles/${articleId}`
@@ -31,7 +31,7 @@ const articleCategory = document.querySelector('.article-category')
 
 // 根據 getCookie 的 category 數據， 動態新增新的選項並設定value屬性
 function renderCategory() {
-  const categoryCookie = getCookie('category')
+  const categoryCookie = COOKIE.get('category')
   // console.log(categoryCookie)
 
   // 根據 CookieArray 長度 設定要建立幾個 option 並給予值 跟文字顯示 name

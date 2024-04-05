@@ -13,7 +13,7 @@ const commentList = document.querySelector('#commentList')
 const cancelButton = document.querySelector('#cancel-button')
 const submitButton = document.querySelector('#submit-comment-button')
 
-const articleId = Number(getCookie('articleId'))
+const articleId = Number(COOKIE.get('articleId'))
 const API_URL = `${BASE_URL}/articles/${articleId}`
 const MESSAGE_URL = `${BASE_URL}/articles/${articleId}/messages`
 
@@ -26,7 +26,7 @@ const token = 1
 
 function renderArticle(data) {
   // cookie data
-  const currentCookie = getCookie('category')
+  const currentCookie = COOKIE.get('category')
   const categoryArray = currentCookie.filter((e) => e.id === data.category)
   const categoryName = categoryArray[0].name
   console.log('data: ', data)
@@ -110,11 +110,15 @@ function renderMessage(message) {
       moreMessageBTN.innerText = '更多留言'
       commentList.appendChild(moreMessageBTN)
       moreMessageBTN.addEventListener('click', () => {
+        /* NOTE: GET 不需要像 POST 一樣塞數據
+        get(`${MESSAGE_URL}?offset=${offset}&size=${size}`, {
+            offset: offset,
+          })
+        */
         axios
-          .get(`${MESSAGE_URL}?offset=${offset}&size=${size}`, { offset: offset })
+          .get(`${MESSAGE_URL}?offset=${offset}&size=${size}`)
           .then((res) => {
-            // GET 留言列表
-            // 更新留言數據
+            // GET 留言列表，更新留言數據
             const newdata = res.data
             total = newdata.total
             const messages = newdata.datas
@@ -137,7 +141,7 @@ function renderMessage(message) {
           MESSAGE_URL,
           {
             // 請求格式
-            content: comment
+            content: comment,
           },
           { headers: { token: token } }
         )

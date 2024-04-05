@@ -72,13 +72,13 @@ function renderArticle(article) {
 
 // 取得文章分類數據後，存入 Cookie
 function setCategoryCookie() {
-  const category = getCookie('category')
+  const category = COOKIE.get('category')
   // 若 Cookie 中沒有文章分類數據，才向後端送出請求
   if (category === undefined) {
     axios
       .get(`${API_URL}/categories`)
       .then((response) => {
-        setCookie('category', response.data)
+        COOKIE.set('category', response.data)
       })
       .catch((error) => {
         console.error(error)
@@ -89,26 +89,21 @@ function setCategoryCookie() {
 // 初始化
 ;(function init() {
   // 初始化 Cookie 數據結構
-  initCookies()
+  // initCookies()
 
   // 取得文章分類列表並記入 Cookie
   setCategoryCookie()
 
-  setCookie('userId', '1')
+  COOKIE.set('userId', '1')
 
   // 重置搜尋框
   searchInput.value = ''
 
-  // // 監聽 navbar
-  // navbar.addEventListener('click', function onNavbarClicked(event) {
-  //   const target = event.target
-
-  //   if (target.matches('.profile-picture')) {
-  //     const id = Number(target.dataset.id)
-  //     setCookie('articleId', id)
-  //     window.location.href = `./profile.html?id=${id}`
-  //   }
-  // })
+  // document.cookie = 'k1=123; SameSite=None; Secure'
+  // document.cookie = 'k2=abc; SameSite=None; Secure'
+  // console.log(`cookie: ${JSON.stringify(document.cookie)}`)
+  // const datas = document.cookie.split(';')
+  // console.log(`datas: ${JSON.stringify(datas)}`)
 
   // 監聽 articleContainer
   articleContainer.addEventListener('click', function onArticleClicked(event) {
@@ -116,11 +111,11 @@ function setCategoryCookie() {
 
     if (target.matches('.read')) {
       const id = Number(target.dataset.id)
-      setCookie('articleId', id)
+      COOKIE.set('articleId', id)
       window.location.href = `./article.html?id=${id}`
     } else if (target.matches('.edit-btn')) {
       const id = Number(target.dataset.id)
-      setCookie('articleId', id)
+      COOKIE.set('articleId', id)
       window.location.href = './edit.html'
     }
   })
