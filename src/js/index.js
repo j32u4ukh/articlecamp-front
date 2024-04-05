@@ -194,6 +194,17 @@ function setIntersectionObserver() {
     window.location.href = './index.html'
   })
 
+  // Fake data
+  total = FAKE_ARTICLES.total
+  // 更新位移值
+  offset = FAKE_ARTICLES.size
+  articles.push(...FAKE_ARTICLES.datas)
+  // 頁面載入後渲染特定文章篇數
+  renderArticles(articles)
+
+  // 設置 IntersectionObserver
+  setIntersectionObserver()
+
   axios
     // header新增token
     .get(API_URL, { headers: { token: token } })
