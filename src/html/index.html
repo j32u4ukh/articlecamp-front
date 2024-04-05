@@ -45,6 +45,16 @@
             </text>
           </svg>
         </div>
+
+        <div class="profile-picture">
+          <a href="profile.html"><img src="../data/Alex.png" /></a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Article list -->
+      <section>
         <div class="search-container d-flex c-flex-axis0-center">
           <div id="search-form" class="search-bar">
             <input
@@ -56,21 +66,11 @@
             />
             <button id="search-btn" class="btn c-border">Search</button>
           </div>
+          <div class="d-flex c-flex-axis0-center">
+            <!-- type="submit" 的 <button> 用於提交表單，而未指定 type 的 <button> 通常用於其他目的，例如 JavaScript 事件處理程序。 -->
+            <button id="createButton" class="btn c-border">Create</button>
+          </div>
         </div>
-        <div class="d-flex c-flex-axis0-center">
-          <!-- type="submit" 的 <button> 用於提交表單，而未指定 type 的 <button> 通常用於其他目的，例如 JavaScript 事件處理程序。 -->
-          <button id="createButton" class="btn c-border m-1">Create</button>
-        </div>
-
-        <div class="profile-picture">
-          <a href="profile.html"><img src="../data/Alex.png" /></a>
-        </div>
-      </nav>
-    </header>
-
-    <main>
-      <!-- Article list -->
-      <section>
         <ul id="article-container" class="list-group col-sm-12 mb-2"></ul>
         <!-- <div class="article">
           <div class="article-left">
