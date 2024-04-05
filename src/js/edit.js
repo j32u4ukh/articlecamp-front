@@ -48,7 +48,6 @@ function renderCategory() {
 }
 
 /* 根據 getCookie articleId 動態渲染 HTML */
-//0317 新增 category 參數
 function renderArticle(data) {
   panel.addEventListener('change', function onDataChanged(e) {
     const target = e.target
@@ -118,6 +117,7 @@ function renderArticle(data) {
 
   renderCategory()
 
+  // TODO: article id
   axios
     .get(API_URL)
     .then((response) => {

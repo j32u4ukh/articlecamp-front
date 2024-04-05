@@ -31,17 +31,21 @@ function renderCategory() {
 }
 
 // 新增文章後，送出 API 請求
-// 新增 category 參數
 function createArticleAPI(author, title, content, category) {
   axios
-    .post(API_URL, {
-      author,
-      title,
-      content,
-      category},{ headers: { token: token } })
+    .post(
+      API_URL,
+      {
+        author,
+        title,
+        content,
+        category,
+      },
+      { headers: { token: token } }
+    )
     .then((res) => {
-      console.log(`res: ${JSON.stringify(res.data)}`)
-      // window.location.href = './index.html'
+      // console.log(`res: ${JSON.stringify(res.data)}`)
+      window.location.href = './index.html'
     })
     .catch((error) => {
       console.log(error)
