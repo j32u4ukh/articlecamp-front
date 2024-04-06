@@ -52,29 +52,22 @@
       <section id="registerSection">
         <h2 id="registerH2">註冊帳號</h2>
         <div id="registerErrorMsg"></div>
-        <form id="registerForm">
+        <div id="registerForm">
           <label>Name:</label>
           <input type="text" id="username" name="username" maxlength="50" />
           <label>Email:</label>
-          <input type="email" id="email" name="email" maxlength="25" required />
+          <input type="email" id="email" name="email" maxlength="30" />
           <label>密碼:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            maxlength="20"
-            required
-          />
+          <input type="password" id="password" name="password" maxlength="20" />
           <label>再次輸入密碼:</label>
           <input
             type="password"
             id="repassword"
             name="repassword"
             maxlength="20"
-            required
           />
           <button type="submit" id="registerSubmit">創建</button>
-        </form>
+        </div>
         <h3 id="registerH3">已有帳號？<a href="login.html">登入</a></h3>
       </section>
     </main>
