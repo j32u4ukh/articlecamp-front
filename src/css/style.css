@@ -561,6 +561,11 @@ label {
   flex-direction: column;
 }
 
+.user-list {
+  display: flex;
+  align-items: center;
+}
+
 .user-container {
   display: flex;
   flex-direction: row;
@@ -569,22 +574,23 @@ label {
   border: 2px solid seagreen;
 }
 
-.user-list {
-  display: flex;
-  align-items: center;
+.user-image {
+  height: 50px;
+  width: 50px;
+  margin: 5px;
 }
 
-.user-image {
-  display: flex;
-  height: 50px;
-  margin: 5px;
+.user-image img {
+  max-height: 100%;
+  max-width: 100%;
 }
 
 .user-name {
   font-size: larger;
   display: flex;
+  justify-content: flex-start;
   align-items: center;
-  margin-left: 5px;
+  margin-left: 20px;
 }
 
 .follow-btn {
