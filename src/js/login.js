@@ -16,11 +16,11 @@ loginSubmit.addEventListener('click', (event) => {
   axios
     .post(`${API_URL}`, { email: email, password: password })
     .then((response) => {
-      // TODO: 紀錄返回的 JWT
       const data = response.data
       const token = data.token
+      // 紀錄返回的 JWT
       COOKIE.set('token', token)
-      window.location.href = `/front/src/html/index.html`
+      window.location.href = `./index.html`
     })
     .catch((error) => {
       const errorMsg = error.response.data.msg

@@ -29,8 +29,6 @@ function renderArticle(data) {
   const currentCookie = COOKIE.get('category')
   const categoryArray = currentCookie.filter((e) => e.id === data.category)
   const categoryName = categoryArray[0].name
-  console.log('data: ', data)
-  console.log('currentCookie: ', currentCookie)
   title.innerHTML = `文章標題: ${data.title}`
   author.innerHTML = `文章作者: ${data.author}`
   category.innerHTML = `文章分類: ${categoryName}`
@@ -79,42 +77,48 @@ function renderMessage(message, prepend = false) {
     event.preventDefault() // 防止表單提交
   })
 
-  axios.get(`${MESSAGE_URL}?offset=${offset}&size=${size}`).then((res) => {
-    // GET 留言列表
-    // console.log(res)
-    const DATA = res.data
-    const messages = DATA.datas
-    total = DATA.total
-    offset += messages.length
-    console.log(messages)
-    renderMessages(messages)
+  axios
+    .get(`${MESSAGE_URL}?offset=${offset}&size=${size}`, {
+      headers: { authorization: `Bearer ${token}` },
+    })
+    .then((res) => {
+      // GET 留言列表
+      // console.log(res)
+      const DATA = res.data
+      const messages = DATA.datas
+      total = DATA.total
+      offset += messages.length
+      console.log(messages)
+      renderMessages(messages)
 
-    // MoreMessageBTN
-    let messageLangth = messages.length
-    console.log(messageLangth)
-    if (messageLangth >= offset) {
-      const moreMessageBTN = document.createElement('button')
-      moreMessageBTN.innerText = '更多留言'
-      commentList.appendChild(moreMessageBTN)
-      moreMessageBTN.addEventListener('click', () => {
-        /* NOTE: GET 不需要像 POST 一樣塞數據
+      // MoreMessageBTN
+      let messageLangth = messages.length
+      console.log(messageLangth)
+      if (messageLangth >= offset) {
+        const moreMessageBTN = document.createElement('button')
+        moreMessageBTN.innerText = '更多留言'
+        commentList.appendChild(moreMessageBTN)
+        moreMessageBTN.addEventListener('click', () => {
+          /* NOTE: GET 不需要像 POST 一樣塞數據
         get(`${MESSAGE_URL}?offset=${offset}&size=${size}`, {
             offset: offset,
           })
         */
-        axios
-          .get(`${MESSAGE_URL}?offset=${offset}&size=${size}`)
-          .then((res) => {
-            // GET 留言列表，更新留言數據
-            const newdata = res.data
-            total = newdata.total
-            const messages = newdata.datas
-            offset += messages.length
-            renderMessages(messages)
-          })
-      })
-    }
-  })
+          axios
+            .get(`${MESSAGE_URL}?offset=${offset}&size=${size}`, {
+              headers: { authorization: `Bearer ${token}` },
+            })
+            .then((res) => {
+              // GET 留言列表，更新留言數據
+              const newdata = res.data
+              total = newdata.total
+              const messages = newdata.datas
+              offset += messages.length
+              renderMessages(messages)
+            })
+        })
+      }
+    })
 
   // 留言按鈕
   submitButton.addEventListener('click', function () {
@@ -186,7 +190,7 @@ function renderMessage(message, prepend = false) {
   })
 
   axios
-    .get(API_URL)
+    .get(API_URL, { headers: { authorization: `Bearer ${token}` } })
     .then((response) => {
       const data = response.data
       renderArticle(data)

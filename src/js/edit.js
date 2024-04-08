@@ -107,7 +107,7 @@ function renderArticle(data) {
   renderCategory()
 
   axios
-    .get(API_URL)
+    .get(API_URL, { headers: { authorization: `Bearer ${token}` } })
     .then((response) => {
       const data = response.data
       renderArticle(data)

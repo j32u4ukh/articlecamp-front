@@ -76,7 +76,9 @@ function setCategoryCookie() {
   // 若 Cookie 中沒有文章分類數據，才向後端送出請求
   if (category === undefined) {
     axios
-      .get(`${API_URL}/categories`)
+      .get(`${API_URL}/categories`, {
+        headers: { authorization: `Bearer ${token}` },
+      })
       .then((response) => {
         COOKIE.set('category', response.data)
       })
