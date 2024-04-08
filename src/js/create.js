@@ -10,8 +10,8 @@ const articleCategory = document.querySelector('.article-category')
 
 const API_URL = `${BASE_URL}/articles`
 
-// 先預設用戶為 id = 1
-const token = 1
+// 從cookie取得token
+const token = COOKIE.get('token')
 
 // 根據 getCookie 的 category 數據， 動態新增新的選項並設定 value 屬性
 function renderCategory() {
@@ -42,7 +42,9 @@ function createArticleAPI(author, title, content, category) {
         content,
         category,
       },
-      { headers: { token: token } }
+      {
+        headers: { authorization: `Bearer ${token}` },
+      }
     )
     .then((res) => {
       // console.log(`res: ${JSON.stringify(res.data)}`)
