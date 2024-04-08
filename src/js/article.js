@@ -21,8 +21,8 @@ let total = 0
 let offset = 0
 const size = 10
 
-// 先預設用戶為id=1
-const token = 1
+// 從cookie取得token
+const token = COOKIE.get('token')
 
 function renderArticle(data) {
   // cookie data
@@ -130,7 +130,9 @@ function renderMessage(message, prepend = false) {
             // 請求格式
             content: comment,
           },
-          { headers: { token: token } }
+          {
+            headers: { authorization: `Bearer ${token}` },
+          }
         )
         .then((res) => {
           return res.data

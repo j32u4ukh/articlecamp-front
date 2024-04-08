@@ -17,7 +17,10 @@ loginSubmit.addEventListener('click', (event) => {
     .post(`${API_URL}`, { email: email, password: password })
     .then((response) => {
       // TODO: 紀錄返回的 JWT
-      window.location.href = 'articles.html'
+      const data = response.data
+      const token = data.token
+      COOKIE.set('token', token)
+      window.location.href = `/front/src/html/index.html`
     })
     .catch((error) => {
       const errorMsg = error.response.data.msg

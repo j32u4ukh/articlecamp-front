@@ -6,8 +6,8 @@ const homeIcon = document.querySelector('.icon')
 const navbar = document.querySelector('.nav-bar')
 const API_URL = `${BASE_URL}/articles`
 const articles = []
-// 先預設用戶為id=1
-const token = 1
+// 從cookie取得token
+const token = COOKIE.get('token')
 // 總文章篇數
 let total = 0
 // 取得文章位移值
@@ -98,7 +98,7 @@ function setIntersectionObserver() {
         axios
           // header新增
           .get(`${API_URL}?offset=${offset}&size=${size}`, {
-            headers: { token: token },
+            headers: { authorization: `Bearer ${token}` },
           })
           .then((response) => {
             const DATA = response.data
@@ -177,7 +177,7 @@ function setIntersectionObserver() {
     }
     axios
       // header 新增 token
-      .get(url, { headers: { token: token } })
+      .get(url, { headers: { authorization: `Bearer ${token}` } })
       .then((response) => {
         console.log(response)
         let data = response.data
@@ -207,7 +207,7 @@ function setIntersectionObserver() {
 
   axios
     // header新增token
-    .get(API_URL, { headers: { token: token } })
+    .get(API_URL, { headers: { authorization: `Bearer ${token}` } })
     .then((response) => {
       // 原始:
       // {total: 3, offset: 0, size: 3, articles: Array(3)}
