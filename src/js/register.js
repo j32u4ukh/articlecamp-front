@@ -31,7 +31,7 @@ registerSubmit.addEventListener('click', (event) => {
       })
       .then((response) => {
         console.log('註冊成功')
-        window.location.href = `/front/src/html/login.html`
+        window.location.href = `./login.html`
       })
       .catch((error) => {
         const errorMsg = error.response.data.msg

@@ -3,7 +3,8 @@ const homeIcon = document.querySelector('.icon')
 const USERLIST_URL = `${BASE_URL}/users`
 
 // NOTE: 不要在程式碼中途宣告變數，一律在最上方進行宣告
-const token = 2
+// 從cookie取得token
+const token = COOKIE.get('token')
 
 ;(function init() {
   homeIcon.addEventListener('click', (e) => {
@@ -39,9 +40,7 @@ const token = 2
   document.addEventListener('DOMContentLoaded', function () {
     axios
       .get(USERLIST_URL, {
-        headers: {
-          token: token,
-        },
+        headers: { authorization: `Bearer ${token}` },
       })
       .then((response) => {
         console.log(response)
