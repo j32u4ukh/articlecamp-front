@@ -9,7 +9,6 @@ const fileUpload = document.querySelector('#file-upload')
 const PROFILE_URL = `${BASE_URL}/users/profile`
 // 獲取原始的用戶名和 email
 const user = COOKIE.get('user')
-const userId = user.id
 // 從cookie取得token
 const token = COOKIE.get('token')
 
@@ -46,17 +45,14 @@ function renderUserId() {
     formData.append('image', file)
     const fileName = file.name
     axios
-      .patch(PROFILE_URL, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          token: userId
-        }
-      })
+      .patch(PROFILE_URL, formData, { headers: { token: user.id } })
       .then((response) => {
         const data = response.data
         const imagePath = data.image
-        // 測試
-        // image.src = `${BASE_URL}/users/images/${userId}/${imagePath}`
+        const user = COOKIE.get('user')
+        // user.image 包含':userId/'字串
+        user.image = imagePath.substring(2)
+        COOKIE.set('user', user)
       })
       .catch((error) => {
         console.error(error)
