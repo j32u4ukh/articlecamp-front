@@ -126,6 +126,9 @@ function setIntersectionObserver() {
               observer.observe(articleContainer.lastChild)
             } else {
               console.log('已全部渲染完成')
+              
+              // 關閉觀察
+              observer.unobserve(articleContainer.lastChild)
             }
           })
           .catch((error) => {
@@ -145,7 +148,8 @@ function setIntersectionObserver() {
   // 取得文章分類列表並記入 Cookie
   setCategoryCookie()
 
-  COOKIE.set('userId', '1')
+  const user = COOKIE.get('user')
+  COOKIE.set('userId', user.id)
 
   // 重置搜尋框
   searchInput.value = ''
