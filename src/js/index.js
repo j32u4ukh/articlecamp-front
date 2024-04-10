@@ -126,6 +126,9 @@ function setIntersectionObserver() {
               observer.observe(articleContainer.lastChild)
             } else {
               console.log('已全部渲染完成')
+              
+              // 關閉觀察
+              observer.unobserve(articleContainer.lastChild)
             }
           })
           .catch((error) => {
