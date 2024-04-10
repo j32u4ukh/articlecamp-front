@@ -1,0 +1,26 @@
+.logo {
+  height: 100%;
+  /* 設置元素的寬高比 */
+  aspect-ratio: 1/1;
+}
+
+.icons {
+  display: flex;
+  margin: 0 0 0 10px;
+  cursor: pointer;
+}
+
+.user-list {
+  display: flex;
+  align-items: center;
+}
+
+.profile {
+  display: flex;
+  margin: 0 0 0 10px;
+  cursor: pointer;
+}
+
+.profile a {
+  display: flex;
+}
