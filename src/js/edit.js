@@ -24,8 +24,8 @@ const API_URL = `${BASE_URL}/articles/${articleId}`
 const originalArticle = {}
 let currentArticle = {}
 
-// 先預設用戶為 id = 1
-const token = 1
+// 從cookie取得token
+const token = COOKIE.get('token')
 
 // 根據 getCookie 的 category 數據， 動態新增新的選項並設定value屬性
 function renderCategory() {
@@ -81,7 +81,9 @@ function renderArticle(data) {
     if (isUpdated) {
       console.log('Content updated, ready to submit.')
       axios
-        .put(API_URL, currentArticle, { headers: { token: token } })
+        .put(API_URL, currentArticle, {
+          headers: { authorization: `Bearer ${token}` },
+        })
         .then(() => {
           // console.log(response)
         })
@@ -105,7 +107,7 @@ function renderArticle(data) {
   renderCategory()
 
   axios
-    .get(API_URL)
+    .get(API_URL, { headers: { authorization: `Bearer ${token}` } })
     .then((response) => {
       const data = response.data
       renderArticle(data)
