@@ -516,6 +516,7 @@ footer {
 #registerH2 {
   text-align: center;
 }
+
 #loginH3,
 #registerH3 {
   margin: 20px;
@@ -544,6 +545,7 @@ label,
 label {
   margin: 5px;
 }
+
 #loginForm button,
 #registerForm button {
   margin: 10px;
@@ -590,5 +592,8 @@ label {
 }
 
 .followed {
+  display: flex;
+  margin-left: auto;
+  align-items: center;
   background-color: #777777a3;
 }

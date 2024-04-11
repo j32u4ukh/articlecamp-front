@@ -2,47 +2,42 @@ const userListContainer = document.querySelector('.user-list-container')
 const homeIcon = document.querySelector('.icon')
 const USERLIST_URL = `${BASE_URL}/users`
 const IMAGE_URL = `${BASE_URL}/users/images`
-console.log(USERLIST_URL)
-// GET / v2 / users / images /: userId /: fileName。
-// 供 <img src="/v2/images/:userId/:fileName"> 使用，
-// http://localhost:3000/v2/users
-
-// NOTE: 不要在程式碼中途宣告變數，一律在最上方進行宣告
 const token = 2
 const userDatas = []
+  // NOTE: 不要在程式碼中途宣告變數，一律在最上方進行宣告
+
 
   ; (function init() {
     homeIcon.addEventListener('click', (e) => {
       window.location.href = './index.html'
     })
 
-    //     POST / v2 / users
-
-    //     更新追隨狀態(ON / OFF)
-    // Request 數據格式：
-    //     {
-    //       targetId: 20,
-    //         follow: true,
-    // }
-
 
     // NOTE: 監聽器要設置在"上層容器"，每個按鈕都設置監聽器會影響效能
     userListContainer.addEventListener('click',
       function onFollowButtonClicked(e) {
         const target = e.target
-        if (target.matches('.follow-btn')) {
+        // const follow = e.target.dataset.follow
+        // let follow = target.dataset.follow
+        const btnId = target.dataset.id
+
+        if (target.matches('.follow-btn') || target.matches('.followed')) {
+          let currentStatu = target.dataset.follow === 'true' ? true : false
+          const newStatu = !currentStatu
+          console.log(currentStatu)
+          console.log(newStatu)
           axios.post(USERLIST_URL, {
-            userId: 3,
-            follow: true,
-          }, { headers: { token: 5 } }).then((res) => {
+            userId: btnId,
+            follow: newStatu,
+          }, { headers: { token: token } }).then((res) => {
+            target.dataset.follow = newStatu.toString()
+            target.textContent = newStatu ? 'Followed' : 'Follow'
+            target.classList = newStatu ? 'followed' : 'follow-btn'
             console.log(res)
           }).catch((err) => {
             console.error(err)
           })
-          const btnId = target.id
-          const isfollowed = target.classList.toggle('followed')
-          target.textContent = isfollowed ? 'Followed' : 'Follow'
-          console.log(`ID: ${btnId}`)
+
         }
       }
     )
@@ -72,29 +67,17 @@ const userDatas = []
 function renderUserList(data) {
   let rawHTML = ''
   data.forEach((item) => {
+    const buttonText = item.followed ? 'Followed' : 'Follow'
+    const buttonClass = item.followed ? 'followed' : 'follow-btn'
+
     rawHTML += `<div class="user-container">
                 <div class="user-image">
                     <img src="http://localhost:3000/v2/users/images/${item.id}/${item.image}" alt="" ">
                 </div>
                 <div class="user-name">${item.name}</div>
-                <button class="follow-btn" id="${item.id}">Follow</button>
+                <button class="${buttonClass}" data-id="${item.id}" data-follow="${item.followed}">${buttonText}</button>
             </div>`
     userListContainer.innerHTML = rawHTML
   })
 }
 
-const userId = 1
-const fileName = 'icons8-h-100.png'
-// axios.get(`${IMAGE_URL}/${userId}/${fileName}`, {
-//   // responseType: 'arraybuffer'
-// })
-//   .then((res) => {
-//     console.log(res)
-//     // const blob = new Blob([res.data], { type: 'image/png' });
-//     // imageDATA = URL.createObjectURL(blob);
-//     const img = document.createElement('img')
-//     img.src = `/v2/images/${userId}/${fileName}`
-//     document.body.appendChild(img)
-//   }).catch((err) => {
-//     console.error(err)
-//   })
