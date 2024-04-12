@@ -1,0 +1,5 @@
+{
+  "prettier.semi": false,
+  "prettier.singleQuote": true,
+  "liveServer.settings.port": 5500,
+}
