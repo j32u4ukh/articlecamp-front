@@ -9,7 +9,6 @@ const cancelBtn = document.querySelector('.cancel-btn')
 
 const panel = document.querySelector('.article-content')
 const title = document.querySelector('#title')
-const author = document.querySelector('#author')
 const context = document.querySelector('#context')
 
 // 取得下拉選單區塊
@@ -56,12 +55,10 @@ function renderArticle(data) {
   })
 
   title.value = data.title
-  author.value = data.author
   context.value = data.content
   articleCategory.value = data.category
 
   originalArticle.title = data.title
-  originalArticle.author = data.author
   originalArticle.content = data.content
   originalArticle.category = data.category
   currentArticle = Object.assign({}, originalArticle)

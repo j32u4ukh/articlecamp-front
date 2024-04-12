@@ -1,5 +1,5 @@
 const VERSION = 2
-const PORT = 5000
+const PORT = 3000
 const BASE_URL = `http://localhost:${PORT}/v${VERSION}`
 
 class Cookie {
