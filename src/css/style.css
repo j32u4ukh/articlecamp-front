@@ -601,5 +601,8 @@ label {
 }
 
 .followed {
+  display: flex;
+  margin-left: auto;
+  align-items: center;
   background-color: #777777a3;
 }

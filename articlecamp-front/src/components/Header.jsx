@@ -1,10 +1,10 @@
 
-import Styles from './Header.module.css';
+import Styles from './header.module.css';
 
 export default function Header(){
     return (
-        <header>
-            <nav style={{backgroundColor: '#DAF7A6', width: '100vw', height: '10vh'}}>
+        <header id={Styles.header}>
+            <nav id={Styles.nav}>
                 <div className={Styles.logo}>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
                         {/* 圓圈 */}
@@ -26,11 +26,13 @@ export default function Header(){
                 <div className={Styles.icons}>
                     {/* UserList */}
                     <div className={Styles.userList}>
-                        <a href="user.html"><i className="fa-solid fa-users fa-2xl"></i></a>
+                        <a href="./users">
+                            <i className="fa-solid fa-users fa-2xl"></i>
+                        </a>
                     </div>
                     {/* Profile */}
                     <div className={Styles.profile}>
-                        <a href="profile.html"><img src="../data/Alex.png" /></a>
+                        <a href="./profile"><img src="./vite.svg" /></a>
                     </div>
                 </div>
             </nav>
