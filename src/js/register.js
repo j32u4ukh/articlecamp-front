@@ -22,21 +22,30 @@ registerSubmit.addEventListener('click', (event) => {
 
   //密碼 與 確認密碼 需相同
   if (password === repassword) {
-    axios
-      .post(`${API_URL}`, {
-        name: username,
-        email: email,
-        password: password,
-        repassword: repassword,
-      })
-      .then((response) => {
-        console.log('註冊成功')
-        window.location.href = `./login.html`
-      })
-      .catch((error) => {
-        const errorMsg = error.response.data.msg
-        registerErrorMsg.textContent = errorMsg
-      })
+    if (
+      username.trim() &&
+      email.trim() &&
+      password.trim() &&
+      repassword.trim()
+    ) {
+      axios
+        .post(`${API_URL}`, {
+          name: username,
+          email: email,
+          password: password,
+          repassword: repassword,
+        })
+        .then((response) => {
+          console.log('註冊成功')
+          window.location.href = `./login.html`
+        })
+        .catch((error) => {
+          const errorMsg = error.response.data.msg
+          registerErrorMsg.textContent = errorMsg
+        })
+    } else {
+      registerErrorMsg.textContent = '所有欄位都需填寫、不能為空白'
+    }
   } else {
     registerErrorMsg.textContent = '密碼需一致'
   }
