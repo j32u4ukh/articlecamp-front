@@ -2,14 +2,6 @@
 
 ## 表格結構
 
-### articls 文章
-* number id: 文章 ID
-* string author: 作者名稱
-* string title: 標題
-* string content: 內文
-* number createAt: 生成時間戳(UTC+0)
-* number updateAt: 更新時間戳(UTC+0)
-
 ### users 用戶
 * number id: 用戶 ID
 * string name: 用戶名稱
@@ -17,16 +9,24 @@
 * string password: 用戶密碼
 * array categories: 用戶文章前三主要分類(每次新增或更新文章時，同步更新此欄位)
 
+### articls 文章
+* number id: 文章 ID
+* number userId: 作者 ID
+* string title: 標題
+* string content: 內文
+* number createAt: 生成時間戳(UTC+0)
+* number updateAt: 更新時間戳(UTC+0)
+
 ### messages 留言
 * number id: 留言 ID
-* number user_id: 作者用戶 ID
+* number userId: 作者用戶 ID
 * string message: 留言內文
 * number createAt: 生成時間戳(UTC+0)
 
 ### follows 追隨關係
 * number id: 追隨關係 ID
-* number user_id: 用戶 ID
-* number follow_id: 被追隨的用戶 ID
+* number userId: 用戶 ID
+* number followId: 被追隨的用戶 ID
 
 ## API 方法與 url
 
@@ -44,13 +44,13 @@
     * Response 數據格式：
     ```
     {
-        msg: "OK",
+        code: 20000,
     }
     ```
 
 * POST /v2/login
     * 檢查信箱與密碼是否正確，正確則要求前端跳轉到文章列表頁，錯誤則拒絕登入。
-    * 登入成功則返回用戶 id，並要求跳轉到 articles.html
+    * 登入成功則返回用戶 id，並要求跳轉到 index.html
     * Request 數據格式：
     ```
     {
@@ -61,42 +61,11 @@
     * Response 數據格式：
     ```
     {
-        id: 3,
         token: xxx,
     }
 
-* GET /v2/users/images/:fileName
-    * 供 `<img src="/v2/images/:fileName">` 使用，因此無需自行發送請求或是處理回應
 
-* POST /v2/users/images
-    * 更新用戶圖片
-    * Request 數據格式：[bytes array]
-    * Request header: 使用登入時給的 token 作為辨識用戶的代碼
-    ```
-    token = xxx
-    ```
-    * Response 數據格式：
-    ```
-    {
-        msg: "OK",
-    }
-    ```
-
-* GET /v2/users/:id
-    * 取得用戶資訊，包含用戶 ID、頭像圖片(圖片的 url)、用戶名稱、信箱。
-    * Request header: 使用登入時給的 token 作為辨識用戶的代碼
-    ```
-    token = xxx
-    ```
-    * Response 數據格式：
-    ```
-    {
-        id: 3,
-        img: 圖片的 url,
-        name: xxx,
-        email: xxx@example.com
-    }
-    ```
+### Users
 
 * GET /v2/users
     * 取得用戶列表，優先回傳已追蹤用戶，再回傳未追蹤用戶。
@@ -106,12 +75,14 @@
         * size(可選): 返回數據筆數，預設為 10。
     * Request header: 使用登入時給的 token 作為辨識用戶的代碼
     ```
-    token = xxx
+    Authorization = Bearer {{token}}
     ```
     * Response 數據格式：
     ```
     {
         total: 137,
+        size: xxx,
+        offset: xxx,
         users: [
             {
                 id: 1
@@ -137,25 +108,61 @@
     }
     ```
 
-* POST /v2/users/follow
+* POST /v2/users
     * 更新追隨狀態(ON/OFF)
     * Request 數據格式：
     ```
     {
-        user_id: 20,
+        // 追蹤對象的 ID
+        userId: 20,
         follow: true,
     }
     ```
     * Request header: 使用登入時給的 token 作為辨識用戶的代碼
     ```
-    token = xxx
+    Authorization = Bearer {{token}}
     ```
     * Response 數據格式：
     ```
     {
-        msg: "OK",
+        code: 20000,
     }
     ```
+
+* GET /v2/users/images/:userId/:fileName
+    * 供 `<img src="/v2/images/:userId/:fileName">` 使用，前端無需自行發送請求或是處理回應
+
+* PATCH /v2/users/profile
+    * 更新用戶圖片
+    * Request 數據格式：[bytes array]
+    * Request header: 使用登入時給的 token 作為辨識用戶的代碼
+    ```
+    Authorization = Bearer {{token}}
+    ```
+    * Response 數據格式：     
+    ```
+    {
+        code: 20000,
+    }
+    ```
+
+* GET /v2/users/profile
+    * 取得用戶資訊，包含用戶 ID、頭像圖片(圖片的 url)、用戶名稱、信箱。
+    * Request header: 使用登入時給的 token 作為辨識用戶的代碼
+    ```
+    Authorization = Bearer {{token}}
+    ```
+    * Response 數據格式：
+    ```
+    {
+        id: 3,
+        img: 圖片的 url,
+        name: xxx,
+        email: xxx@example.com
+    }
+    ```
+
+### Articles
 
 * GET /v2/articles
     * 返回文章列表
@@ -165,9 +172,12 @@
         * keyword(可選): 根據關鍵字來過濾文章列表 ex: /articles?keyword=xxx
     * Request header: 使用登入時給的 token 作為辨識用戶的代碼
     ```
-    token = xxx
+    Authorization = Bearer {{token}}
     ```
     * Response 數據格式：
+        - total: 數據總數量
+        - offset: 實際偏移筆數
+        - size: 實際數據筆數
     ```
     {
         "total": 5,
@@ -201,8 +211,38 @@
         ]
     }
     ```
+
+* POST /v2/articles
+    * 新增文章
+    * Request 數據格式：
+    ```
+    {
+        "title": "title36",
+        "category": 4,
+        "content": "This is content 08:26"
+    }
+    ```
+    * Request header: 使用登入時給的 token 作為辨識用戶的代碼
+    ```
+    Authorization = Bearer {{token}}
+    ```
+    * Response 數據格式：
+    ```
+    {        
+        "id": 10,
+        "title": "title36",
+        "category": 4,
+        "content": "This is content 08:26",
+        "updateAt": 1711248223
+    }
+    ```
+
 * GET /v2/articles/categories
     * 返回文章分類列表
+    * Request header: 使用登入時給的 token 作為辨識用戶的代碼
+    ```
+    Authorization = Bearer {{token}}
+    ```
     * Response 數據格式：
     ```
     [
@@ -216,36 +256,12 @@
        }    
     ]
     ```
-* POST /v2/articles/create
-    * 新增文章
-    * Request 數據格式：
-    ```
-    {
-        user_id: 4,
-        title: "This is title",
-        content: "This is content",
-        category: 3,
-    }
-    ```
-    * Request header: 使用登入時給的 token 作為辨識用戶的代碼
-    ```
-    token = xxx
-    ```
-    * Response 數據格式：
-    ```
-    {
-        id: 3,
-        author: "Author Name",
-        title: "This is title3",
-        content: "This is content3",
-        updateAt: 1705840000,
-    }
-    ```
+
 * GET /v2/articles/:id
     * 根據 id 返回單篇文章
     * Request header: 使用登入時給的 token 作為辨識用戶的代碼
     ```
-    token = xxx
+    Authorization = Bearer {{token}}
     ```
     * Response 數據格式：
     ```
@@ -272,6 +288,7 @@
         ]
     }
     ```
+
 * PUT /v2/articles/:id
     * 根據 id 更新單篇文章
     * 可以部份更新
@@ -283,7 +300,7 @@
     ```
     * Request header: 使用登入時給的 token 作為辨識用戶的代碼
     ```
-    token = xxx
+    Authorization = Bearer {{token}}
     ```
     * Response 數據格式：
     ```
@@ -295,6 +312,7 @@
         updateAt: 1705840000,
     }
     ```
+
 * GET /v2/articles/:id/messages
     * 返回文章留言列表
     * query 參數: 
@@ -302,7 +320,7 @@
         * size(可選): 返回數據筆數，預設為 10。
     * Request header: 使用登入時給的 token 作為辨識用戶的代碼
     ```
-    token = xxx
+    Authorization = Bearer {{token}}
     ```
     * Response 數據格式：
     ```
@@ -326,6 +344,7 @@
         ]
     }
     ```
+
 * POST /v2/articles/:id/messages
     * 新增文章留言
     * Request 數據格式：
@@ -338,7 +357,7 @@
     ```
     * Request header: 使用登入時給的 token 作為辨識用戶的代碼
     ```
-    token = xxx
+    Authorization = Bearer {{token}}
     ```
     * Response 數據格式：
     ```

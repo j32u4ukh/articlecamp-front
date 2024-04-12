@@ -1,34 +1,34 @@
-const navbar = document.querySelector('.nav-bar')
-
 // 取得 Logo 物件
 const homeIcon = document.querySelector('.icon')
 
 // DOM 抓取 class article-content
 const submitBtn = document.querySelector('.submit-btn')
 
-// cancel-btn，回到article.html
-const cancelArticle = document.querySelector('.cancel-btn')
+// cancel-btn，回到 article.html
+const cancelBtn = document.querySelector('.cancel-btn')
 
 const panel = document.querySelector('.article-content')
 const title = document.querySelector('#title')
-const author = document.querySelector('#author')
 const context = document.querySelector('#context')
 
-// 使用 getCookie 取得 articleId 將 String 轉型成 Number
-const articleId = Number(getCookie('articleId'))
+// 取得下拉選單區塊
+const articleCategory = document.querySelector('.article-category')
 
-// 根據指定的 Id 取得資料
+// 使用 getCookie 取得 articleId 將 String 轉型成 Number
+const articleId = Number(COOKIE.get('articleId'))
+
+// 根據指定的 articleId 取得資料
 const API_URL = `${BASE_URL}/articles/${articleId}`
 
 const originalArticle = {}
 let currentArticle = {}
 
-// 取得下拉選單區塊
-const articleCategory = document.querySelector('.article-category')
+// 從cookie取得token
+const token = COOKIE.get('token')
 
 // 根據 getCookie 的 category 數據， 動態新增新的選項並設定value屬性
 function renderCategory() {
-  const categoryCookie = getCookie('category')
+  const categoryCookie = COOKIE.get('category')
   // console.log(categoryCookie)
 
   // 根據 CookieArray 長度 設定要建立幾個 option 並給予值 跟文字顯示 name
@@ -44,8 +44,7 @@ function renderCategory() {
   }
 }
 
-/* 根據 getCookie articleId 動態渲染 HTML */
-//0317 新增 category 參數
+/* 根據 articleId 動態渲染 HTML */
 function renderArticle(data) {
   panel.addEventListener('change', function onDataChanged(e) {
     const target = e.target
@@ -56,12 +55,10 @@ function renderArticle(data) {
   })
 
   title.value = data.title
-  author.value = data.author
   context.value = data.content
   articleCategory.value = data.category
 
   originalArticle.title = data.title
-  originalArticle.author = data.author
   originalArticle.content = data.content
   originalArticle.category = data.category
   currentArticle = Object.assign({}, originalArticle)
@@ -72,17 +69,6 @@ function renderArticle(data) {
     window.location.href = './index.html'
   })
 
-  // // 監聽 navbar
-  // navbar.addEventListener('click', function onNavbarClicked(event) {
-  //   const target = event.target
-
-  //   if (target.matches('.profile-picture')) {
-  //     const id = Number(target.dataset.id)
-  //     setCookie('articleId', id)
-  //     window.location.href = `./profile.html?id=${id}`
-  //   }
-  // })
-
   submitBtn.addEventListener('click', () => {
     const origial = Object.values(originalArticle)
     const current = Object.values(currentArticle)
@@ -92,7 +78,9 @@ function renderArticle(data) {
     if (isUpdated) {
       console.log('Content updated, ready to submit.')
       axios
-        .put(API_URL, currentArticle)
+        .put(API_URL, currentArticle, {
+          headers: { authorization: `Bearer ${token}` },
+        })
         .then(() => {
           // console.log(response)
         })
@@ -108,7 +96,7 @@ function renderArticle(data) {
   })
 
   // cancel-btn，回到 index.html
-  cancelArticle.addEventListener('click', function () {
+  cancelBtn.addEventListener('click', function () {
     // console.log(event)
     window.location.href = './index.html'
   })
@@ -116,7 +104,7 @@ function renderArticle(data) {
   renderCategory()
 
   axios
-    .get(API_URL)
+    .get(API_URL, { headers: { authorization: `Bearer ${token}` } })
     .then((response) => {
       const data = response.data
       renderArticle(data)

@@ -1,4 +1,4 @@
-const articleContent = document.querySelector('.article-content')
+// const articleContent = document.querySelector('.article-content')
 const homeIcon = document.querySelector('.icon')
 const editArticle = document.querySelector('#editButton')
 const title = document.querySelector('.article-title')
@@ -13,7 +13,7 @@ const commentList = document.querySelector('#commentList')
 const cancelButton = document.querySelector('#cancel-button')
 const submitButton = document.querySelector('#submit-comment-button')
 
-const articleId = Number(getCookie('articleId'))
+const articleId = Number(COOKIE.get('articleId'))
 const API_URL = `${BASE_URL}/articles/${articleId}`
 const MESSAGE_URL = `${BASE_URL}/articles/${articleId}/messages`
 
@@ -21,13 +21,14 @@ let total = 0
 let offset = 0
 const size = 10
 
+// 從cookie取得token
+const token = COOKIE.get('token')
+
 function renderArticle(data) {
   // cookie data
-  const currentCookie = getCookie('category')
+  const currentCookie = COOKIE.get('category')
   const categoryArray = currentCookie.filter((e) => e.id === data.category)
   const categoryName = categoryArray[0].name
-  console.log('data: ', data)
-  console.log('currentCookie: ', currentCookie)
   title.innerHTML = `文章標題: ${data.title}`
   author.innerHTML = `文章作者: ${data.author}`
   category.innerHTML = `文章分類: ${categoryName}`
@@ -39,30 +40,12 @@ function renderMessages(messages) {
   messages.forEach((message) => {
     renderMessage(message)
   })
-  // const totalMessage = messages.length
-  // const LastElement = commentList.lastElementChild
-  // console.log(LastElement)
-
-  // // // intersectionObserver
-  // const observer = new IntersectionObserver(
-  //   (entry) => {
-  //     console.log(entry)
-  //     // axios 再調整offset size
-  //   },
-  //   { threshold: 1 }
-  //   // { rootMargin: "-100px" }
-  // )
-  // console.log(totalMessage)
-  // console.log(offset)
-  // if (totalMessage > offset) {
-  //   observer.observe(LastElement)
-  // }
 }
 
-function renderMessage(message) {
-  let commentElement = document.createElement('div')
-  commentElement.classList.add('historical-commenter')
-  commentElement.innerHTML = `<div class="historical-commenter">
+function renderMessage(message, prepend = false) {
+  let comment = document.createElement('div')
+  comment.classList.add('historical-commenter')
+  comment.innerHTML = `<div class="historical-commenter">
         <div class="commenter-container">
           <div class="historical-commenter-img">
             <img src="../data/Alex.png" />
@@ -72,7 +55,12 @@ function renderMessage(message) {
         </div>
             <div class="message"> ${message.content}</div>
       </div>`
-  commentList.append(commentElement)
+
+  if (prepend) {
+    commentList.prepend(comment)
+  } else {
+    commentList.append(comment)
+  }
 }
 
 ;(function init() {
@@ -89,40 +77,48 @@ function renderMessage(message) {
     event.preventDefault() // 防止表單提交
   })
 
-  axios.get(`${MESSAGE_URL}?offset=${offset}&size=${size}`).then((res) => {
-    // GET 留言列表
-    // console.log(res)
-    const DATA = res.data
-    const messages = DATA.datas
-    total = DATA.total
-    offset += messages.length
-    console.log(messages)
-    renderMessages(messages)
+  axios
+    .get(`${MESSAGE_URL}?offset=${offset}&size=${size}`, {
+      headers: { authorization: `Bearer ${token}` },
+    })
+    .then((res) => {
+      // GET 留言列表
+      // console.log(res)
+      const DATA = res.data
+      const messages = DATA.datas
+      total = DATA.total
+      offset += messages.length
+      console.log(messages)
+      renderMessages(messages)
 
-    // MoreMessageBTN
-    let messageLangth = messages.length
-    console.log(messageLangth)
-    if (messageLangth >= offset) {
-      const moreMessageBTN = document.createElement('button')
-      moreMessageBTN.innerText = '更多留言'
-      commentList.appendChild(moreMessageBTN)
-      moreMessageBTN.addEventListener('click', () => {
-        axios
-          .get(`${MESSAGE_URL}?offset=${offset}&size=${size}`, {
+      // MoreMessageBTN
+      let messageLangth = messages.length
+      console.log(messageLangth)
+      if (messageLangth >= offset) {
+        const moreMessageBTN = document.createElement('button')
+        moreMessageBTN.innerText = '更多留言'
+        commentList.appendChild(moreMessageBTN)
+        moreMessageBTN.addEventListener('click', () => {
+          /* NOTE: GET 不需要像 POST 一樣塞數據
+        get(`${MESSAGE_URL}?offset=${offset}&size=${size}`, {
             offset: offset,
           })
-          .then((res) => {
-            // GET 留言列表
-            // 更新留言數據
-            const newdata = res.data
-            total = newdata.total
-            const messages = newdata.datas
-            offset += messages.length
-            renderMessages(messages)
-          })
-      })
-    }
-  })
+        */
+          axios
+            .get(`${MESSAGE_URL}?offset=${offset}&size=${size}`, {
+              headers: { authorization: `Bearer ${token}` },
+            })
+            .then((res) => {
+              // GET 留言列表，更新留言數據
+              const newdata = res.data
+              total = newdata.total
+              const messages = newdata.datas
+              offset += messages.length
+              renderMessages(messages)
+            })
+        })
+      }
+    })
 
   // 留言按鈕
   submitButton.addEventListener('click', function () {
@@ -131,33 +127,42 @@ function renderMessage(message) {
     if (comment !== '') {
       // 發送新增留言API
       axios
-        .post(MESSAGE_URL, {
-          // 請求格式
-          content: comment,
-        })
+        // header新增token
+        .post(
+          MESSAGE_URL,
+          {
+            // 請求格式
+            content: comment,
+          },
+          {
+            headers: { authorization: `Bearer ${token}` },
+          }
+        )
         .then((res) => {
           return res.data
         })
         .then((data) => {
-          // Create comment element
-          let commentElement = document.createElement('div')
-          commentElement.classList.add('historical-commenter')
-          // API-v2 res 數據格式 新增 comment
-          commentElement.innerHTML = `<div class="historical-commenter">
-        <div class="commenter-container">
-          <div class="historical-commenter-img">
-            <img src="../data/Alex.png" />
-          </div>
-          <div class="historical-commenter-name">Alex
-          </div>
-        </div>
-            <div class="message"> ${data.content}</div>
-      </div>`
-
-          commentList.prepend(commentElement)
+          // NOTE: 新增和渲染幾乎沒差別，應透過函式來複用，也要避免讓一個函式過於冗長
+          renderMessage(data, true)
+          //     // Create comment element
+          //     let commentElement = document.createElement('div')
+          //     commentElement.classList.add('historical-commenter')
+          //     // API-v2 res 數據格式 新增 comment
+          //     commentElement.innerHTML = `<div class="historical-commenter">
+          //   <div class="commenter-container">
+          //     <div class="historical-commenter-img">
+          //       <img src="../data/Alex.png" />
+          //     </div>
+          //     <div class="historical-commenter-name">Alex
+          //     </div>
+          //   </div>
+          //       <div class="message"> ${data.content}</div>
+          // </div>`
+          //     commentList.prepend(commentElement)
 
           // 清空留言區
           commentInput.value = ''
+
           // 有留言時歷史留言區才顯示
           commentList.style.display = 'flex'
         })
@@ -185,7 +190,7 @@ function renderMessage(message) {
   })
 
   axios
-    .get(API_URL)
+    .get(API_URL, { headers: { authorization: `Bearer ${token}` } })
     .then((response) => {
       const data = response.data
       renderArticle(data)

@@ -1,0 +1,28 @@
+{
+    // 是否在語句的末尾添加分號
+    "prettier.semi": true,
+
+    // 是否使用單引號
+    "prettier.singleQuote": false,
+
+    // 每個 tab 的空格數量
+    "prettier.tabWidth": 4,
+
+    // 在 JSX 中是否使用單引號
+    "prettier.jsxSingleQuote": false,
+
+    // 是否將末尾逗號保留在多行語句/屬性的末尾
+    "prettier.trailingComma": "all", 
+
+    // 在對象字面量的大括號中加入空格
+    "prettier.bracketSpacing": true, 
+
+    // 在 JSX 中，大括號是否與元素同行
+    "prettier.bracketSameLine": false, 
+
+    // 箭頭函數的參數是否使用括號，'always'：總是使用；'avoid'：單個參數時不使用
+    "prettier.arrowParens": "always", 
+
+    // 換行符的類型，'auto'：自動檢測；'lf'：使用 LF；'crlf'：使用 CRLF
+    "prettier.endOfLine": "lf",
+}

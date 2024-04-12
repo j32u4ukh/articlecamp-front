@@ -44,8 +44,15 @@
           </svg>
         </div>
 
-        <div class="profile-picture">
-          <a href="profile.html"><img src="../data/Alex.png" /></a>
+        <div class="list-profile-container">
+          <!-- UserList -->
+          <div class="user-list">
+            <a href="user.html"><i class="fa-solid fa-users fa-2xl"></i></a>
+          </div>
+          <!-- Profile -->
+          <div class="profile-picture">
+            <a href="profile.html"><img src="../data/Alex.png" /></a>
+          </div>
         </div>
       </nav>
     </header>
@@ -55,21 +62,8 @@
         <label class="article-title">
           文章標題: <input type="text" id="title" data-key="title" /> </label
         ><br />
-        <label class="article-author">
-          文章作者: <input type="text" id="author" data-key="author" />
-        </label>
-        <br />
         <label>文章類別: </label>
-        <select data-key="category" class="article-category">
-          <!--<option selected>請選擇文章類別</option>
-          <option>類別1</option>
-          <option>類別2</option>
-          <option>類別3</option>
-          <option>類別4</option>
-          <option>類別5</option>
-          <option>類別6</option>
-          <option>類別7</option>-->
-        </select>
+        <select data-key="category" class="article-category"></select>
         <div class="article-context">
           文章內容:
           <article>
