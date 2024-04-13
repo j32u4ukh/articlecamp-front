@@ -1,5 +1,4 @@
 const userListContainer = document.querySelector('.user-list-container')
-const homeIcon = document.querySelector('.icon')
 const USERLIST_URL = `${BASE_URL}/users`
 const IMAGE_URL = `${BASE_URL}/users/images`
 // NOTE: 不要在程式碼中途宣告變數，一律在最上方進行宣告
@@ -25,10 +24,6 @@ function renderUserList(data) {
 }
 
 ;(function init() {
-  homeIcon.addEventListener('click', (e) => {
-    window.location.href = './index.html'
-  })
-
   // NOTE: 監聽器要設置在"上層容器"，每個按鈕都設置監聽器會影響效能
   userListContainer.addEventListener(
     'click',
@@ -80,4 +75,6 @@ function renderUserList(data) {
         console.error('Error:', error)
       })
   })
+
+  renderHeader()
 })()

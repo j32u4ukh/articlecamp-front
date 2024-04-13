@@ -1,4 +1,3 @@
-const homeIcon = document.querySelector('.icon')
 const editArticle = document.querySelector('#editButton')
 const title = document.querySelector('.article-title')
 const author = document.querySelector('.article-author')
@@ -73,9 +72,7 @@ function renderMessage(message, prepend = false) {
 }
 
 ;(function init() {
-  homeIcon.addEventListener('click', () => {
-    window.location.href = './index.html'
-  })
+  renderHeader()
 
   // 編輯文章按鈕
   editArticle.addEventListener('click', function () {

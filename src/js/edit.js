@@ -1,6 +1,3 @@
-// 取得 Logo 物件
-const homeIcon = document.querySelector('.icon')
-
 // DOM 抓取 class article-content
 const submitBtn = document.querySelector('.submit-btn')
 
@@ -23,7 +20,7 @@ const API_URL = `${BASE_URL}/articles/${articleId}`
 const originalArticle = {}
 let currentArticle = {}
 
-// 從cookie取得token
+// 從 cookie 取得 token
 const token = COOKIE.get('token')
 
 // 根據 getCookie 的 category 數據， 動態新增新的選項並設定value屬性
@@ -65,10 +62,6 @@ function renderArticle(data) {
 }
 
 ;(function init() {
-  homeIcon.addEventListener('click', () => {
-    window.location.href = './index.html'
-  })
-
   submitBtn.addEventListener('click', () => {
     const origial = Object.values(originalArticle)
     const current = Object.values(currentArticle)
@@ -101,6 +94,7 @@ function renderArticle(data) {
     window.location.href = './index.html'
   })
 
+  renderHeader()
   renderCategory()
 
   axios

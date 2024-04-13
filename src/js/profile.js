@@ -1,6 +1,5 @@
 const userid = document.querySelector('#user-id')
 const cancelbtn = document.querySelector('#cancel-btn')
-const homeIcon = document.querySelector('.icon')
 const nameInput = document.querySelector('#user-name input')
 const emailInput = document.querySelector('#email input')
 const image = document.querySelector('#profile-image')
@@ -23,10 +22,6 @@ function renderUserId() {
 }
 
 ;(function init() {
-  homeIcon.addEventListener('click', (e) => {
-    window.location.href = './index.html'
-  })
-
   // 監聽 cancelbtn
   cancelbtn.addEventListener('click', function onCancelBtnClicked() {
     // 將用戶名和 email 載入原始值
@@ -60,5 +55,7 @@ function renderUserId() {
         console.error(error)
       })
   })
+
+  renderHeader()
   renderUserId()
 })()

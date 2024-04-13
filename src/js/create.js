@@ -2,7 +2,6 @@ const submitButton = document.querySelector('.submit-btn')
 const articleTitle = document.querySelector('#article-title')
 const articleContext = document.querySelector('#article-context')
 const cancelButton = document.querySelector('.cancel-btn')
-const homeIcon = document.querySelector('.icon')
 const navbar = document.querySelector('.nav-bar')
 // 取得下拉選單區塊
 const articleCategory = document.querySelector('.article-category')
@@ -73,9 +72,6 @@ function createArticleAPI(title, content, category) {
     window.location.href = './index.html'
   })
 
-  homeIcon.addEventListener('click', (e) => {
-    window.location.href = './index.html'
-  })
-
+  renderHeader()
   renderCategory()
 })()

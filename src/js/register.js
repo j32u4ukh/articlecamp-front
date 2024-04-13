@@ -8,12 +8,7 @@ const API_URL = `${BASE_URL}/register`
 
 // 註冊 submit 監聽器
 registerSubmit.addEventListener('click', (event) => {
-  event.preventDefault()
-  // NOTE: 不要重複取得 HTML 的元素，在最上方取得一次後重複使用!!
-  // const username = document.getElementById('username').value
-  // const email = document.getElementById('email').value
-  // const password = document.getElementById('password').value
-  // const repassword = document.getElementById('repassword').value
+  // event.preventDefault()
   const username = nameInput.value.trim()
   const email = emailInput.value.trim()
   const password = passwordInput.value.trim()
