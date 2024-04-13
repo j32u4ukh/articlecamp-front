@@ -46,7 +46,9 @@ function renderUserId() {
     formData.append('image', file)
     const token = COOKIE.get('token')
     axios
-      .patch(PROFILE_URL, formData, {headers: { authorization: `Bearer ${token}` }, })
+      .patch(PROFILE_URL, formData, {
+        headers: { authorization: `Bearer ${token}` },
+      })
       .then((response) => {
         const data = response.data
         user.image = data.image
