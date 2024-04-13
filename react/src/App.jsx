@@ -19,17 +19,13 @@ export default function App() {
         <BrowserRouter basename="/">
           <Routes> 
               <Route index element={<HomePage />} />
-              {/* <Route path='/login' element={<LoginPage />} />
-              <Route path='/register' element={<RegisterPage />} /> */}
               <Route path='/login' element={<LoginRegisterPage type='login' />} />
               <Route path='/register' element={<LoginRegisterPage type='register' />} />
 
               <Route path="/articles" element={<ArticleLayout />}>
                 <Route index element={<ArticleListPage />} />
-                {/* <Route path='create' element={<CreatePage />} /> */}
                 <Route path='create' element={<CreateEditPage type='create' />} />
                 <Route path=':id' element={<ArticlePage />} />
-                {/* <Route path=':id/edit' element={<EditPage />} /> */}
                 <Route path=':id/edit' element={<CreateEditPage type='edit' />} />
               </Route>
 
