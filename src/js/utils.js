@@ -1,5 +1,5 @@
 const VERSION = 2;
-const PORT = 3000;
+const PORT = 5000;
 const BASE_URL = `http://localhost:${PORT}/v${VERSION}`;
 
 class Cookie {
@@ -38,3 +38,7 @@ class Cookie {
 }
 
 const COOKIE = new Cookie(["SameSite=None", "Secure"]);
+
+function renderHeader(root) {
+  // TODO: 統一渲染 Header
+}
