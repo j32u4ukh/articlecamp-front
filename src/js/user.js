@@ -6,21 +6,27 @@ const IMAGE_URL = `${BASE_URL}/users/images`
 const token = COOKIE.get('token')
 const userDatas = []
 
-function renderUserList(data) {
+function renderUserList(datas) {
   let rawHTML = ''
-  data.forEach((item) => {
-    const buttonText = item.followed ? 'Followed' : 'Follow'
-    const buttonClass = item.followed ? 'followed' : 'follow-btn'
+  datas.forEach((data) => {
+    console.log(`data: ${JSON.stringify(data)}`)
+    let buttonText = 'Follow'
+    let buttonClass = 'follow-btn'
+
+    if (data.status) {
+      buttonText = 'Followed'
+      buttonClass = 'followed'
+    }
 
     rawHTML += `<div class="user-container">
                 <div class="user-image">
-                    <img src="${BASE_URL}/users/images/${item.id}/${item.image}" alt="" ">
+                    <img src="${BASE_URL}/users/images/${data.id}/${data.image}" alt="">
                 </div>
-                <div class="user-name">${item.name}</div>
-                <button class="${buttonClass}" data-id="${item.id}" data-follow="${item.followed}">${buttonText}</button>
+                <div class="user-name">${data.name}</div>
+                <button class="${buttonClass}" data-id="${data.id}" data-follow="${data.followed}">${buttonText}</button>
             </div>`
-    userListContainer.innerHTML = rawHTML
   })
+  userListContainer.innerHTML = rawHTML
 }
 
 ;(function init() {
@@ -29,8 +35,6 @@ function renderUserList(data) {
     'click',
     function onFollowButtonClicked(e) {
       const target = e.target
-      // const follow = e.target.dataset.follow
-      // let follow = target.dataset.follow
       const btnId = target.dataset.id
 
       if (target.matches('.follow-btn') || target.matches('.followed')) {
