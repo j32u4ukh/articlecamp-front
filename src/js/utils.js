@@ -39,6 +39,45 @@ class Cookie {
 
 const COOKIE = new Cookie(['SameSite=None', 'Secure'])
 
-function renderHeader(root) {
-  // TODO: 統一渲染 Header
+// 統一渲染 Header
+function renderHeader() {
+  const root = document.querySelector('header')
+  const user = COOKIE.get('user')
+  root.innerHTML = `<nav class="nav-bar">
+      <div class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+          <!-- 圓圈 -->
+          <circle cx="50" cy="50" r="40" fill="#c32f27" />
+          <!-- 文字 "A" -->
+          <text
+            x="50"
+            y="57"
+            font-family="Arial"
+            font-size="50"
+            fill="#f9c80e"
+            text-anchor="middle"
+            dominant-baseline="middle"
+          >
+            A
+          </text>
+        </svg>
+      </div>
+
+      <div class="list-profile-container">
+        <!-- UserList -->
+        <div class="user-list">
+          <a href="user.html"><i class="fa-solid fa-users fa-2xl"></i></a>
+        </div>
+        <!-- Profile -->
+        <div class="profile-picture">
+          <a href="profile.html"><img src="${BASE_URL}/users/images/${user.id}/${user.image}" /></a>
+        </div>
+      </div>
+    </nav>`
+
+  const homeIcon = document.querySelector('.icon')
+
+  homeIcon.addEventListener('click', (e) => {
+    window.location.href = './index.html'
+  })
 }

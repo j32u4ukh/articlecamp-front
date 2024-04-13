@@ -2,7 +2,6 @@ const articleContainer = document.querySelector('#article-container')
 const createArticle = document.querySelector('#createButton')
 const searchInput = document.querySelector('#search-input')
 const searchButton = document.querySelector('#search-btn')
-const homeIcon = document.querySelector('.icon')
 const navbar = document.querySelector('.nav-bar')
 const API_URL = `${BASE_URL}/articles`
 const articles = []
@@ -151,6 +150,8 @@ function setIntersectionObserver() {
   const user = COOKIE.get('user')
   COOKIE.set('userId', user.id)
 
+  renderHeader()
+
   // 重置搜尋框
   searchInput.value = ''
 
@@ -194,10 +195,6 @@ function setIntersectionObserver() {
       .catch((error) => {
         console.log(error)
       })
-  })
-
-  homeIcon.addEventListener('click', (e) => {
-    window.location.href = './index.html'
   })
 
   axios
