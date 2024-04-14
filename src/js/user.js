@@ -1,8 +1,9 @@
 const userListContainer = document.querySelector('.user-list-container')
+const searchBtn = document.querySelector('#search-btn')
+const searchInput = document.querySelector('#search-input')
 const USERLIST_URL = `${BASE_URL}/users`
 const IMAGE_URL = `${BASE_URL}/users/images`
-// NOTE: 不要在程式碼中途宣告變數，一律在最上方進行宣告
-// 從cookie取得token
+// 從 cookie 取得 token
 const token = COOKIE.get('token')
 const userDatas = []
 
@@ -30,6 +31,25 @@ function renderUserList(datas) {
 }
 
 ;(function init() {
+  searchBtn.addEventListener('click', function onSearchButtonClick() {
+    const search = searchInput.value.trim()
+    axios
+      .get(`${USERLIST_URL}?search=${search}`, {
+        headers: { authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        console.log(response)
+        userDatas.splice(0, userDatas.length)
+        const datas = response.data.datas
+        userDatas.push(...datas)
+        console.log(userDatas)
+        renderUserList(userDatas)
+      })
+      .catch((error) => {
+        console.error('Error:', error)
+      })
+  })
+
   // NOTE: 監聽器要設置在"上層容器"，每個按鈕都設置監聽器會影響效能
   userListContainer.addEventListener(
     'click',
