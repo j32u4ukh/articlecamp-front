@@ -18,15 +18,7 @@
   justify-content: space-between;
 }
 
-/* #navbar{
-  background-color: #DAF7A6;
-  width: 100vw;
-  height: 10vh;
-  display: flex;
-  justify-content: space-between;
-} */
-
-.logo {
+#logo {
   height: 100%;
   /* 設置元素的寬高比 */
   aspect-ratio: 1/1;
