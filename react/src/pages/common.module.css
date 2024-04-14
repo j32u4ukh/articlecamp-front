@@ -1,11 +1,13 @@
 .container{
   margin: 0 auto;
-  width: 60%;
+  width: 62.5%;
   height: 100%;
 }
 
-.horizonCenter{
-  margin: 0 auto;
+.horizon-center-layout{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 /* 垂直置中布局 */
