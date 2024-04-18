@@ -1,5 +1,4 @@
-import PropTypes from 'prop-types'
-import styles from './LoginRegisterPage.module.css'
+import Styles from "./common.module.css"
 
 export default function Input(props) {
   const attrs = {}
@@ -31,13 +30,9 @@ export default function Input(props) {
   }
 
   return (
-    <div>
-      <label htmlFor={attrs.id}>{attrs.text}</label>
+    <div className={`${props.className}`}>
+      <label className={Styles.lable} htmlFor={attrs.id}>{attrs.text}</label>
       <input type={attrs.type} id={attrs.id} />
     </div>
   )
-
-  Input.propTypes = {
-    type: PropTypes.string
-  }
 }

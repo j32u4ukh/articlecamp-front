@@ -1,15 +1,13 @@
-
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { selectPersist, setText } from "../../store/slice/persist";
-import { login, logout, selectUser } from "../../store/slice/user";
-// import { capitalizeFirstLetter } from '../../utils';
-import Input from './Input.jsx'
-import styles from './LoginRegisterPage.module.css'
+import { selectPersist, setText } from "../store/slice/persist.js";
+import { login, selectUser } from "../store/slice/user.js";
+import Input from '../components/Input.jsx';
+import styles from '../styles/LoginRegisterPage.module.css';
 
 export default function LoginRegisterPage(props) {
-    // const type = capitalizeFirstLetter(props.type)
-    const type = props.type
+    const type = props.type.toLowerCase();
+    console.log(`type: ${type}`)
     const usersState = useSelector(selectUser);
     const rootState = useSelector(selectPersist);
     const dispatch = useDispatch();
@@ -19,19 +17,18 @@ export default function LoginRegisterPage(props) {
     const text = rootState.text;
     console.log(`text: ${text}`)
 
-    // 登入成功後前往index頁面
+    // 登入成功後前往 index 頁面
     function loginHandler() {
         console.log('Handle login')
         dispatch(login({ id: new Date().getTime(), name: 'King' }));
         dispatch(setText('pekomiko'))
-        // navigate('/register');
-        navigate('/index');
+        navigate('/articles');
     }
 
-    // 註冊成功後前往login頁面
+    // 註冊成功後前往 login 頁面
     function registerHandler() {
         console.log('Handle register')
-        dispatch(logout());
+        // dispatch(logout());
         navigate('/login');
     }
 
@@ -41,21 +38,21 @@ export default function LoginRegisterPage(props) {
         navigate(`${isRegister ? "/login" : "/register"}`)
     }
 
-    const title = isRegister ? '註冊帳號' : '登入會員'
+    const title = isRegister ? "註冊帳號" : "登入會員"
     const submit = isRegister ? "註冊" : "登入"
-    const redirect = isRegister ? '登入' : '註冊'
+    const redirect = isRegister ? "登入" : "註冊"
 
     return (
         <div className={styles.container}>
             <h1>{title}</h1>
-            {isRegister && <Input type="name" />}
-            <Input type="email" />
-            <Input type="password" />
-            {isRegister && <Input type="confirm" />}
-            <button onClick={isRegister ? registerHandler : loginHandler}>{submit}</button>
+            {isRegister && <Input className={styles.input} type="name" />}
+            <Input className={styles.input} type="email" />
+            <Input className={styles.input} type="password" />
+            {isRegister && <Input className={styles.input} type="confirm" />}
+            <button className={styles.button} onClick={isRegister ? registerHandler : loginHandler}>{submit}</button>
             <div>
                 {isRegister ? '已有帳號？ ' : '尚無帳號？ '}
-                <span onClick={handleRedirect}>{redirect}</span>
+                <span className={styles.span} onClick={handleRedirect}>{redirect}</span>
             </div>
         </div>
     )
