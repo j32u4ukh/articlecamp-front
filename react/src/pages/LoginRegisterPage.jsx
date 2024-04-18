@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { selectPersist, setText } from "../store/slice/persist.js";
 import { login, selectUser } from "../store/slice/user.js";
 import Input from '../components/Input.jsx';
-import styles from '../styles/LoginRegisterPage.module.css';
+import Styles from '../styles/LoginRegisterPage.module.css';
 
 export default function LoginRegisterPage(props) {
     const type = props.type.toLowerCase();
@@ -43,16 +43,16 @@ export default function LoginRegisterPage(props) {
     const redirect = isRegister ? "登入" : "註冊"
 
     return (
-        <div className={styles.container}>
+        <div className={Styles.container}>
             <h1>{title}</h1>
-            {isRegister && <Input className={styles.input} type="name" />}
-            <Input className={styles.input} type="email" />
-            <Input className={styles.input} type="password" />
-            {isRegister && <Input className={styles.input} type="confirm" />}
-            <button className={styles.button} onClick={isRegister ? registerHandler : loginHandler}>{submit}</button>
+            {isRegister && <Input className={Styles.input} type="name" />}
+            <Input className={Styles.input} type="email" />
+            <Input className={Styles.input} type="password" />
+            {isRegister && <Input className={Styles.input} type="confirm" />}
+            <button className={Styles.button} onClick={isRegister ? registerHandler : loginHandler}>{submit}</button>
             <div>
                 {isRegister ? '已有帳號？ ' : '尚無帳號？ '}
-                <span className={styles.span} onClick={handleRedirect}>{redirect}</span>
+                <span className={Styles.span} onClick={handleRedirect}>{redirect}</span>
             </div>
         </div>
     )

@@ -1,4 +1,4 @@
-import Styles from "./common.module.css"
+import Styles from "../styles/Component.module.css"
 
 export default function Input(props) {
   const attrs = {}

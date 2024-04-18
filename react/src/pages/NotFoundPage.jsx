@@ -1,8 +1,8 @@
-import CommonStyle from "./common.module.css"
+import CommonStyles from "../styles/Page.module.css"
 
 export default function NotFoundPage(){
     return (
-        <div className={`${CommonStyle["vertical-center-layout"]} ${CommonStyle["container"]}`}>
+        <div className={`${CommonStyles["vertical-center-layout"]} ${CommonStyles["container"]}`}>
             <h1 style={{margin: "20px auto"}}>404 Not Found</h1>
             {/* aspect-ratio:設置元素的寬高比 */}
             <img 
