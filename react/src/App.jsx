@@ -6,7 +6,7 @@ import ArticleListPage from './pages/ArticleListPage';
 import ArticlePage from './pages/ArticlePage';
 import CreateEditPage from './pages/CreateEditPage';
 import HomePage from './pages/HomePage';
-import LoginRegisterPage from './pages/LoginRegisterPage';
+import LoginRegisterPage from './pages/LoginRegisterPage/LoginRegisterPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ProfilePage from './pages/ProfilePage';
 import UsersPage from './pages/UsersPage';
