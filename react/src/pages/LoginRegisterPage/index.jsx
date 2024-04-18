@@ -1,7 +1,7 @@
+import { login, selectUser } from "../../store/slice/user.js";
+import { selectPersist, setText } from "../../store/slice/persist.js";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { selectPersist, setText } from "../../store/slice/persist.js";
-import { login, selectUser } from "../../store/slice/user.js";
 import LabeledInput from '../../components/LabeledInput';
 import Styles from './styles.module.css';
 
