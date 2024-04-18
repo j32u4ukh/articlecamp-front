@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { selectPersist, setText } from "../store/slice/persist.js";
-import { login, selectUser } from "../store/slice/user.js";
-import Input from '../components/Input.jsx';
-import Styles from '../styles/LoginRegisterPage.module.css';
+import { selectPersist, setText } from "../../store/slice/persist.js";
+import { login, selectUser } from "../../store/slice/user.js";
+import Input from '../../components/Input.jsx';
+import Styles from './styles.module.css';
 
 export default function LoginRegisterPage(props) {
     const type = props.type.toLowerCase();

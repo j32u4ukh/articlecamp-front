@@ -1,6 +1,6 @@
 
-import Styles from "../styles/Header.module.css";
-import ComponentStyles from "../styles/Component.module.css"
+import Styles from "./styles.module.css";
+import ComponentStyles from "../component.module.css"
 import { useNavigate } from "react-router-dom";
 
 export default function Header(){    

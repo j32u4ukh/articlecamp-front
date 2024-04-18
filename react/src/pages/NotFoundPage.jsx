@@ -1,4 +1,4 @@
-import CommonStyles from "../styles/Page.module.css"
+import CommonStyles from "./page.module.css"
 
 export default function NotFoundPage(){
     return (
