@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { selectPersist, setText } from "../../store/slice/persist.js";
 import { login, selectUser } from "../../store/slice/user.js";
-import Input from '../../components/Input.jsx';
+import LabeledInput from '../../components/LabeledInput';
 import Styles from './styles.module.css';
 
 export default function LoginRegisterPage(props) {
@@ -45,10 +45,10 @@ export default function LoginRegisterPage(props) {
     return (
         <div className={Styles.container}>
             <h1>{title}</h1>
-            {isRegister && <Input className={Styles.input} type="name" />}
-            <Input className={Styles.input} type="email" />
-            <Input className={Styles.input} type="password" />
-            {isRegister && <Input className={Styles.input} type="confirm" />}
+            {isRegister && <LabeledInput type="text" id="name" className={Styles.input} text="名稱：" />}
+            <LabeledInput type="text" id="email" className={Styles.input} text="信箱："/>
+            <LabeledInput type="password" id="password" className={Styles.input} text="密碼：" />
+            {isRegister && <LabeledInput type="password" id="confirm" className={Styles.input} text="確認密碼：" />}
             <button className={Styles.button} onClick={isRegister ? registerHandler : loginHandler}>{submit}</button>
             <div>
                 {isRegister ? '已有帳號？ ' : '尚無帳號？ '}
