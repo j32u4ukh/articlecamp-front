@@ -1,0 +1,26 @@
+.articleContent {
+  padding: 10px;
+  background-color: rgb(244, 206, 135);
+  border-radius: 16px;
+}
+.articleContent input{
+  margin: 5px 10px;
+}
+.articleTitle {
+  margin-top: 0;
+}
+.articleCategory {
+  margin: 5px 10px;
+  width: 175px;
+  text-align: center;
+}
+.articleContext article textarea {
+  width: 100%;
+  height: 200px;
+}
+.updateBtn,
+.cancelBtn {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0 5px;
+}
