@@ -1,7 +1,7 @@
 
-import Styles from "./header.module.css";
-import CommonStyle from "./common.module.css"
 import { useNavigate } from "react-router-dom";
+import ComponentStyles from "../component.module.css"
+import Styles from "./styles.module.css";
 
 export default function Header(){    
     const navigate = useNavigate();
@@ -11,7 +11,7 @@ export default function Header(){
     return (
         <header id={Styles.header}>
             <nav id={Styles.nav}>
-                <div id={Styles.logo} className={CommonStyle.clickable} onClick={onLogoClicked}>
+                <div id={Styles.logo} className={ComponentStyles.clickable} onClick={onLogoClicked}>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
                         {/* 圓圈 */}
                         <circle cx="50" cy="50" r="40" fill="#c32f27" />
