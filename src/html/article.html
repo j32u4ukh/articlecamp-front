@@ -1,59 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Articlecamp</title>
-    <link rel="stylesheet" href="../css/style.css" />
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%23c32f27'/%3E%3Ctext x='50' y='60' font-family='Arial' font-size='50' fill='%23f9c80e' text-anchor='middle' dominant-baseline='middle'%3EA%3C/text%3E%3C/svg%3E"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Noto+Sans+TC:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <!-- Header -->
-    <header>
-      <nav>
-        <div class="icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-            <!-- 圓圈 -->
-            <circle cx="50" cy="50" r="40" fill="#c32f27" />
-            <!-- 文字 "A" -->
-            <text
-              x="50"
-              y="57"
-              font-family="Arial"
-              font-size="50"
-              fill="#f9c80e"
-              text-anchor="middle"
-              dominant-baseline="middle"
-            >
-              A
-            </text>
-          </svg>
-        </div>
 
-      <!-- 編輯按鈕 -->
-      <button id="editButton">
-        <i class="fa-solid fa-pen-to-square" style="font-size: 30px;"></i>
-      </button>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- <link rel="stylesheet" href="../css/reset.css" /> -->
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%23c32f27'/%3E%3Ctext x='50' y='60' font-family='Arial' font-size='50' fill='%23f9c80e' text-anchor='middle' dominant-baseline='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Noto+Sans+TC:wght@400;700&display=swap"
+    rel="stylesheet" />
+  <title>Articlecamp</title>
+</head>
 
-      </nav>
-    </header>
-    <div class="non-fixed-header"></div>
+<body>
+  <!-- Header -->
+  <header>
+    <nav class="nav-bar">
+      <div class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+          <!-- 圓圈 -->
+          <circle cx="50" cy="50" r="40" fill="#c32f27" />
+          <!-- 文字 "A" -->
+          <text x="50" y="57" font-family="Arial" font-size="50" fill="#f9c80e" text-anchor="middle"
+            dominant-baseline="middle">
+            A
+          </text>
+        </svg>
+      </div>
+
+      <div class="list-profile-container">
+          <!-- UserList -->
+          <div class="user-list">
+              <a href="user.html"><i class="fa-solid fa-users fa-2xl"></i></a>
+          </div>
+          <!-- Profile -->
+          <div class="profile-picture">
+              <a href="profile.html"><img src="../data/Alex.png" /></a>
+          </div>
+      </div>
+    </nav>
+  </header>
+  <div class="non-fixed-header"></div>
 
   <main>
+
+        <!-- 編輯按鈕 -->
+    <button id="editButton">
+      <i class="fa-solid fa-pen-to-square" style="font-size: 30px;"></i>
+    </button>
+
     <section id="article-container">
       <div class="article-content">
         <h1 class="article-title">文章標題:</h1>
         <h3 class="article-author">文章作者:</h3>
+        <h3 id="show-category">文章分類:</h3>
         <div class="article-context">
           文章內容:
           <article id="context">
@@ -61,17 +64,36 @@
         </div>
       </div>
     </section>
+
+    <!-- 留言區 -->
+    <div id="comments-container">
+      <div id="commenter">
+        <div class="commenter-img">
+          <img src="../data/Alex.png" />
+        </div>
+        <div class="commenter-name"></div>
+      </div>
+
+      <form id="commentForm">
+        <textarea id="comment" placeholder="請留下您的評論" required></textarea>
+      </form>
+      <div class="comment-controls">
+        <button id="submit-comment-button">留言</button>
+        <button id="cancel-button">取消</button>
+      </div>
+    </div>
+    <!-- 歷史留言區 (還要放留言者頭像及名字)-->
+    <div id="commentList" class="comment-list"></div>
+    </div>
   </main>
 
   <!-- Script -->
   <!-- axios -->
   <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
 
-    <script
-      src="https://kit.fontawesome.com/6fb9682f78.js"
-      crossorigin="anonymous"
-    ></script>
-    <script src="../js/utils.js"></script>
-    <script src="../js/article.js"></script>
-  </body>
+  <script src="https://kit.fontawesome.com/6fb9682f78.js" crossorigin="anonymous"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/article.js"></script>
+</body>
+
 </html>

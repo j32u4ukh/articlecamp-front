@@ -1,0 +1,30 @@
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.input {
+  margin-bottom: 20px;
+}
+
+.button {
+  margin-bottom: 20px;
+  background-color: #8d99ae;
+  transition: 0.2s;
+}
+
+.button:hover {
+  background-color: #d9d9d9;
+}
+
+.span {
+  font-weight: 700;
+}
+
+.span:hover {
+  color: rgb(68, 68, 250);
+  cursor: pointer;
+}

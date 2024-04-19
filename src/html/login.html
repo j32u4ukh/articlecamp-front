@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/bootstrap.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/c-style.css" />
+
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%23c32f27'/%3E%3Ctext x='50' y='60' font-family='Arial' font-size='50' fill='%23f9c80e' text-anchor='middle' dominant-baseline='middle'%3EA%3C/text%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Noto+Sans+TC:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>Articlecamp</title>
+  </head>
+
+  <body>
+    <!-- Header -->
+    <header>
+      <nav class="nav-bar">
+        <div class="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+            <!-- 圓圈 -->
+            <circle cx="50" cy="50" r="40" fill="#c32f27" />
+            <!-- 文字 "A" -->
+            <text
+              x="50"
+              y="57"
+              font-family="Arial"
+              font-size="50"
+              fill="#f9c80e"
+              text-anchor="middle"
+              dominant-baseline="middle"
+            >
+              A
+            </text>
+          </svg>
+        </div>
+      </nav>
+    </header>
+
+    <main id="loginMain">
+      <section id="loginSection">
+        <h2 id="loginH2">登入會員</h2>
+        <div id="loginErrorMsg"></div>
+        <div id="loginForm">
+          <label>Email:</label>
+          <input type="email" id="email" name="email" maxlength="30" required />
+          <label>密碼:</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            maxlength="20"
+            required
+          />
+          <button type="submit" id="loginSubmit">登入</button>
+        </div>
+        <h3 id="loginH3">尚無帳號？<a href="register.html">註冊帳號</a></h3>
+      </section>
+    </main>
+
+    <!-- Script -->
+    <!-- axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+
+    <script
+      src="https://kit.fontawesome.com/6fb9682f78.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/login.js"></script>
+  </body>
+</html>
