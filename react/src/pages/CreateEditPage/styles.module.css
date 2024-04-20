@@ -1,0 +1,27 @@
+.content {
+  padding: 20px;
+  margin: 20px;
+  background-color: rgb(244, 206, 135);
+  border-radius: 16px;
+}
+.content input{
+  margin: 5px 10px;
+}
+.articleTitle {
+  margin-top: 0;
+}
+.category {
+  margin: 5px 10px;
+  width: 175px;
+  text-align: center;
+}
+.context article textarea {
+  width: 100%;
+  height: 200px;
+}
+.updateBtn,
+.cancelBtn {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0 5px;
+}
