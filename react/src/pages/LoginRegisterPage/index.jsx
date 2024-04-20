@@ -26,10 +26,11 @@ export default function LoginRegisterPage(props) {
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
     const repasswordRef = useRef(null);
-
     const messageRef = useRef(null);
+
     // 登入成功後前往 index 頁面
     function loginHandler() {
+        // TODO: 在前端就判斷參數是否正確，如果不正確，就不要送出請求了
         console.log('Handle login')
         const email = emailRef.current.value.trim()
         const password = passwordRef.current.value.trim()
@@ -58,6 +59,7 @@ export default function LoginRegisterPage(props) {
 
     // 註冊成功後前往 login 頁面
     function registerHandler() {
+        // TODO: 在前端就判斷參數是否正確，如果不正確，就不要送出請求了
         const name = nameRef.current.value.trim()
         const email = emailRef.current.value.trim()
         const password = passwordRef.current.value.trim()
@@ -65,7 +67,8 @@ export default function LoginRegisterPage(props) {
         const message = messageRef.current
         message.textContent = ''
 
-        //密碼 與 確認密碼 需相同
+        // NOTE: 可以先檢查不同，然後就 return，用以簡化判斷(當有多個判斷，錯誤時不送出請求)，也避免多層判斷
+        // 密碼 與 確認密碼 需相同
         if (password === repassword) {
             if (
                 name &&
