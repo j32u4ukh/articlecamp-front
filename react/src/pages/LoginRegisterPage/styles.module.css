@@ -28,3 +28,14 @@
   color: rgb(68, 68, 250);
   cursor: pointer;
 }
+
+.label {
+  display: block;
+}
+
+.message {
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  color: red;
+}

@@ -5,7 +5,7 @@ export default function LabeledInput(props) {
   return (
     <div className={`${props.className}`}>
       <label className={Styles.label} htmlFor={props.id}>{props.text}</label>
-      <input type={props.type} id={props.id} />
+      <input type={props.type} id={props.id} ref={props.ref} />
     </div>
   )
 }
