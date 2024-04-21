@@ -10,14 +10,6 @@ export default function CreateEditPage(props) {
   const params = useParams()
   const navigate = useNavigate()
   const isEdit = type === 'Edit'
-  
-  function onContentChanged(e) {
-    setContent(e.target.value)
-  }
-
-  function onTitleChanged(e) {
-    setTitle(e.target.value)
-  }
 
   // 根據 type 進行不同前處理
   switch(type){
@@ -35,6 +27,25 @@ export default function CreateEditPage(props) {
       break
     default:
       return navigate('/NotFound', { replace: true })
+  }
+  
+  function onContentChanged(e) {
+    setContent(e.target.value)
+  }
+
+  function onTitleChanged(e) {
+    setTitle(e.target.value)
+  }
+
+  function onCancelHandler(e) {
+    if(isEdit){
+      // 回到上一頁
+      navigate(-1); 
+    }else{
+      // 跳轉到文章列表頁
+      navigate('/articles');
+    }
+    setTitle(e.target.value)
   }
   
   return (
@@ -68,8 +79,8 @@ export default function CreateEditPage(props) {
             </textarea>
             </article>
         </div>
-        <div className={Styles.applyBtns}>          
-          <button className={Styles.updateBtn}>Cancel</button>
+        <div className={Styles.applyBtns}>
+          <button className={Styles.updateBtn} onClick={onCancelHandler}>Cancel</button>
           <button className={Styles.cancelBtn}>Submit</button>
         </div>
     </div>
