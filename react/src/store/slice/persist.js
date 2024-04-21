@@ -12,15 +12,11 @@ export const persistSlice = createSlice({
     name: "persistor",
 
     initialState: {
-        text: "",
         jwt: null,
         user: null,
     },
 
     reducers: {
-        setText: (state, action) => {
-            state.text = action.payload;
-        },
         setJwt: (state, action) => {
             const token = action.payload;
             state.jwt = token;
