@@ -1,5 +1,5 @@
 import { login, selectUser } from "../../store/slice/user.js";
-import { selectPersist, setText } from "../../store/slice/persist.js";
+import { selectPersist, setText, setJwt } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 // import LabeledInput from '../../components/LabeledInput';
@@ -15,12 +15,12 @@ export default function LoginRegisterPage(props) {
     console.log(`type: ${type}`)
     const usersState = useSelector(selectUser);
     const rootState = useSelector(selectPersist);
+    // useDispatch: 用於向 Redux Store 發送 action，以便 reducer 能夠根據 action 的類型和數據來更新應用程序的狀態。
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const isRegister = type === 'register'
     console.log(`isLogined: ${usersState.isLogined}, user: ${JSON.stringify(usersState.user)}`);
-    const text = rootState.text;
-    console.log(`text: ${text}`)
+    console.log(`text: ${rootState.text}, jwt: ${rootState.jwt}, user: ${JSON.stringify(rootState.user)}`)
 
     const nameRef = useRef(null);
     const emailRef = useRef(null);
@@ -41,7 +41,7 @@ export default function LoginRegisterPage(props) {
             .then((response) => {
                 const data = response.data
                 const token = data.token
-                console.log(token)
+                console.log(`token: ${token}`)
                 // 紀錄返回的 JWT
                 COOKIE.set('token', token)
                 const parts = token.split('.')
@@ -49,6 +49,7 @@ export default function LoginRegisterPage(props) {
                 COOKIE.set('user', payload.user)
                 dispatch(login({ id: new Date().getTime(), name: 'King' }));
                 dispatch(setText('pekomiko'))
+                dispatch(setJwt(token))
                 navigate('/articles');
             })
             .catch((error) => {
