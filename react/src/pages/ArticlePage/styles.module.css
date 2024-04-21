@@ -1,8 +1,11 @@
+/* TODO: 不要使用 position: absolute; 理由週五所說，且按鈕定位應在文章區塊的右下方 */
 #editBtn {
   position: absolute;
   top: 10px;
   right: 10px;
 }
+
+/* TODO: 複用 page.module.css 的 container 樣式表 */
 #container {
   margin: 0 auto;
   width: 60%;

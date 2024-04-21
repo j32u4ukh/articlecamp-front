@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import styles from './styles.module.css';
+import Styles from './styles.module.css';
 import AlexImage from '../../../../src/data/Alex.png';
 
 export default function ArticlePage(){
@@ -28,42 +28,47 @@ export default function ArticlePage(){
         navigate(`/articles/${articleId}/edit`)
     }
 
+    function onCancelHandler(e) {
+      // TODO: 清空留言空，並恢復留言框大小
+    }
+
     return (
         <>
-            <section id={styles.container}>
-                <div className={styles.content}>
-                    <h1 className={styles.articleTitle}>{articleContent.title}</h1>
-                        <button id={styles.editBtn} onClick={editRedirect}>
+            <section id={Styles.container}>
+                <div className={Styles.content}>
+                    <h1 className={Styles.articleTitle}>{articleContent.title}</h1>
+                        <button id={Styles.editBtn} onClick={editRedirect}>
                             <i className="fa-solid fa-pen-to-square" style={{ fontSize: '30px' }}></i>
                         </button>
                     <h3>{articleContent.author}</h3>
                     <h3>{articleContent.category}</h3>
-                    <div className={styles.context}>
+                    <div className={Styles.context}>
                         <article>{articleContent.content}</article>
                     </div>
                 </div>
             </section>
 
             {/* 留言區 */}
-            <div id={styles.commentsContainer}>
-                <div id={styles.commenter}>
-                    <div className={styles.commenterImg}>
+            <div id={Styles.commentsContainer}>
+                <div id={Styles.commenter}>
+                    <div className={Styles.commenterImg}>
                         <img src={AlexImage} />
                     </div>
-                    <div className={styles.commenterName}></div>
+                    <div className={Styles.commenterName}></div>
                 </div>
 
-                <form id={styles.commentForm}>
-                    <textarea id={styles.comment} placeholder="請留下您的評論" required>
+                {/* TODO: 點擊後，留言框略為放大 */}
+                <form id={Styles.commentForm}>
+                    <textarea id={Styles.comment} placeholder="請留下您的評論" required>
                     </textarea>
                 </form>
-                <div className={styles.commentControls}>
+                <div className={Styles.commentControls}>
+                    <button onClick={onCancelHandler}>取消</button>
                     <button>留言</button>
-                    <button>取消</button>
                 </div>
             </div>
             {/* 歷史留言區 (還要放留言者頭像及名字) */}
-            <div className={styles.commentList}></div>
+            <div className={Styles.commentList}></div>
         </>
     );
 }
