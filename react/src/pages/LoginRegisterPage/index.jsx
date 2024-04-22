@@ -2,7 +2,7 @@ import { login, selectUser } from "../../store/slice/user.js";
 import { selectPersist, setJwt } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-// import LabeledInput from '../../components/LabeledInput';
+import { LabeledInput } from '../../components/LabeledInput';
 import Styles from './styles.module.css';
 import axios from 'axios';
 import { useRef } from 'react';
@@ -52,8 +52,7 @@ export default function LoginRegisterPage(props) {
                 navigate('/articles');
             })
             .catch((error) => {
-                const errorMsg = error.response.data.msg
-                message.textContent = errorMsg
+                message.textContent = error.response.data.msg
             })
     }
 
@@ -88,43 +87,42 @@ export default function LoginRegisterPage(props) {
                     navigate('/login');
                 })
                 .catch((error) => {
-                    // const errorMsg = error.response.data.msg
                     message.textContent = error.response.data.msg
                 })
         }
 
         // 密碼 與 確認密碼 需相同
-        // if (password === repassword) {
-        //     if (
-        //         name &&
-        //         email &&
-        //         password &&
-        //         repassword
-        //     ) {
-        //         axios
-        //             .post(REGISTER_URL, {
-        //                 name,
-        //                 email,
-        //                 password,
-        //                 repassword,
-        //             })
-        //             .then((response) => {
-        //                 console.log('Handle register')
-        //                 console.log(response.data)
-        //                 navigate('/login');
-        //                 emailRef.current.value = ''
-        //                 passwordRef.current.value = ''
-        //             })
-        //             .catch((error) => {
-        //                 const errorMsg = error.response.data.msg
-        //                 message.textContent = errorMsg
-        //             })
-        //     } else {
-        //         message.textContent = '所有欄位都需填寫、不能為空白'
-        //     }
-        // } else {
-        //     message.textContent = '密碼需一致'
-        // }
+        if (password === repassword) {
+            if (
+                name &&
+                email &&
+                password &&
+                repassword
+            ) {
+                axios
+                    .post(REGISTER_URL, {
+                        name,
+                        email,
+                        password,
+                        repassword,
+                    })
+                    .then((response) => {
+                        console.log('Handle register')
+                        console.log(response.data)
+                        navigate('/login');
+                        emailRef.current.value = ''
+                        passwordRef.current.value = ''
+                    })
+                    .catch((error) => {
+                        const errorMsg = error.response.data.msg
+                        message.textContent = errorMsg
+                    })
+            } else {
+                message.textContent = '所有欄位都需填寫、不能為空白'
+            }
+        } else {
+            message.textContent = '密碼需一致'
+        }
     }
 
     // 跳轉至 login || register
@@ -141,25 +139,11 @@ export default function LoginRegisterPage(props) {
         <div className={Styles.container}>
             <h1>{title}</h1>
             <div ref={messageRef} className={Styles.message}></div>
-            {isRegister && <div className={Styles.input}>
-                <label className={Styles.label} htmlFor="name">名稱：</label>
-                <input ref={nameRef} type="text" id="name" />
-            </div>}
 
-            <div className={Styles.input}>
-                <label className={Styles.label} htmlFor="email">信箱：</label>
-                <input ref={emailRef} type="text" id="email" />
-            </div>
-
-            <div className={Styles.input}>
-                <label className={Styles.label} htmlFor="password">密碼：</label>
-                <input ref={passwordRef} type="password" id="password" />
-            </div>
-
-            {isRegister && <div className={Styles.input}>
-                <label className={Styles.label} htmlFor="confirm">確認密碼：</label>
-                <input ref={repasswordRef} type="password" id="confirm" />
-            </div>}
+            {isRegister && <LabeledInput className={Styles.input} id="name" text="名稱：" type="text" ref={nameRef} />}
+            <LabeledInput className={Styles.input} id="email" text="信箱：" type="text" ref={emailRef} />
+            <LabeledInput className={Styles.input} id="password" text="密碼：" type="password" ref={passwordRef} />
+            {isRegister && <LabeledInput className={Styles.input} id="confirm" text="確認密碼：" type="password" ref={repasswordRef} />}
 
             <button className={Styles.button} onClick={isRegister ? registerHandler : loginHandler}>{submit}</button>
             <div>
