@@ -4,23 +4,32 @@ import PageStyles from "../page.module.css";
 import LabeledInput from "../../components/LabeledInput";
 import { useSelector } from "react-redux";
 import { selectPersist } from "../../store";
-import { useRef } from 'react';
+import { useState } from 'react';
 
 export default function ProfilePage(){
     const rootState = useSelector(selectPersist);
     const user = rootState.user ?? {};
-    const nameRef = useRef(user.name ?? "");
-    const imageRef = useRef(user.image ?? "");
+    console.log(`user: ${JSON.stringify(user)}`)
+    const [name, setName] = useState(user.name ?? "");
+    const [image, setImage] = useState(user.image ?? "");
+    // nameRef.current = user.name
+    // imageRef.current = user.image
+    console.log(`user.name: ${user.name}, user.image: ${user.image}`)
+    console.log(`name: ${name}, image: ${image}`)
+
+    function onNameChanged(e){
+        setName(e.target.value)
+    }
 
     return (
         <BasicLayout>
             <div className={`${PageStyles.container}`}>
                 <div className={Styles.articleContent}>
-                    <label id="user-id" className={Styles.profileField}>User ID:</label><br />
+                    <label id="user-id" className={Styles.profileField}>User ID: {user.id ?? ""}</label><br />
                     {/* <label id="user-name">User Name:<input type="text"/></label> */}
-                    <LabeledInput id="user-name" type="text" text="User Name:" ref={nameRef} className={Styles.profileField}/>
+                    <LabeledInput id="user-name" type="text" text="User Name:" value={name} className={Styles.profileField} onChange={onNameChanged}/>
                     {/* <br /> */}
-                    <label id="email" className={Styles.profileField}>Email:</label><br />
+                    <label id="email" className={Styles.profileField}>Email:  {user.email ?? ""}</label><br />
                     
                     <label htmlFor="file-upload" style={{cursor: "pointer"}}>
                     <input id="file-upload" type="file" name="image" style={{display: "none"}} accept="image/*" />
