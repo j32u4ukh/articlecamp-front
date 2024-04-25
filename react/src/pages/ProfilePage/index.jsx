@@ -8,6 +8,7 @@ import { useState, useRef } from "react";
 import { BASE_URL } from "../../utils";
 import axios from "axios";
 
+// TODO: 點擊 Update 按鈕後，再送出更新請求
 export default function ProfilePage() {
     const PROFILE_URL = `${BASE_URL}/users/profile`;
     // useDispatch: 用於向 Redux Store 發送 action，以便 reducer 能夠根據 action 的類型和數據來更新應用程序的狀態。
@@ -16,11 +17,7 @@ export default function ProfilePage() {
     const user = rootState.user ?? {};
     console.log(`user: ${JSON.stringify(user)}`);
     const [name, setName] = useState(user.name ?? "");
-    const [image, setImage] = useState(user.image ?? "");
     const fileInputRef = useRef(null);
-
-    console.log(`user.name: ${user.name}, user.image: ${user.image}`);
-    console.log(`name: ${name}, image: ${image}`);
 
     function onNameChanged(e) {
         setName(e.target.value);
@@ -47,12 +44,7 @@ export default function ProfilePage() {
                 .then((response) => {
                     const data = response.data;
                     console.log(`data.image: ${data.image}`);
-                    // user.image = data.image;
                     dispatch(setUserImage(data.image));
-                    // COOKIE.set("user", user);
-
-                    // 重新載入當前頁面，忽略緩存
-                    // location.reload(true);
                 })
                 .catch((error) => {
                     console.error(error);
