@@ -90,3 +90,12 @@ align-items 控制 flex 子元素在次要軸上的對齊方式
 .c-flex-axis1-stretch{
     align-items: stretch;
 }
+
+/**************************************************
+flex-direction 控制 flex 子元素在flex-container中的主軸方向  
+**************************************************/
+
+/* 元素直向堆疊 */
+.c-flex-axis2-column{
+    flex-direction: column;
+}
