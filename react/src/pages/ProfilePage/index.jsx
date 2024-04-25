@@ -1,43 +1,106 @@
-import BasicLayout from '../../layouts/BasicLayout';
+import BasicLayout from "../../layouts/BasicLayout";
 import Styles from "./styles.module.css";
 import PageStyles from "../page.module.css";
 import LabeledInput from "../../components/LabeledInput";
-import { useSelector } from "react-redux";
-import { selectPersist } from "../../store";
-import { useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { selectPersist, setUserImage } from "../../store";
+import { useState, useRef } from "react";
+import { BASE_URL } from "../../utils";
+import axios from "axios";
 
-export default function ProfilePage(){
+export default function ProfilePage() {
+    const PROFILE_URL = `${BASE_URL}/users/profile`;
+    // useDispatch: 用於向 Redux Store 發送 action，以便 reducer 能夠根據 action 的類型和數據來更新應用程序的狀態。
+    const dispatch = useDispatch();
     const rootState = useSelector(selectPersist);
     const user = rootState.user ?? {};
-    console.log(`user: ${JSON.stringify(user)}`)
+    console.log(`user: ${JSON.stringify(user)}`);
     const [name, setName] = useState(user.name ?? "");
     const [image, setImage] = useState(user.image ?? "");
-    // nameRef.current = user.name
-    // imageRef.current = user.image
-    console.log(`user.name: ${user.name}, user.image: ${user.image}`)
-    console.log(`name: ${name}, image: ${image}`)
+    const fileInputRef = useRef(null);
 
-    function onNameChanged(e){
-        setName(e.target.value)
+    console.log(`user.name: ${user.name}, user.image: ${user.image}`);
+    console.log(`name: ${name}, image: ${image}`);
+
+    function onNameChanged(e) {
+        setName(e.target.value);
+    }
+
+    function onUploadBtnClicked() {
+        fileInputRef.current.click();
+    }
+
+    function onImageChanged(e) {
+        const files = e.target.files;
+        if (files.length > 0) {
+            const file = e.target.files[0];
+            console.log("Selected file:", file);
+
+            // image.src = file;
+            const formData = new FormData();
+            formData.append("image", file);
+            const jwt = rootState.jwt;
+            axios
+                .patch(PROFILE_URL, formData, {
+                    headers: { authorization: `Bearer ${jwt}` },
+                })
+                .then((response) => {
+                    const data = response.data;
+                    console.log(`data.image: ${data.image}`);
+                    // user.image = data.image;
+                    dispatch(setUserImage(data.image));
+                    // COOKIE.set("user", user);
+
+                    // 重新載入當前頁面，忽略緩存
+                    // location.reload(true);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
     }
 
     return (
         <BasicLayout>
             <div className={`${PageStyles.container}`}>
                 <div className={Styles.articleContent}>
-                    <label id="user-id" className={Styles.profileField}>User ID: {user.id ?? ""}</label><br />
-                    {/* <label id="user-name">User Name:<input type="text"/></label> */}
-                    <LabeledInput id="user-name" type="text" text="User Name:" value={name} className={Styles.profileField} onChange={onNameChanged}/>
-                    {/* <br /> */}
-                    <label id="email" className={Styles.profileField}>Email:  {user.email ?? ""}</label><br />
-                    
-                    <label htmlFor="file-upload" style={{cursor: "pointer"}}>
-                    <input id="file-upload" type="file" name="image" style={{display: "none"}} accept="image/*" />
+                    <label id="user-id" className={Styles.profileField}>
+                        User ID: {user.id ?? ""}
                     </label>
-                    <button id="upload-btn">上傳圖片</button><br />
-                    <img 
+                    <br />
+                    <LabeledInput
+                        id="user-name"
+                        type="text"
+                        text="User Name:"
+                        value={name}
+                        className={Styles.profileField}
+                        onChange={onNameChanged}
+                    />
+                    {/* <br /> */}
+                    <label id="email" className={Styles.profileField}>
+                        Email: {user.email ?? ""}
+                    </label>
+                    <br />
+
+                    {/* TODO: <input type="file" accept="image/*" /> 取代 <button id="upload-btn"> */}
+                    <label htmlFor="file-upload" style={{ cursor: "pointer" }}>
+                        <input
+                            id="file-upload"
+                            type="file"
+                            name="image"
+                            style={{ display: "none" }}
+                            accept="image/*"
+                            ref={fileInputRef}
+                            onChange={onImageChanged}
+                        />
+                    </label>
+                    <button id="upload-btn" onClick={onUploadBtnClicked}>
+                        上傳圖片
+                    </button>
+                    <br />
+                    <img
                         id={Styles.profileImage}
-                        src="https://plus.unsplash.com/premium_photo-1669248390922-1a7999ec82a5?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        src={`${BASE_URL}/users/images/${user.id}/${user.image}`}
                         alt="user profile image"
                     />
                 </div>
