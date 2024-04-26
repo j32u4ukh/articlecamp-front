@@ -76,6 +76,8 @@ export default function ArticleListPage() {
         };
     }, [articles, total, size, loading]);
 
+    // TODO: 清單列表中的項目改為組件形式
+    // TODO: 清單列表中的項目缺少前往單篇文章頁面的機制
     return (
         <>
             <div className={Styles.container} 
