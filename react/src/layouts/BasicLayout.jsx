@@ -5,7 +5,10 @@ export default function BasicLayout({ children }) {
     return (
       <>
         <Header/>
-        <main style={{height:'85vh'}}>{children}</main>
+        {/* style={{height:'85vh'}} */}
+        <main>
+          {children}
+        </main>
         {/* <Footer/> */}
       </>
     );
