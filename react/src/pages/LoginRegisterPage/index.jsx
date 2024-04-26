@@ -22,7 +22,7 @@ export default function LoginRegisterPage(props) {
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
     const repasswordRef = useRef(null);
-    const messageRef = useRef(null);    
+    const messageRef = useRef(null);
     const isRegister = type === 'register'
     console.log(`isLogined: ${usersState.isLogined}, user: ${JSON.stringify(usersState.user)}`);
     console.log(`text: ${rootState.text}, jwt: ${rootState.jwt}, user: ${JSON.stringify(rootState.user)}`)
@@ -35,25 +35,36 @@ export default function LoginRegisterPage(props) {
         const password = passwordRef.current.value.trim()
         const message = messageRef.current
         message.textContent = ''
-        axios
-            .post(LOGIN_URL, { email, password })
-            .then((response) => {
-                const data = response.data
-                const token = data.token
-                console.log(`token: ${token}`)
+        if (email === "" || password === "") {
+            message.textContent = '所有欄位都需填寫、不能為空白'
+        } else {
+            axios
+                .post(LOGIN_URL, { email, password })
+                .then((response) => {
+                    const data = response.data
+                    const token = data.token
 
-                // TODO: persistor 實作登入函式
-                dispatch(login({ id: new Date().getTime(), name: 'King' }));
-                
-                // 紀錄返回的 JWT 以及 User 數據
-                dispatch(setJwt(token))
+                    // TODO: persistor 實作登入函式
+                    if (rootState.user) {
+                        const user = rootState.user
+                        const id = user.id
+                        const name = user.name
+                        dispatch(login({ id, name }))
+                        console.log('Get Data From Persistor Successfully')
+                    } else {
+                        console.log('First Time Login or Local Storage Removed')
+                    }
 
-                // 跳轉到文章列表頁
-                navigate('/articles');
-            })
-            .catch((error) => {
-                message.textContent = error.response.data.msg
-            })
+                    // 紀錄返回的 JWT 以及 User 數據
+                    dispatch(setJwt(token))
+
+                    // 跳轉到文章列表頁
+                    navigate('/articles');
+                })
+                .catch((error) => {
+                    message.textContent = error.response.data.msg
+                })
+        }
     }
 
     // 註冊成功後前往 login 頁面
@@ -67,11 +78,11 @@ export default function LoginRegisterPage(props) {
         message.textContent = ''
 
         // NOTE: 調整判斷順序，降低 if-else 層數
-        if(name === "" || email === "" || password === "" || repassword === ""){
+        if (name === "" || email === "" || password === "" || repassword === "") {
             message.textContent = '所有欄位都需填寫、不能為空白'
-        }else if (password !== repassword) {
+        } else if (password !== repassword) {
             message.textContent = '密碼需一致'
-        }else{
+        } else {
             axios
                 .post(REGISTER_URL, {
                     name,
@@ -89,39 +100,6 @@ export default function LoginRegisterPage(props) {
                 .catch((error) => {
                     message.textContent = error.response.data.msg
                 })
-        }
-
-        // 密碼 與 確認密碼 需相同
-        if (password === repassword) {
-            if (
-                name &&
-                email &&
-                password &&
-                repassword
-            ) {
-                axios
-                    .post(REGISTER_URL, {
-                        name,
-                        email,
-                        password,
-                        repassword,
-                    })
-                    .then((response) => {
-                        console.log('Handle register')
-                        console.log(response.data)
-                        navigate('/login');
-                        emailRef.current.value = ''
-                        passwordRef.current.value = ''
-                    })
-                    .catch((error) => {
-                        const errorMsg = error.response.data.msg
-                        message.textContent = errorMsg
-                    })
-            } else {
-                message.textContent = '所有欄位都需填寫、不能為空白'
-            }
-        } else {
-            message.textContent = '密碼需一致'
         }
     }
 

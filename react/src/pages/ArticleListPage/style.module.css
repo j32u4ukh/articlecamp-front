@@ -1,0 +1,11 @@
+.container {
+  margin: 20px 200px 200px 200px;
+  padding: 20px;
+  background-color: #219ebc;
+  border-radius: 10px;
+}
+
+.article {
+  margin-bottom: 20px;
+  background-color: #ffb703;
+}
