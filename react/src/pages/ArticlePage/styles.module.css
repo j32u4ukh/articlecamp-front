@@ -1,0 +1,70 @@
+.content {
+  margin-top: 15px;
+  padding: 15px;
+  background-color: rgb(244, 206, 135);;
+  border-radius: 16px;
+}
+
+.context article::before {
+  content: "        ";
+  display: inline; 
+}
+
+.context article{
+  margin-bottom: 10px;
+  width: 100%;
+  height: auto;
+  white-space: pre-wrap; 
+  overflow-wrap: break-word; 
+  word-break: break-all;
+}
+
+#commentsContainer {
+  margin: 50px auto 0;
+  position: relative;
+  border: 3px solid rgb(227, 155, 143);
+  border-radius: 10px 10px;
+  width: 60%;
+  padding: 10px;
+}
+
+#commenter {
+  height: 30%;
+  display: flex;
+  /* border: 2px solid blue; */
+  align-items: center;
+  margin: 5px;
+}
+
+.commenterImg {
+  display: block;
+  height: 50px;
+  aspect-ratio: 1/1;
+  margin: 0 12px;
+  display: flex;
+}
+.commenterName {
+  font-size: 1em;
+  font-weight: bolder;
+}
+#commentForm {
+  width: 100%;
+  margin-top: 20px;
+}
+#comment {
+  resize: none;
+  width: 100%;
+}
+.commentControls {
+  text-align: end;
+  position: relative;
+}
+.commentList {
+  margin: 20px auto;
+  flex-direction: column;
+  background-color: rgb(222, 173, 125);
+  height: auto;
+  width: 60%;
+  padding: 20px 10px;
+  border-radius: 10px 10px;
+}
