@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { persistStore } from "redux-persist";
 import persistedReducer from "./slice/persist";
 import userReducer from "./slice/user";
-export { selectPersist, setJwt, setUser } from "./slice/persist";
+export { selectPersist, setJwt, setUser, setUserImage } from "./slice/persist";
 
 /*
 使用 Redux Toolkit，你會聽到幾個關鍵字：
