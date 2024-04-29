@@ -1,5 +1,9 @@
-.c-border{
+.c-border {
     border: 1px solid rgba(0, 0, 0, 1);
+}
+
+.c-debug-red {
+    outline: 1px dotted rgba(255, 0, 0, 1);
 }
 
 /****************************************************************************************************
@@ -10,32 +14,32 @@ Flexbox 佈局 justify-content 控制了 flex 子元素在主軸上的對齊方�
 Flexbox 佈局 justify-content 控制 flex 子元素在主軸上的對齊方式  
 **************************************************/
 /* 元素對齊到主軸的起始位置 */
-.c-flex-axis0-start{
+.c-flex-axis0-start {
     justify-content: flex-start;
 }
 
 /* 元素對齊到主軸的終止位置 */
-.c-flex-axis0-end{
+.c-flex-axis0-end {
     justify-content: flex-end;
 }
 
 /* 元素居中對齊於主軸上 */
-.c-flex-axis0-center{
+.c-flex-axis0-center {
     justify-content: center;
 }
 
 /* 元素之間均勻分布，首尾不留空白 */
-.c-flex-axis0-between{
+.c-flex-axis0-between {
     justify-content: space-between;
 }
 
 /* 元素均勻分布，首尾留有相等的空白 */
-.c-flex-axis0-around{
+.c-flex-axis0-around {
     justify-content: space-around;
 }
 
 /* 元素均勻分布，包括首尾和元素之間的空白 */
-.c-flex-axis0-evenly{
+.c-flex-axis0-evenly {
     justify-content: space-evenly;
 }
 
@@ -44,26 +48,26 @@ align-items 控制 flex 子元素在次要軸上的對齊方式
 **************************************************/
 
 /* 元素對齊到次要軸的起始位置 */
-.c-flex-axis1-start{
+.c-flex-axis1-start {
     align-items: flex-start;
 }
 
 /* 元素對齊到次要軸的終止位置 */
-.c-flex-axis1-end{
+.c-flex-axis1-end {
     align-items: flex-end;
 }
 
 /* 元素居中對齊於次要軸上 */
-.c-flex-axis1-center{
+.c-flex-axis1-center {
     align-items: center;
 }
 
 /* 元素根據它們的基線對齊 */
-.c-flex-axis1-baseline{
+.c-flex-axis1-baseline {
     align-items: baseline;
 }
 
 /* 元素拉伸以填滿容器的高度（如果需要的話） */
-.c-flex-axis1-stretch{
+.c-flex-axis1-stretch {
     align-items: stretch;
 }
