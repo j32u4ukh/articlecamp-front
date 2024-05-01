@@ -1,18 +1,18 @@
 import Styles from "./styles.module.css";
+import { forwardRef } from "react";
 
-// TODO: input 和 button 的監聽器或 ref
-export default function SearchBar(props) {
+const SearchBar = forwardRef((props, ref) => {
     return (
         <div
             className={`${"container"} ${"horizon-center-layout"} ${
-                Styles["search-bar"]
+                props.className
             }`}
         >
             <input
                 id={Styles["search-input"]}
                 type="text"
                 placeholder={props.placeholder}
-                ref={props.ref}
+                ref={ref}
             />
             <button
                 id={`${Styles["search-btn"]}`}
@@ -23,4 +23,6 @@ export default function SearchBar(props) {
             </button>
         </div>
     );
-}
+});
+
+export default SearchBar;
