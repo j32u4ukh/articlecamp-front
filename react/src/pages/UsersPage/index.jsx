@@ -17,25 +17,27 @@ export default function UsersPage() {
     const persist = useSelector(selectPersist)
     const token = persist.jwt
 
-    axios
-        .get(`${BASE_URL}/users`, { headers: { authorization: `Bearer ${token}` } })
-        .then((response) => {
-            console.log(response.data)
-            setUsers(response.data.datas)
-        })
+    useEffect(() => {
+        axios
+            .get(`${BASE_URL}/users`, { headers: { authorization: `Bearer ${token}` } })
+            .then((response) => {
+                console.log(response.data)
+                setUsers(response.data.datas)
+            })
+    }, [])
 
     function onSearchBtnClick() {
         console.log(`search input: ${searchRef.current.value}`)
         // Fake data
-        const fakeData = [];
-        let number = Number(searchRef.current.value);
+        const fakeData = []
+        let number = Number(searchRef.current.value)
         if (number === undefined || number === 0) {
-            number = 10;
+            number = 10
         }
         for (let i = 0; i < number; i++) {
             fakeData.push({ id: i + 1 });
         }
-        setUsers((prev) => [...prev, ...fakeData]);
+        setUsers((prev) => [...prev, ...fakeData])
 
         console.log(`users: ${JSON.stringify(users)}`)
         // TODO: 送出取得用戶列表的請求
@@ -45,15 +47,23 @@ export default function UsersPage() {
     }
 
     const isFollowed = (userId) => {
-        return followedUsers.includes(userId)
+        const user = users.find(user => user.id === userId);
+        return user && user.status === 1
     }
 
     const toggleFollow = (userId) => {
-        if (isFollowed(userId)) {
-            setFollowedUsers(followedUsers.filter(id => id !== userId))
-        } else {
-            setFollowedUsers([...followedUsers, userId])
-        }
+        const user = users.find(user => user.id === userId);
+        const follow = user && user.status === 1 ? false : true;
+
+        axios
+            .post(`${BASE_URL}/users`, { userId, follow }, { headers: { authorization: `Bearer ${token}` } })
+            .then((response) => {
+                // 更新追蹤用戶status
+                setUsers(users.map(user => user.id === userId ? { ...user, status: follow ? 1 : 0 } : user))
+            })
+            .catch((error) => {
+                console.error('Error toggling follow:', error)
+            })
     }
 
     return (

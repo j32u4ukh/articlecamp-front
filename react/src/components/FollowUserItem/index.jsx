@@ -6,7 +6,7 @@ export default function FollowUserItem(props) {
     return (
         <div className={Styles.container}>
             <div className={Styles.data}>
-                {image ? (<img className={Styles.image} src={image} alt={`${name}_image`} />)
+                {image ? (<img className={Styles.image} src={image} alt={`${name}`} />)
                     : (<img className={Styles.image} src='/images/icons8-not-found-100.png' alt='Image Not Found' />)}
                 <div className={Styles.name}>{name}</div>
             </div>
