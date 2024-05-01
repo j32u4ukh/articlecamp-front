@@ -4,6 +4,7 @@
     height: 100%;
 }
 
+/* 水平置中布局 */
 .horizon-center-layout {
     display: flex;
     flex-direction: row;
@@ -23,9 +24,9 @@
 
 /* 右下方取消或送出請求的按鈕 */
 .applyBtns {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
 }
 
 /****************************************************************************************************

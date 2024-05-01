@@ -1,0 +1,12 @@
+.search-bar {
+    margin: 10px auto;
+}
+
+#search-input {
+    width: 100%;
+    font-size: 20px;
+}
+
+#search-btn {
+    margin-left: 10px;
+}
