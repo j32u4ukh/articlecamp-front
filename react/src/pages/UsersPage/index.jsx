@@ -6,7 +6,6 @@ import SearchBar from "../../components/SearchBar";
 import BasicLayout from "../../layouts/BasicLayout";
 import { selectPersist } from "../../store/slice/persist";
 import { BASE_URL } from "../../utils";
-import PageStyles from "../page.module.css";
 import Styles from "./style.module.css";
 
 export default function UsersPage() {
@@ -42,14 +41,15 @@ export default function UsersPage() {
             });
 
         console.log(`users: ${JSON.stringify(users)}`);
-        // 重置搜尋欄
+
+        // 重置搜尋欄文字
         searchRef.current.value = "";
     }
 
     const toggleFollow = (userId) => {
         const user = users.find((user) => user.id === userId);
         if (user) {
-            const follow = user.status === 1 ? false : true;
+            const follow = user.status === 0;
 
             axios
                 .post(
@@ -83,9 +83,7 @@ export default function UsersPage() {
                     onClick={onSearchBtnClick}
                 />
                 <div
-                    className={`${"flex-column"} ${"text-center"} ${
-                        PageStyles["d-flex"]
-                    } ${"c-debug-red"}`}
+                    className={`${"flex-column"} ${"text-center"} ${"d-flex"}`}
                 >
                     {users.map((user) => {
                         return (
