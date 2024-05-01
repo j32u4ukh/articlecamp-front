@@ -1,0 +1,32 @@
+.container {
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #daf7a6;
+    display: flex;
+    justify-content: space-between;
+}
+
+.data {
+    display: flex;
+}
+
+.userImage {
+    width: 100px;
+    height: 100px;
+    background-color: rgb(240, 124, 104);
+}
+
+.name {
+    width: 100px;
+    height: 100px;
+    margin-left: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.statusBtn {
+    background-color: rgb(86, 245, 86);
+    width: 100px;
+    height: 100px;
+}
