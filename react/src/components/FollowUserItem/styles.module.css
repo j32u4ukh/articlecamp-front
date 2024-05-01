@@ -1,0 +1,30 @@
+.container {
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #daf7a6;
+  display: flex;
+  justify-content: space-between;
+}
+
+.data {
+  display: flex;
+}
+
+.image {
+  width: 100px;
+  height: 100px;
+  background-color: tomato;
+}
+
+.name {
+  width: 100px;
+  height: 100px;
+  margin-left: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.status {
+  background-color: green;
+}
