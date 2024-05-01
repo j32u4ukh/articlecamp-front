@@ -1,17 +1,25 @@
-import Styles from './styles.module.css'
+import Styles from "./styles.module.css";
+import { BASE_URL } from "../../utils";
 
 export default function FollowUserItem(props) {
-    const { id, name, image, status } = props.user;
+    const user = props.user;
+    const image = `${BASE_URL}/users/images/${user.id}/${user.image}`;
 
     return (
         <div className={Styles.container}>
             <div className={Styles.data}>
-                {image ? (<img className={Styles.image} src={image} alt={`${name}`} />)
-                    : (<img className={Styles.image} src='/images/icons8-not-found-100.png' alt='Image Not Found' />)}
-                <div className={Styles.name}>{name}</div>
+                <img
+                    className={Styles.userImage}
+                    src={image}
+                    alt={`${user.name}`}
+                />
+                <div className={Styles.name}>{user.name}</div>
             </div>
-            <button className={Styles.status} onClick={() => props.onFollowToggle(id)}>
-                {props.isFollowed ? 'Unfollow' : 'Follow'}
+            <button
+                className={Styles.statusBtn}
+                onClick={() => props.onFollowToggle(user.id)}
+            >
+                {user.status === 0 ? "Unfollow" : "Follow"}
             </button>
         </div>
     );
