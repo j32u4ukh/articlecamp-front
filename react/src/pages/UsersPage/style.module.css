@@ -1,0 +1,9 @@
+.search-bar {
+    margin: 10px auto;
+}
+
+.user-list-container {
+    margin: 50px auto 0px;
+    width: 50%;
+    border: 2px solid tomato;
+}

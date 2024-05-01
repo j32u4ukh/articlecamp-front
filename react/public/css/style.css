@@ -1,7 +1,27 @@
 * {
-  font-family: "Noto Sans TC", sans-serif;
+    font-family: "Noto Sans TC", sans-serif;
 }
 
 body {
-  background-color: rgb(185, 245, 255);
+    background-color: rgb(185, 245, 255);
+}
+
+.container {
+    margin: 0 auto;
+    width: 62.5%;
+    height: 100%;
+}
+
+/* 水平置中布局 */
+.horizon-center-layout {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+/* 垂直置中布局 */
+.vertical-center-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
