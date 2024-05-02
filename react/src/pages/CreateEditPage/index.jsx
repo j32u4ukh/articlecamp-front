@@ -4,6 +4,7 @@ import { capitalizeFirstLetter } from '../../utils'
 import { useSelector } from "react-redux";
 import { selectPersist } from "../../store/slice/persist";
 import Styles from './styles.module.css'
+import Page from '../page.module.css'
 import axios from 'axios'
 import { BASE_URL } from '../../utils'
 
@@ -53,6 +54,22 @@ export default function CreateEditPage(props) {
       })
   }, [token])
 
+  useEffect(() => {
+    axios
+      .get(`${BASE_URL}/articles/${params.id}`, {
+        headers: { authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        const { title, content, category } = response.data
+        setTitle(title)
+        setContent(content)
+        setCategory(category)
+      })
+      .catch((error) => {
+        console.error('Error fetching article:', error)
+      })
+  }, [token, params.id])
+
   function onContentChanged(e) {
     setContent(e.target.value)
   }
@@ -78,7 +95,19 @@ export default function CreateEditPage(props) {
 
   function onSubmitHandler(e) {
     if (isEdit) {
-      console.log('edit: submit')
+      axios
+        .put(
+          `${BASE_URL}/articles/${params.id}`,
+          { title, category, content },
+          { headers: { authorization: `Bearer ${token}` } }
+        )
+        .then((response) => {
+          console.log(response.data)
+          navigate('/articles')
+        })
+        .catch((error) => {
+          console.error('Error updating article:', error)
+        });
     } else {
       axios
         .post(
@@ -97,7 +126,7 @@ export default function CreateEditPage(props) {
   }
 
   return (
-    <div className={Styles.content}>
+    <div className={Page.container}>
       <h1>{type} Page {isEdit && `#${params.id}`}</h1>
       <label className={Styles.articleTitle}>文章標題:
         <input type="text" value={title} onChange={onTitleChanged} id="article-title" />
