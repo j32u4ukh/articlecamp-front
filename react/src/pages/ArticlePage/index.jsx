@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Styles from "./styles.module.css";
-import PageStyles from "../page.module.css";
 import AlexImage from "../../../../src/data/Alex.png";
+import PageStyles from "../page.module.css";
+import Styles from "./styles.module.css";
 
 export default function ArticlePage() {
+    const messageBoxRef = useRef("");
     const navigate = useNavigate();
     const params = useParams();
     const articleId = params.id;
@@ -30,28 +31,21 @@ export default function ArticlePage() {
     }
 
     function onTextAreaHandler() {
-        //TODO 使用useRef
-        const textarea = document.getElementById(`${Styles.comment}`);
-
         if (onClick) {
-            textarea.style.height = "";
+            messageBoxRef.current.style.height = "";
             onClick = false;
         } else {
-            textarea.style.height = "100px";
+            messageBoxRef.current.style.height = "100px";
             onClick = true;
         }
     }
 
     function onCancelHandler(e) {
-        // 找到留言框的元素
-        //TODO 使用useRef
-        const textarea = document.getElementById(`${Styles.comment}`);
-
         // 清空留言框的內容
-        textarea.value = "";
+        messageBoxRef.current.value = "";
 
         // 恢復留言框的高度為原始值
-        textarea.style.height = ""; // 或者直接設置為空字符串
+        messageBoxRef.current.style.height = ""; // 或者直接設置為空字符串
 
         // 將 onClick 設置為 false，以確保下次點擊留言框時不會觸發放大效果
         onClick = false;
@@ -94,6 +88,7 @@ export default function ArticlePage() {
                 <form id={Styles.commentForm} onClick={onTextAreaHandler}>
                     <textarea
                         id={Styles.comment}
+                        ref={messageBoxRef}
                         placeholder="請留下您的評論"
                         required
                     ></textarea>
