@@ -71,3 +71,34 @@
     padding: 20px 10px;
     border-radius: 10px 10px;
 }
+
+/* 歷史留言 */
+.historicalCommenter {
+    max-height: 500px;
+    flex-direction: row;
+    align-items: center;
+    margin: 5px;
+    padding: 5px 0px;
+    background-color: rgb(238, 211, 187);
+    border-radius: 10px 10px;
+}
+
+.commenterContainer {
+    max-height: 200px;
+    display: flex;
+    flex-direction: row;
+    background-color: #ecd4ae;
+}
+
+.commenterContainer img {
+    display: block;
+    height: 50px;
+    aspect-ratio: 1/1;
+    margin: 0 12px;
+    display: flex;
+}
+
+.historicalCommenterName {
+    display: flex;
+    align-items: center;
+}

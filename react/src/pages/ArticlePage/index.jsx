@@ -14,10 +14,17 @@ export default function ArticlePage() {
     const articleId = params.id;
     const messageBoxRef = useRef("");
     const [article, setArticle] = useState({});
+    const [messageList, setMessageList] = useState([]);
+    // 加載文章數
+    const [size, setSize] = useState(3);
+    // 位移值
+    const [offset, setOffset] = useState(0);
+    // 總文章篇數
+    const [total, setTotal] = useState(0);
     const persist = useSelector(selectPersist);
     const jwt = persist.jwt;
     const categories = persist.categories;
-    console.log(`categories: ${JSON.stringify(categories)}`);
+    const MESSAGE_URL = `${BASE_URL}/articles/${articleId}/messages`;
     let onClick = false;
 
     useEffect(() => {
@@ -35,6 +42,50 @@ export default function ArticlePage() {
                 console.log(`data: ${JSON.stringify(data)}`);
                 // data: {"id":1,"userId":1,"name":"Henry","image":"8Cma4wzXfNbRHg22xk2g8NU3V9aOKEr.png","title":"Article-0","category":1,"content":"This is content 0 hh","updatedAt":"2024-05-02T14:12:04.000Z"}
                 setArticle(data);
+            });
+
+        // GET 留言列表
+        axios
+            .get(`${MESSAGE_URL}?offset=${offset}&size=${size}`, {
+                headers: { authorization: `Bearer ${jwt}` },
+            })
+            .then((res) => {
+                const DATA = res.data;
+                const messages = DATA.datas;
+                setTotal(DATA.total);
+                setOffset(offset + messages.length);
+                console.log(messages);
+                // renderMessages(messages);
+                setMessageList((prev) => [...prev, ...messages]);
+
+                // MoreMessageBTN
+                let messageLangth = messages.length;
+                console.log(messageLangth);
+                if (messageLangth >= offset) {
+                    // TODO: <更多留言>
+                    // const moreMessageBTN = document.createElement("button");
+                    // moreMessageBTN.innerText = "更多留言";
+                    // commentList.appendChild(moreMessageBTN);
+                    // moreMessageBTN.addEventListener("click", () => {
+                    //     axios
+                    //         .get(
+                    //             `${MESSAGE_URL}?offset=${offset}&size=${size}`,
+                    //             {
+                    //                 headers: {
+                    //                     authorization: `Bearer ${token}`,
+                    //                 },
+                    //             },
+                    //         )
+                    //         .then((res) => {
+                    //             // GET 留言列表，更新留言數據
+                    //             const newdata = res.data;
+                    //             total = newdata.total;
+                    //             const messages = newdata.datas;
+                    //             offset += messages.length;
+                    //             renderMessages(messages);
+                    //         });
+                    // });
+                }
             });
     }, []);
 
@@ -62,6 +113,19 @@ export default function ArticlePage() {
 
         // 將 onClick 設置為 false，以確保下次點擊留言框時不會觸發放大效果
         onClick = false;
+    }
+
+    function onSubmitClicked(e) {
+        axios
+            .get(`${BASE_URL}/articles/${articleId}`, {
+                headers: { authorization: `Bearer ${jwt}` },
+            })
+            .then((response) => {
+                const data = response.data;
+                console.log(`data: ${JSON.stringify(data)}`);
+                // data: {"id":1,"userId":1,"name":"Henry","image":"8Cma4wzXfNbRHg22xk2g8NU3V9aOKEr.png","title":"Article-0","category":1,"content":"This is content 0 hh","updatedAt":"2024-05-02T14:12:04.000Z"}
+                setArticle(data);
+            });
     }
 
     return (
@@ -104,11 +168,29 @@ export default function ArticlePage() {
                 ></textarea>
                 <div className={PageStyles.applyBtns}>
                     <button onClick={onCancelHandler}>取消</button>
-                    <button>留言</button>
+                    <button onClick={onSubmitClicked}>留言</button>
                 </div>
             </div>
             {/* 歷史留言區 (還要放留言者頭像及名字) */}
-            <div className={Styles.commentList}></div>
+            <div className={Styles.commentList}>
+                {messageList.map((message) => {
+                    return (
+                        <div class={Styles.historicalCommenter}>
+                            <div class={Styles.commenterContainer}>
+                                <div>
+                                    <img
+                                        src={`${BASE_URL}/users/images/${message.userId}/${message.image}`}
+                                    />
+                                </div>
+                                <div class={Styles.historicalCommenterName}>
+                                    ${message.name}
+                                </div>
+                            </div>
+                            <div class="message"> ${message.content}</div>
+                        </div>
+                    );
+                })}
+            </div>
         </section>
     );
 }
