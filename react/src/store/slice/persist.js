@@ -14,6 +14,7 @@ export const persistSlice = createSlice({
     initialState: {
         jwt: null,
         user: null,
+        categories: {},
     },
 
     reducers: {
@@ -30,11 +31,15 @@ export const persistSlice = createSlice({
         setUserImage: (state, action) => {
             state.user.image = action.payload;
         },
+        setCategories: (state, action) => {
+            state.categories = action.payload;
+        },
     },
 });
 
 // 取用方法
-export const { setText, setJwt, setUser, setUserImage } = persistSlice.actions;
+export const { setText, setJwt, setUser, setUserImage, setCategories } =
+    persistSlice.actions;
 // 取用資料(這裡的 persistor，對應了 configureStore 當中 reducer 的鍵值名稱)
 export const selectPersist = (state) => state.persistor;
 export default persistReducer(persistConfig, persistSlice.reducer);

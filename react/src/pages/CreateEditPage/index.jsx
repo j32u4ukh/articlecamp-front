@@ -40,19 +40,19 @@ export default function CreateEditPage(props) {
 
     // TODO: catch 到 JWT 過期的錯誤訊息後，返回登入頁
     // TODO: 分類數據存入持久性數據，不要重複存取
-    useEffect(() => {
-        axios
-            .get(`${BASE_URL}/articles/categories`, {
-                headers: { authorization: `Bearer ${token}` },
-            })
-            .then((response) => {
-                console.log("Categories:", response.data);
-                setCategories(response.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching categories:", error);
-            });
-    }, []);
+    // useEffect(() => {
+    //     axios
+    //         .get(`${BASE_URL}/articles/categories`, {
+    //             headers: { authorization: `Bearer ${token}` },
+    //         })
+    //         .then((response) => {
+    //             console.log("Categories:", response.data);
+    //             setCategories(response.data);
+    //         })
+    //         .catch((error) => {
+    //             console.error("Error fetching categories:", error);
+    //         });
+    // }, []);
 
     useEffect(() => {
         axios

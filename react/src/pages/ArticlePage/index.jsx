@@ -17,6 +17,7 @@ export default function ArticlePage() {
     const persist = useSelector(selectPersist);
     const jwt = persist.jwt;
     const categories = persist.categories;
+    console.log(`categories: ${JSON.stringify(categories)}`);
     let onClick = false;
 
     useEffect(() => {
@@ -69,10 +70,10 @@ export default function ArticlePage() {
                 <h2 className={`${Styles.articleTitle} ${Styles.metadata}`}>
                     {article.title}
                 </h2>
-                <h4 className={`${Styles.metadata}`}>{article.name}</h4>
-                <h4 className={`${Styles.metadata}`}>
+                <h5 className={`${Styles.metadata}`}>{article.name}</h5>
+                <h5 className={`${Styles.metadata}`}>
                     {categories[article.category]}
-                </h4>
+                </h5>
                 <article>{article.content}</article>
                 <div className={PageStyles.applyBtns}>
                     <button onClick={editRedirect}>
